@@ -1,3 +1,22 @@
 @tailwind base;
+@layer base {
+    html {
+        @apply text-neutral-800;
+    }
+    html.dark {
+        @apply text-neutral-50;
+        @apply bg-neutral-800;
+    }
+}
+
 @tailwind components;
+@layer components {
+    .navLink {
+      @apply text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none lg:px-2
+    }
+}
 @tailwind utilities;
+
+.active{
+  color: rgb(0 0 0 / 0.9)
+}
