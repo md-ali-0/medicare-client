@@ -1,8 +1,13 @@
+import Container from "../../components/Container";
+import Slider from "./Slider";
+
 const Home = () => {
     return (
-        <div>
-            
-        </div>
+        <main>
+            <Container>
+                <Slider/>
+            </Container>
+        </main>
     );
 };
 
