@@ -11,9 +11,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
         <HelmetProvider>
             <AuthProvider>
-                <RouterProvider router={Router}>
-                    <Toaster />
-                </RouterProvider>
+                <Toaster />
+                <RouterProvider router={Router} />
             </AuthProvider>
         </HelmetProvider>
     </React.StrictMode>

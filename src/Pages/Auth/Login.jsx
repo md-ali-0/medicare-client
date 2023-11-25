@@ -1,10 +1,47 @@
 import Lottie from "lottie-react";
 import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import loginAnimation from "../../assets/animation/login.json";
+import useAuth from "../../hooks/useAuth";
 
 const Login = () => {
+    const { createLogin, googleLogin, setLoading } = useAuth();
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    let from = location?.state?.from?.pathname || "/";
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
+    const onSubmit = async (data) => {
+        console.log(data);
+        const { email, password } = data;
+        const loadingToast = toast.loading("User Sign in ... ");
+        try {
+            const userResult = await createLogin(email, password);
+            console.log(userResult.user);
+            if (userResult?.user?.email) {
+                try {
+                    toast.dismiss(loadingToast);
+                    toast.success("Successfully created!");
+                    navigate(from, { replace: true });
+                } catch (error) {
+                    setLoading(false);
+                    console.log("Error image", error);
+                }
+            }
+        } catch (error) {
+            setLoading(false);
+            toast.dismiss(loadingToast);
+            toast.error(error.code);
+        }
+    };
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -32,7 +69,7 @@ const Login = () => {
                                     type="button"
                                     className="w-full flex justify-center items-center gap-2 bg-white text-sm text-gray-600 p-2 rounded-md hover:bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 transition-colors duration-300"
                                 >
-                                    <FcGoogle size={20}/>
+                                    <FcGoogle size={20} />
                                     Sign in with Google
                                 </button>
                             </div>
@@ -40,7 +77,7 @@ const Login = () => {
                         <div className="mt-4 text-sm text-gray-600 text-center">
                             <p>or with email</p>
                         </div>
-                        <form className="space-y-4">
+                        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
                             <div>
                                 <label
                                     htmlFor="email"
@@ -51,9 +88,21 @@ const Login = () => {
                                 <input
                                     type="text"
                                     id="email"
-                                    name="email"
+                                    {...register("email", {
+                                        required: "Email is Required",
+                                        pattern: {
+                                            value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+                                            message: "Invalid Email format",
+                                        },
+                                    })}
                                     className="mt-1 p-2 w-full border border-primary/20 rounded-md focus:border-primary/20 outline-none transition-colors duration-300"
+                                    autoComplete="username"
                                 />
+                                {errors.email && (
+                                    <div className="text-md text-red-500">
+                                        <span>{errors.email.message}</span>
+                                    </div>
+                                )}
                             </div>
                             <div>
                                 <label
@@ -65,9 +114,17 @@ const Login = () => {
                                 <input
                                     type="password"
                                     id="password"
-                                    name="password"
+                                    {...register("password", {
+                                        required: "Password is Required",
+                                    })}
                                     className="mt-1 p-2 w-full border border-primary/20 rounded-md focus:border-primary/20 outline-none transition-colors duration-300"
+                                    autoComplete="current-password"
                                 />
+                                {errors.password && (
+                                    <div className="text-md text-red-500">
+                                        <span>{errors.password.message}</span>
+                                    </div>
+                                )}
                             </div>
                             <div>
                                 <button
@@ -81,7 +138,7 @@ const Login = () => {
                         <div className="mt-4 text-sm text-gray-600 text-center">
                             <p>
                                 Don&apos;t have an account?{" "}
-                                <Link to='/register' className="text-black text-md hover:underline">
+                                <Link to="/register" className="text-black text-md hover:underline">
                                     Sign Up Here
                                 </Link>
                             </p>

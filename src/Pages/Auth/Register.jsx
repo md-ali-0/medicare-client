@@ -48,7 +48,7 @@ const Register = () => {
                 console.log(newUser);
                 if (userResult.user?.email) {
                     try {
-                        // await axios.post("/add-user", newUser);
+                        await axios.post("/add-user", newUser);
                         await userUpdate(name, uploadedImageUrl);
                         toast.dismiss(loadingToast);
                         toast.success("Successfully created!");
@@ -220,6 +220,7 @@ const Register = () => {
                                         },
                                     })}
                                     className="mt-1 p-2 w-full border border-primary/20 rounded-md focus:border-primary/20 outline-none transition-colors duration-300"
+                                    autoComplete="username"
                                 />
                                 {errors.email && (
                                     <span className="text-center text-red-500 flex items-center gap-1">
@@ -251,6 +252,7 @@ const Register = () => {
                                         },
                                     })}
                                     className="mt-1 p-2 w-full border border-primary/20 rounded-md focus:border-primary/20 outline-none transition-colors duration-300"
+                                    autoComplete="current-password"
                                 />
                                 {errors.password && (
                                     <span className="text-center text-red-500 flex items-center gap-1">

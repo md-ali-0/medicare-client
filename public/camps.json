@@ -1,9 +1,8 @@
 [
     {
-      "campId": 1,
       "campName": "Health & Wellness Expo",
-      "image": "https://example.com/camp1.jpg",
-      "fees": "$50",
+      "image": "https://i.ibb.co/GTTBnW0/1.jpg",
+      "fees": 50,
       "scheduledDateTime": "2023-12-15, 09:00 AM - 05:00 PM",
       "venueLocation": "Central Convention Center",
       "specializedServices": ["Health Screenings", "Fitness Workshops", "Nutrition Consultations"],
@@ -12,10 +11,9 @@
       "participantCount": 150
     },
     {
-      "campId": 2,
       "campName": "Pediatric Health Fair",
-      "image": "https://example.com/camp2.jpg",
-      "fees": "Free",
+      "image": "https://i.ibb.co/fpJ9Ps2/2.jpg",
+      "fees": 0,
       "scheduledDateTime": "2023-11-28, 10:00 AM - 02:00 PM",
       "venueLocation": "Community Park",
       "specializedServices": ["Pediatric Consultations", "Immunization Clinic"],
@@ -24,10 +22,9 @@
       "participantCount": 80
     },
     {
-      "campId": 3,
       "campName": "Cardiovascular Health Symposium",
-      "image": "https://example.com/camp3.jpg",
-      "fees": "$75",
+      "image": "https://i.ibb.co/FsNFgKX/3.jpg",
+      "fees": 75,
       "scheduledDateTime": "2024-01-10, 08:30 AM - 04:30 PM",
       "venueLocation": "City Auditorium",
       "specializedServices": ["Heart Screenings", "Cardiac Workshops"],
@@ -36,10 +33,9 @@
       "participantCount": 220
     },
     {
-      "campId": 4,
       "campName": "Mental Health Awareness Workshop",
-      "image": "https://example.com/camp4.jpg",
-      "fees": "Free",
+      "image": "https://i.ibb.co/FV0nTJb/4.jpg",
+      "fees": 0,
       "scheduledDateTime": "2023-12-05, 11:00 AM - 01:00 PM",
       "venueLocation": "Community Center",
       "specializedServices": ["Counseling Sessions", "Stress Management Workshops"],
@@ -48,10 +44,9 @@
       "participantCount": 120
     },
     {
-      "campId": 5,
       "campName": "Dental Care Clinic",
-      "image": "https://example.com/camp5.jpg",
-      "fees": "$30",
+      "image": "https://i.ibb.co/gy4Kjz2/5.jpg",
+      "fees": 0,
       "scheduledDateTime": "2023-11-30, 09:30 AM - 03:30 PM",
       "venueLocation": "Local Health Center",
       "specializedServices": ["Dental Checkups", "Oral Hygiene Tips"],
@@ -60,10 +55,9 @@
       "participantCount": 90
     },
     {
-      "campId": 6,
       "campName": "Vision Care Campaign",
-      "image": "https://example.com/camp6.jpg",
-      "fees": "Free",
+      "image": "https://i.ibb.co/NrLmfvX/6.jpg",
+      "fees": 0,
       "scheduledDateTime": "2024-02-18, 10:00 AM - 04:00 PM",
       "venueLocation": "Vision Center",
       "specializedServices": ["Eye Examinations", "Eyewear Distribution"],
