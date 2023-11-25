@@ -45,12 +45,12 @@ const AuthProvider = ({ children }) => {
         const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
             if (currentUser) {
                 setUser(currentUser);
-                // const user = { email: currentUser.email };
-                // axios.post("/jwt", user).then((res) => {
-                //     const { token } = res.data;
-                //     localStorage.setItem("token", token);
-                //     setLoading(false);
-                // });
+                const user = { email: currentUser.email };
+                axios.post("/jwt", user).then((res) => {
+                    const { token } = res.data;
+                    localStorage.setItem("token", token);
+                    setLoading(false);
+                });
                 setLoading(false);
             } else {
                 localStorage.removeItem("token");
