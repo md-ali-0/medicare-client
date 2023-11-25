@@ -1,13 +1,13 @@
 import Container from "../../components/Container";
+import PopularCamps from "./PopularCamps";
 import Slider from "./Slider";
 
 const Home = () => {
     return (
-        <main>
-            <Container>
-                <Slider/>
-            </Container>
-        </main>
+        <Container>
+            <Slider />
+            <PopularCamps />
+        </Container>
     );
 };
 

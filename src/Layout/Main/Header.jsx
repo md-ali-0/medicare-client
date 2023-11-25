@@ -7,7 +7,7 @@ const Header = () => {
     const [collapse, setCollapse] = useState(false);
     const imgRef = useRef();
     const dropdownRef = useRef();
-    const user = false;
+    const user = true;
     window.addEventListener("click", (e) => {
         if (e.target !== dropdownRef.current && e.target !== imgRef.current) {
             setDropDown(false);
@@ -45,7 +45,7 @@ const Header = () => {
                     <div
                         className={`!visible ${
                             collapse ? "block" : "hidden"
-                        } absolute md:static top-14 bg-white w-full md:w-auto border shadow-xl md:border-none md:shadow-none items-center px-3 lg:!flex lg:basis-auto`}
+                        } absolute md:static top-14 bg-white w-full md:w-auto border shadow-xl md:border-none md:shadow-none items-center px-3 lg:!flex lg:basis-auto z-50`}
                     >
                         {/* Left navigation links */}
                         <ul className="flex mx-auto flex-col pl-0 lg:flex-row justify-center gap-5 py-3">
@@ -108,22 +108,24 @@ const Header = () => {
                         </div>
                     ) : (
                         <div className="flex items-center gap-2">
-                            <button
+                            <Link
+                                to='/login'
                                 type="button"
                                 data-te-ripple-init
                                 data-te-ripple-color="light"
                                 className="inline-block rounded bg-primary-100 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200"
                             >
                                 Login
-                            </button>
-                            <button
+                            </Link>
+                            <Link
+                                to='/register'
                                 type="button"
                                 data-te-ripple-init
                                 data-te-ripple-color="light"
                                 className="mr-3 inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700"
                             >
                                 Sign Up
-                            </button>
+                            </Link>
                         </div>
                     )}
                 </div>

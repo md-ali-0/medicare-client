@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
-import "tw-elements-react/dist/css/tw-elements-react.min.css";
 import Router from "./Router/Router";
 import "./index.css";
 
