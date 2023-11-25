@@ -4,34 +4,33 @@ import useAuth from "./useAuth";
 
 const axiosSecure = axios.create({
     baseURL: 'http://localhost:8080',
-    // withCredentials: true
 })
 
 const useAxios = () => {
     const {logOut} = useAuth()
     const navigate = useNavigate()
     
-    // axiosSecure.interceptors.request.use(
-    //     (config)=>{
-    //         config.headers.token = `Bearer ${localStorage.getItem('token')}`
-    //         return config
-    //     },
-    //     (error)=>{
-    //         return Promise.reject(error)
-    //     }
-    // )
+    axiosSecure.interceptors.request.use(
+        (config)=>{
+            config.headers.token = `Bearer ${localStorage.getItem('token')}`
+            return config
+        },
+        (error)=>{
+            return Promise.reject(error)
+        }
+    )
 
-    // // intercepts 401 and 403 status
-    // axiosSecure.interceptors.response.use(function (response) {
-    //     return response;
-    // }, async (error) => {
-    //     const status = error.response.status;
-    //     if (status === 401 || status === 403) {
-    //         await logOut();
-    //         navigate('/login');
-    //     }
-    //     return Promise.reject(error);
-    // })
+    // intercepts 401 and 403 status
+    axiosSecure.interceptors.response.use(function (response) {
+        return response;
+    }, async (error) => {
+        const status = error.response.status;
+        if (status === 401 || status === 403) {
+            await logOut();
+            navigate('/login');
+        }
+        return Promise.reject(error);
+    })
 
     return axiosSecure
 };

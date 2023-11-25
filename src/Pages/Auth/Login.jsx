@@ -1,5 +1,6 @@
 import Lottie from "lottie-react";
 import { useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -48,6 +49,9 @@ const Login = () => {
     return (
         <>
             <div className="flex">
+                <Helmet>
+                    <title>MediCare | Login</title>
+                </Helmet>
                 {/* Left Pane */}
                 <div className="hidden lg:flex items-center justify-center flex-1 py-5">
                     <div className="max-w-md text-center">
