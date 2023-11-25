@@ -4,11 +4,11 @@ import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { BiErrorCircle } from "react-icons/bi";
-import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import registerAnimation from "../../assets/animation/login.json";
 import useAuth from "../../hooks/useAuth";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import SocialLogin from "../Shared/SocialLogin";
 
 const Register = () => {
     const { createRegister, setLoading, logOut, userUpdate } = useAuth();
@@ -95,17 +95,7 @@ const Register = () => {
                         <h1 className="text-sm font-semibold mb-6 text-gray-500 text-center">
                             Sign Up to Our Medical Camp Service
                         </h1>
-                        <div className="mt-4 flex flex-col lg:flex-row items-center justify-between">
-                            <div className="w-full mb-2 lg:mb-0">
-                                <button
-                                    type="button"
-                                    className="w-full flex justify-center items-center gap-2 bg-white text-sm text-gray-600 p-2 rounded-md hover:bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 transition-colors duration-300"
-                                >
-                                    <FcGoogle size={20} />
-                                    Sign up with Google
-                                </button>
-                            </div>
-                        </div>
+                        <SocialLogin />
                         <div className="mt-4 text-sm text-gray-600 text-center">
                             <p>or with email</p>
                         </div>
@@ -149,12 +139,11 @@ const Register = () => {
                                 </label>
                                 <select
                                     id="role"
-                                    {...register('role', {
-                                        required:
-                                            'Role is required.'
+                                    {...register("role", {
+                                        required: "Role is required.",
                                     })}
                                     className="mt-1 p-2 w-full border border-primary/20 rounded-md focus:border-primary/20 outline-none transition-colors duration-300"
-                                    defaultValue={'participant'}
+                                    defaultValue={"participant"}
                                 >
                                     <option value="organizer">Organizer</option>
                                     <option value="healthcare_professional">

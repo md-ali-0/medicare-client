@@ -2,13 +2,13 @@ import Lottie from "lottie-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { FcGoogle } from "react-icons/fc";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import loginAnimation from "../../assets/animation/login.json";
 import useAuth from "../../hooks/useAuth";
+import SocialLogin from "../Shared/SocialLogin";
 
 const Login = () => {
-    const { createLogin, googleLogin, setLoading } = useAuth();
+    const { createLogin, setLoading } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -63,17 +63,7 @@ const Login = () => {
                         <h1 className="text-sm font-semibold mb-6 text-gray-500 text-center">
                             Sign In to Our Medical Camp Service
                         </h1>
-                        <div className="mt-4 flex flex-col lg:flex-row items-center justify-between">
-                            <div className="w-full mb-2 lg:mb-0">
-                                <button
-                                    type="button"
-                                    className="w-full flex justify-center items-center gap-2 bg-white text-sm text-gray-600 p-2 rounded-md hover:bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 transition-colors duration-300"
-                                >
-                                    <FcGoogle size={20} />
-                                    Sign in with Google
-                                </button>
-                            </div>
-                        </div>
+                        <SocialLogin />
                         <div className="mt-4 text-sm text-gray-600 text-center">
                             <p>or with email</p>
                         </div>

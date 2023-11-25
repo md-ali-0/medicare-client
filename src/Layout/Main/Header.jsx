@@ -20,7 +20,7 @@ const Header = () => {
         setDropDown(!dropdownOpen);
     };
     const logOutHandle = () => {
-        logOut().then((res) => {
+        logOut().then(() => {
             toast.success("Successfully created!");
         });
     };
