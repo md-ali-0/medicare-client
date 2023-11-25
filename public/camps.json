@@ -7,7 +7,7 @@
       "scheduledDateTime": "2023-12-15, 09:00 AM - 05:00 PM",
       "venueLocation": "Central Convention Center",
       "specializedServices": ["Health Screenings", "Fitness Workshops", "Nutrition Consultations"],
-      "professionals": ["Doctors", "Nutritionists", "Fitness Trainers"],
+      "professionalsAttendanceCount": 1,
       "targetAudience": "General Public",
       "participantCount": 150
     },
@@ -19,7 +19,7 @@
       "scheduledDateTime": "2023-11-28, 10:00 AM - 02:00 PM",
       "venueLocation": "Community Park",
       "specializedServices": ["Pediatric Consultations", "Immunization Clinic"],
-      "professionals": ["Pediatricians", "Nurses"],
+      "professionalsAttendanceCount": 2,
       "targetAudience": "Children and Families",
       "participantCount": 80
     },
@@ -31,8 +31,8 @@
       "scheduledDateTime": "2024-01-10, 08:30 AM - 04:30 PM",
       "venueLocation": "City Auditorium",
       "specializedServices": ["Heart Screenings", "Cardiac Workshops"],
-      "professionals": ["Cardiologists", "Cardiac Nurses"],
-      "targetAudience": "Cardiac Patients and Medical Professionals",
+      "professionalsAttendanceCount": 3,
+      "targetAudience": "Cardiac Patients and Medical professionalsAttendanceCount",
       "participantCount": 220
     },
     {
@@ -43,7 +43,7 @@
       "scheduledDateTime": "2023-12-05, 11:00 AM - 01:00 PM",
       "venueLocation": "Community Center",
       "specializedServices": ["Counseling Sessions", "Stress Management Workshops"],
-      "professionals": ["Psychologists", "Therapists"],
+      "professionalsAttendanceCount": 1,
       "targetAudience": "Public",
       "participantCount": 120
     },
@@ -55,7 +55,7 @@
       "scheduledDateTime": "2023-11-30, 09:30 AM - 03:30 PM",
       "venueLocation": "Local Health Center",
       "specializedServices": ["Dental Checkups", "Oral Hygiene Tips"],
-      "professionals": ["Dentists", "Dental Hygienists"],
+      "professionalsAttendanceCount": 1,
       "targetAudience": "All Age Groups",
       "participantCount": 90
     },
@@ -67,7 +67,7 @@
       "scheduledDateTime": "2024-02-18, 10:00 AM - 04:00 PM",
       "venueLocation": "Vision Center",
       "specializedServices": ["Eye Examinations", "Eyewear Distribution"],
-      "professionals": ["Optometrists", "Ophthalmologists"],
+      "professionalsAttendanceCount": 3,
       "targetAudience": "Individuals in Need of Vision Care",
       "participantCount": 50
     }

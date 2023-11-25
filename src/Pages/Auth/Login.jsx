@@ -1,8 +1,13 @@
 import Lottie from "lottie-react";
+import { useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
+import { Link } from "react-router-dom";
 import loginAnimation from "../../assets/animation/login.json";
 
 const Login = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
     return (
         <>
             <div className="flex">
@@ -28,7 +33,7 @@ const Login = () => {
                                     className="w-full flex justify-center items-center gap-2 bg-white text-sm text-gray-600 p-2 rounded-md hover:bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 transition-colors duration-300"
                                 >
                                     <FcGoogle size={20}/>
-                                    Sign in with Google{" "}
+                                    Sign in with Google
                                 </button>
                             </div>
                         </div>
@@ -76,9 +81,9 @@ const Login = () => {
                         <div className="mt-4 text-sm text-gray-600 text-center">
                             <p>
                                 Don&apos;t have an account?{" "}
-                                <a href="#" className="text-black text-md hover:underline">
+                                <Link to='/register' className="text-black text-md hover:underline">
                                     Sign Up Here
-                                </a>
+                                </Link>
                             </p>
                         </div>
                     </div>
