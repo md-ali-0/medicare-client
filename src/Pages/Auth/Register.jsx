@@ -1,16 +1,85 @@
 import Lottie from "lottie-react";
 import { useEffect } from "react";
+import { Helmet } from "react-helmet-async";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { BiErrorCircle } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import registerAnimation from "../../assets/animation/login.json";
+import useAuth from "../../hooks/useAuth";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const Register = () => {
+    const { createRegister, setLoading, logOut, userUpdate } = useAuth();
+    const apiKey = import.meta.env.VITE_IMAGE_BB_API;
+    const url = `https://api.imgbb.com/1/upload?key=${apiKey}`;
+    const axios = useAxiosPublic();
+    const navigate = useNavigate();
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
+
+    const onSubmit = async (data) => {
+        const { name, role, image, email, password } = data;
+        console.log(data);
+        const imageFile = { image: image[0] };
+        const loadingToast = toast.loading("User Creating ... ");
+
+        const res = await axios.post(url, imageFile, {
+            headers: {
+                "content-type": "multipart/form-data",
+            },
+        });
+        if (res.data.success == true) {
+            const uploadedImageUrl = res.data.data.display_url;
+            try {
+                const userResult = await createRegister(email, password);
+                const user = userResult.user;
+                const newUser = {
+                    name: name,
+                    email: user.email,
+                    role: role,
+                    createdAt: user.metadata?.creationTime,
+                    lastSignInTime: user.metadata?.lastSignInTime,
+                };
+                console.log(newUser);
+                if (userResult.user?.email) {
+                    try {
+                        // await axios.post("/add-user", newUser);
+                        await userUpdate(name, uploadedImageUrl);
+                        toast.dismiss(loadingToast);
+                        toast.success("Successfully created!");
+                        await logOut();
+                        navigate("/login");
+                    } catch (error) {
+                        setLoading(false);
+                        console.log("Error image", error);
+                    }
+                }
+            } catch (error) {
+                if ("auth/email-already-in-use" === error.code) {
+                    toast.dismiss(loadingToast);
+                    return toast.error("Email Already Used!");
+                }
+                setLoading(false);
+                toast.dismiss(loadingToast);
+                toast.error(error.code);
+            }
+        }
+    };
+
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
     return (
         <>
             <div className="flex">
+                <Helmet>
+                    <title>MediCare | Register</title>
+                </Helmet>
                 {/* Left Pane */}
                 <div className="hidden lg:flex items-center justify-center flex-1 py-5">
                     <div className="max-w-md text-center">
@@ -40,7 +109,7 @@ const Register = () => {
                         <div className="mt-4 text-sm text-gray-600 text-center">
                             <p>or with email</p>
                         </div>
-                        <form className="space-y-4">
+                        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
                             <div>
                                 <label
                                     htmlFor="name"
@@ -51,9 +120,25 @@ const Register = () => {
                                 <input
                                     type="text"
                                     id="name"
-                                    name="name"
+                                    {...register("name", {
+                                        required: "Name is required.",
+                                        minLength: {
+                                            value: 5,
+                                            message: "Name should be at least 5 characters.",
+                                        },
+                                        maxLength: {
+                                            value: 15,
+                                            message: "Name should not exceed 15 characters.",
+                                        },
+                                    })}
                                     className="mt-1 p-2 w-full border border-primary/20 rounded-md focus:border-primary/20 outline-none transition-colors duration-300"
                                 />
+                                {errors.name && (
+                                    <span className="text-center text-red-500 flex items-center gap-1">
+                                        <BiErrorCircle className="inline-block ml-2" size={15} />
+                                        {errors.name?.message}
+                                    </span>
+                                )}
                             </div>
                             <div>
                                 <label
@@ -64,8 +149,12 @@ const Register = () => {
                                 </label>
                                 <select
                                     id="role"
-                                    name="role"
+                                    {...register('role', {
+                                        required:
+                                            'Role is required.'
+                                    })}
                                     className="mt-1 p-2 w-full border border-primary/20 rounded-md focus:border-primary/20 outline-none transition-colors duration-300"
+                                    defaultValue={'participant'}
                                 >
                                     <option value="organizer">Organizer</option>
                                     <option value="healthcare_professional">
@@ -73,19 +162,45 @@ const Register = () => {
                                     </option>
                                     <option value="participant">Participant</option>
                                 </select>
+                                {errors.role && (
+                                    <span className="text-center text-red-500 flex items-center gap-1">
+                                        <BiErrorCircle className="inline-block ml-2" size={15} />{" "}
+                                        {errors.role?.message}
+                                    </span>
+                                )}
                             </div>
                             <div>
                                 <label
-                                    htmlFor="role"
+                                    htmlFor="image"
                                     className="block text-sm font-medium text-gray-700"
                                 >
                                     Profile Picture
                                 </label>
                                 <input
                                     type="file"
+                                    {...register("image", {
+                                        required: "Profile Picture is required.",
+                                        validate: (value) => {
+                                            const acceptFormat = ["png", "jpg", "jpeg"];
+                                            const fileExtension = value[0]?.name
+                                                .split(".")
+                                                .pop()
+                                                .toLowerCase();
+                                            if (!acceptFormat.includes(fileExtension)) {
+                                                return "Invalid file. Select .png, .jpg, .jpeg only.";
+                                            }
+                                            return true;
+                                        },
+                                    })}
                                     accept="image/png, image/jpeg"
                                     className="w-full block border bg-white placeholder-gray-500 leading-5 rounded-lg border-gray-200 focus:border-blue-500 px-2"
                                 />
+                                {errors.image && (
+                                    <span className="text-center text-red-500 flex items-center gap-1">
+                                        <BiErrorCircle className="inline-block ml-2" size={15} />{" "}
+                                        {errors.image?.message}
+                                    </span>
+                                )}
                             </div>
                             <div>
                                 <label
@@ -97,9 +212,21 @@ const Register = () => {
                                 <input
                                     type="text"
                                     id="email"
-                                    name="email"
+                                    {...register("email", {
+                                        required: "Email is required.",
+                                        pattern: {
+                                            value: /^[\w-\\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+                                            message: "Invalid email format.",
+                                        },
+                                    })}
                                     className="mt-1 p-2 w-full border border-primary/20 rounded-md focus:border-primary/20 outline-none transition-colors duration-300"
                                 />
+                                {errors.email && (
+                                    <span className="text-center text-red-500 flex items-center gap-1">
+                                        <BiErrorCircle className="inline-block ml-2" size={15} />{" "}
+                                        {errors.email?.message}
+                                    </span>
+                                )}
                             </div>
                             <div>
                                 <label
@@ -111,9 +238,26 @@ const Register = () => {
                                 <input
                                     type="password"
                                     id="password"
-                                    name="password"
+                                    {...register("password", {
+                                        required: "Password is required.",
+                                        minLength: {
+                                            value: 6,
+                                            message: "Password must be at least 6 characters long.",
+                                        },
+                                        pattern: {
+                                            value: /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])/,
+                                            message:
+                                                "Invalid password: no capitals, specials or numbers.",
+                                        },
+                                    })}
                                     className="mt-1 p-2 w-full border border-primary/20 rounded-md focus:border-primary/20 outline-none transition-colors duration-300"
                                 />
+                                {errors.password && (
+                                    <span className="text-center text-red-500 flex items-center gap-1">
+                                        <BiErrorCircle className="inline-block ml-2" size={15} />
+                                        {errors.password?.message}
+                                    </span>
+                                )}
                             </div>
                             <div>
                                 <button
