@@ -1,13 +1,16 @@
 import { useRef, useState } from "react";
-import { FiAlignJustify, FiSettings, FiUser } from "react-icons/fi";
+import toast from "react-hot-toast";
+import { FiAlignJustify, FiLogOut, FiSettings, FiUser } from "react-icons/fi";
 import { Link, NavLink } from "react-router-dom";
 import logoImage from "../../assets/logo.png";
+import Loader from "../../components/loader";
+import useAuth from "../../hooks/useAuth";
 const Header = () => {
     const [dropdownOpen, setDropDown] = useState(false);
     const [collapse, setCollapse] = useState(false);
     const imgRef = useRef();
     const dropdownRef = useRef();
-    const user = false;
+    const { user = {}, loading, logOut } = useAuth();
     window.addEventListener("click", (e) => {
         if (e.target !== dropdownRef.current && e.target !== imgRef.current) {
             setDropDown(false);
@@ -16,6 +19,14 @@ const Header = () => {
     const handleDropDown = () => {
         setDropDown(!dropdownOpen);
     };
+    const logOutHandle = () => {
+        logOut().then((res) => {
+            toast.success("Successfully created!");
+        });
+    };
+    if (loading) {
+        return <Loader />;
+    }
     return (
         <>
             <nav className="flex-no-wrap relative flex w-full items-center justify-between bg-[#FBFBFB] py-2.5 shadow-md shadow-black/5  md:flex-wrap lg:py-3.5">
@@ -71,7 +82,7 @@ const Header = () => {
                                 <img
                                     ref={imgRef}
                                     onClick={handleDropDown}
-                                    src="https://tecdn.b-cdn.net/img/new/avatars/2.jpg"
+                                    src={user?.photoURL}
                                     className="rounded-full w-10 h-10 cursor-pointer"
                                     loading="lazy"
                                 />
@@ -103,20 +114,31 @@ const Header = () => {
                                             Settings
                                         </Link>
                                     </li>
+                                    <li>
+                                        <button
+                                            onClick={logOutHandle}
+                                            className="rounded w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent
+                                        flex items-center gap-2
+                                        "
+                                        >
+                                            <FiLogOut />
+                                            LogOut
+                                        </button>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
                     ) : (
                         <div className="flex items-center gap-2">
                             <Link
-                                to='/login'
+                                to="/login"
                                 type="button"
                                 className="inline-block rounded bg-primary/10 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary/90 transition duration-150 ease-in-out hover:bg-primary/20 focus:bg-primary/30 focus:outline-none focus:ring-0 active:bg-primary/20"
                             >
                                 Login
                             </Link>
                             <Link
-                                to='/register'
+                                to="/register"
                                 type="button"
                                 className="mr-3 inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary/95 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary/90 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary/90"
                             >
