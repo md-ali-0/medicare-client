@@ -9,7 +9,6 @@ import {
 import { Link } from "react-router-dom";
 
 const CampCard = ({ camp }) => {
-    console.log(camp);
     const {
         _id,
         campName,

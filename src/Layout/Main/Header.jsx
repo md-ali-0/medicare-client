@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { FiAlignJustify, FiLogOut, FiSettings, FiUser } from "react-icons/fi";
 import { Link, NavLink } from "react-router-dom";
 import logoImage from "../../assets/logo.png";
-import Loader from "../../components/loader";
+import Loader from "../../components/Loader";
 import useAuth from "../../hooks/useAuth";
 const Header = () => {
     const [dropdownOpen, setDropDown] = useState(false);
