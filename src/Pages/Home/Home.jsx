@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import Container from "../../components/Container";
+import FAQ from "./Faq";
 import PopularCamps from "./PopularCamps";
 import Slider from "./Slider";
 
@@ -11,6 +12,7 @@ const Home = () => {
             </Helmet>
             <Slider />
             <PopularCamps />
+            <FAQ/>
         </Container>
     );
 };
