@@ -4,6 +4,7 @@ import FAQ from "./Faq";
 import PopularCamps from "./PopularCamps";
 import Slider from "./Slider";
 import Testimonials from "./Testimonials";
+import UpComingCamps from "./UpComingCamps";
 
 const Home = () => {
     return (
@@ -13,6 +14,7 @@ const Home = () => {
             </Helmet>
             <Slider />
             <PopularCamps />
+            <UpComingCamps/>
             <Testimonials/>
             <FAQ/>
         </Container>
