@@ -55,7 +55,7 @@ const Faq = () => {
                     </div>
                 </div>
                 <div className="md:w-1/2 flex justify-end">
-                    <img className="w-[400px] hidden md:block" src={faqImage} alt="" />
+                    <img className="w-[400px] hidden md:block" src={faqImage} alt=""/>
                 </div>
             </div>
         </div>
