@@ -1,7 +1,19 @@
+import { useState } from "react";
+import { Outlet } from "react-router-dom";
+import Navbar from "./Navbar";
+import Sidebar from "./Sidebar";
+
 const DashboardMain = () => {
+    const [sidebarCollapse, setSidebarCollapse] = useState(false);
     return (
-        <div>
-            
+        <div className="bg-slate-100 h-screen w-screen overflow-hidden flex flex-col">
+            <Navbar sidebarCollapse={sidebarCollapse} setSidebarCollapse={setSidebarCollapse} />
+            <div className="flex flex-1 overflow-auto">
+                <Sidebar sidebarCollapse={sidebarCollapse} />
+                <div className="flex-1 p-4 min-h-0 overflow-auto">
+                    <Outlet />
+                </div>
+            </div>
         </div>
     );
 };
