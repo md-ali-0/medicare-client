@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @layer components {
@@ -9,25 +13,4 @@
 
 .active{
   color: rgb(0 0 0 / 0.9)
-}
-
-.input {
-  transition: border 0.2s ease-in-out;
-  min-width: 280px
-}
-.input:focus+.label,
-.input:active+.label,
-.input.filled+.label {
-  font-size: .75rem;
-  transition: all 0.2s ease-out;
-  top: -0.9rem;
-  background-color: #fff;
-  color: #1a73e8;
-  padding: 0 5px 0 5px;
-  margin: 0 5px 0 5px;
-}
-.label {
-  transition: all 0.2s ease-out;
-  top: 0.4rem;
-  left: 0;
 }

@@ -30,7 +30,7 @@ const Header = () => {
     return (
         <>
             <nav className="flex-no-wrap relative flex w-full items-center justify-between bg-[#FBFBFB] py-2.5 shadow-md shadow-black/5  md:flex-wrap lg:py-3.5">
-                <div className="flex w-full flex-wrap items-center justify-between md:max-w-screen-xl mx-auto">
+                <div className="flex w-full items-center justify-between md:max-w-screen-xl mx-auto">
                     <button
                         onClick={() => setCollapse(!collapse)}
                         className="block border-0 bg-transparent px-2 text-neutral-500 hover:no-underline hover:shadow-none focus:no-underline focus:shadow-none focus:outline-none focus:ring-0  lg:hidden"

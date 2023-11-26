@@ -7,6 +7,12 @@ export default {
     ],
     theme: {
         extend: {
+            fontFamily:{
+                'Inter':['Inter', 'sans-serif'],
+                'Quicksand':['Quicksand', 'sans-serif'],
+                'DancingScript':['Dancing Script', 'cursive'],
+                
+            },
             colors: {
                 'primary': '#183E9F',
                 'secondary': '#183E9F',
