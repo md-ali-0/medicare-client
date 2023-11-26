@@ -63,15 +63,20 @@ const Header = () => {
                             <NavLink to="/" className="navLink">
                                 Home
                             </NavLink>
-                            <NavLink to="/available-camps" className="navLink">
-                                Available Camps
-                            </NavLink>
                             <NavLink to="/contact-us" className="navLink">
                                 Contact Us
                             </NavLink>
-                            <NavLink to="/dashboard" className="navLink">
-                                Dashboard
-                            </NavLink>
+                            {user &&
+                            (
+                                <NavLink to="/available-camps" className="navLink">
+                                    Available Camps
+                                </NavLink>
+                            )}
+                            {user && (
+                                <NavLink to="/dashboard" className="navLink">
+                                    Dashboard
+                                </NavLink>
+                            )}
                         </ul>
                     </div>
                     {/* Right elements */}
