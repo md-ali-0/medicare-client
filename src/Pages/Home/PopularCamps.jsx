@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import Container from "../../components/Container";
 import Loader from "../../components/Loader";
 import SectionTitle from "../../components/SectionTitle";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
@@ -29,7 +28,6 @@ const PopularCamps = () => {
                 heading={"Popular Camps"}
                 subHeading={"Explore Events Aimed at Community Wellness"}
             />
-            <Container>
                 <div className="px-5 py-8 mx-auto">
                     <div className="flex justify-end items-center gap-2 pb-2">
                         <select
@@ -56,7 +54,6 @@ const PopularCamps = () => {
                         See All Camps
                     </Link>
                 </div>
-            </Container>
         </section>
     );
 };
