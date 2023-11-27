@@ -1,0 +1,27 @@
+import { useQuery } from '@tanstack/react-query';
+import useAuth from './useAuth';
+import useAxios from './useAxios';
+
+const useProfessional = () => {
+    const {user, loading} = useAuth()
+    const axios = useAxios()
+    
+    const {data: isProfessional, isPending: isProfessionalPending} = useQuery({
+        queryKey:[user?.email, 'isProfessional'],
+        enabled: !loading && !!user?.email,
+        queryFn: async()=>{
+            console.log('error from useProfessional');
+            const {data} = await axios.get(`/verify-user/${user?.email}`)
+            return data
+        }
+    })
+    if (isProfessional==='healthcare_professional') {
+        const professional = true
+        return [professional,isProfessionalPending]
+    } else{
+        const professional = false
+        return [professional,isProfessionalPending]
+    }
+};
+
+export default useProfessional;

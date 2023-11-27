@@ -4,7 +4,10 @@ import { FiAlignJustify, FiLogOut, FiSettings, FiUser } from "react-icons/fi";
 import { Link, NavLink } from "react-router-dom";
 import logoImage from "../../assets/logo.png";
 import Loader from "../../components/Loader";
+import useAdmin from "../../hooks/useAdmin";
 import useAuth from "../../hooks/useAuth";
+import useOrganizer from "../../hooks/useOrganizer";
+import useProfessional from "../../hooks/useProfessional";
 const Header = () => {
     const [dropdownOpen, setDropDown] = useState(false);
     const [collapse, setCollapse] = useState(false);
@@ -24,6 +27,9 @@ const Header = () => {
             toast.success("Successfully created!");
         });
     };
+    const [admin] = useAdmin();
+    const [professional] = useProfessional();
+    const [organizer] = useOrganizer();
     if (loading) {
         return <Loader />;
     }
@@ -66,14 +72,28 @@ const Header = () => {
                             <NavLink to="/contact-us" className="navLink">
                                 Contact Us
                             </NavLink>
-                            {user &&
-                            (
+                            {user && (
                                 <NavLink to="/available-camps" className="navLink">
                                     Available Camps
                                 </NavLink>
                             )}
-                            {user && (
-                                <NavLink to="/dashboard" className="navLink">
+                            {user && !organizer&& !professional&& !admin&&(
+                                <NavLink to="/dashboard/participant-home" className="navLink">
+                                    Dashboard
+                                </NavLink>
+                            )}
+                            {user && organizer && (
+                                <NavLink to="/dashboard/organizer-home" className="navLink">
+                                    Dashboard
+                                </NavLink>
+                            )}
+                            {user && professional && (
+                                <NavLink to="/dashboard/professional-home" className="navLink">
+                                    Dashboard
+                                </NavLink>
+                            )}
+                            {user && admin && (
+                                <NavLink to="/dashboard/admin-home" className="navLink">
                                     Dashboard
                                 </NavLink>
                             )}

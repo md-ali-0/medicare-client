@@ -7,12 +7,17 @@ import Register from "../Pages/Auth/Register";
 import AvailableCamps from "../Pages/AvailableCamps/AvailableCamps";
 import CampDetails from "../Pages/CampDetails/CampDetails";
 import Contact from "../Pages/Contact/Contact";
+import AdminHome from "../Pages/Dashboard/Admin/AdminHome";
 import HealthcareProfessionalsHome from "../Pages/Dashboard/HealthcareProfessionals/HealthcareProfessionalsHome";
 import OrganizersHome from "../Pages/Dashboard/Organizers/OrganizersHome";
 import PerticipantsHome from "../Pages/Dashboard/Perticipants/PerticipantsHome";
 import Error404 from "../Pages/Error/Error404";
+import Error500 from "../Pages/Error/Error500";
 import Home from "../Pages/Home/Home";
+import AdminRouter from "./AdminRouter";
+import OrganizerRouter from "./OrganizerRouter";
 import PrivateRouter from "./PrivateRouter";
+import ProfessionalRouter from "./ProfessionalRouter";
 const Router = createBrowserRouter([
     {
         path: "/",
@@ -58,14 +63,22 @@ const Router = createBrowserRouter([
             },
             {
                 path: "organizer-home",
-                element: <OrganizersHome />,
+                element: <OrganizerRouter><OrganizersHome /></OrganizerRouter>,
             },
             {
                 path: "professional-home",
-                element: <HealthcareProfessionalsHome />,
+                element: <ProfessionalRouter><HealthcareProfessionalsHome /></ProfessionalRouter>,
+            },
+            {
+                path: "admin-home",
+                element: <AdminRouter><AdminHome/></AdminRouter>,
             },
         ],
     },
+    {
+        path: '/unAuthorize-Access',
+        element: <Error500/>
+    }
 ]);
 
 export default Router;
