@@ -7,14 +7,13 @@ const OrganizerRouter = ({ children }) => {
     const location = useLocation();
     const { user, loading } = useAuth();
     const [organizer, isOrganizerPending] = useOrganizer();
-
     if (loading || isOrganizerPending) {
         return <Loader />;
     }
     if (user && organizer) {
         return children;
     }
-    return <Navigate to="/unAuthorize-Access" state={{ from: location }} />;
+    return <Navigate to="/login" state={{ from: location }} replace/>;
 };
 
 export default OrganizerRouter;

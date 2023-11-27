@@ -10,7 +10,6 @@ const useProfessional = () => {
         queryKey:[user?.email, 'isProfessional'],
         enabled: !loading && !!user?.email,
         queryFn: async()=>{
-            console.log('error from useProfessional');
             const {data} = await axios.get(`/verify-user/${user?.email}`)
             return data
         }

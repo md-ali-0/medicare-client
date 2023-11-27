@@ -1,11 +1,33 @@
-import { FiAlignLeft } from "react-icons/fi";
+import { FiAlignLeft, FiLogOut, FiSettings, FiUser } from "react-icons/fi";
 import { HiOutlineSearch } from "react-icons/hi";
 // import { Fragment } from "react";
 // import { HiOutlineBell, HiOutlineSearch } from "react-icons/hi";
 // import { Link } from "react-router-dom";
+import { useRef, useState } from "react";
+import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 import BrandLogo from '../../assets/logo.png';
+import useAuth from "../../hooks/useAuth";
 
 const Navbar = ({sidebarCollapse, setSidebarCollapse}) => {
+    const [dropdownOpen, setDropDown] = useState(false);
+    const imgRef = useRef();
+    const dropdownRef = useRef();
+    const { user, logOut } = useAuth();
+    window.addEventListener("click", (e) => {
+        if (e.target !== dropdownRef.current && e.target !== imgRef.current) {
+            setDropDown(false);
+        }
+    });
+    const handleDropDown = () => {
+        setDropDown(!dropdownOpen);
+    };
+    const logOutHandle = () => {
+        logOut().then(() => {
+            toast.success("Logout Successfully!");
+        });
+    };
+    
     const handleSidebarCollapse = ()=>{
         setSidebarCollapse(!sidebarCollapse)
     }
@@ -30,93 +52,58 @@ const Navbar = ({sidebarCollapse, setSidebarCollapse}) => {
                     />
                 </div>
                 <div className="flex items-center gap-2 mr-2">
-                    {/* <Popover className="relative">
-                        {({ open }) => (
-                            <>
-                                <Popover.Button
-                                    // className={classNames(
-                                    //     open && "bg-gray-100",
-                                    //     "group inline-flex items-center rounded-sm p-1.5 text-gray-700 hover:text-opacity-100 focus:outline-none active:bg-gray-100"
-                                    // )}
-                                    className="group inline-flex items-center rounded-sm p-1.5 text-gray-700 hover:text-opacity-100 focus:outline-none active:bg-gray-100"
+                <div className="relative flex items-center">
+                            {/* Second dropdown container */}
+                            <div className="relative">
+                                <img
+                                    ref={imgRef}
+                                    onClick={handleDropDown}
+                                    src={user?.photoURL}
+                                    className="rounded-full w-10 h-10 cursor-pointer"
+                                    loading="lazy"
+                                />
+                                <ul
+                                    ref={dropdownRef}
+                                    className={`absolute py-2 px-1 z-[1000] m-0  min-w-max overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg  w-40 ${
+                                        dropdownOpen ? "block left-auto right-0" : "hidden"
+                                    }`}
                                 >
-                                    <HiOutlineBell fontSize={24} />
-                                </Popover.Button>
-                                <Transition
-                                    as={Fragment}
-                                    enter="transition ease-out duration-200"
-                                    enterFrom="opacity-0 translate-y-1"
-                                    enterTo="opacity-100 translate-y-0"
-                                    leave="transition ease-in duration-150"
-                                    leaveFrom="opacity-100 translate-y-0"
-                                    leaveTo="opacity-0 translate-y-1"
-                                >
-                                    <Popover.Panel className="absolute right-0 z-10 mt-2.5 transform w-80">
-                                        <div className="bg-white rounded-sm shadow-md ring-1 ring-black ring-opacity-5 px-2 py-2.5">
-                                            <strong className="text-gray-700 font-medium">
-                                                Notifications
-                                            </strong>
-                                            <div className="mt-2 py-1 text-sm">
-                                                This is notification panel.
-                                            </div>
-                                        </div>
-                                    </Popover.Panel>
-                                </Transition>
-                            </>
-                        )}
-                    </Popover>
-                    <Menu as="div" className="relative">
-                        <div>
-                            <Menu.Button className="ml-2 bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-slate-400">
-                                <span className="sr-only">Open user menu</span>
-                                <div
-                                    className="h-10 w-10 rounded-full bg-sky-500 bg-cover bg-no-repeat bg-center"
-                                    style={{
-                                        backgroundImage:
-                                            'url("https://source.unsplash.com/80x80?face")',
-                                    }}
-                                >
-                                    <span className="sr-only">Marc Backes</span>
-                                </div>
-                            </Menu.Button>
+                                    <li>
+                                        <Link
+                                            to="/profile"
+                                            className="rounded w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent 
+                                        flex items-center gap-2
+                                        "
+                                        >
+                                            <FiUser className="inline-block" size={15} />
+                                            Profile
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link
+                                            to="/profile"
+                                            className="rounded w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent
+                                        flex items-center gap-2
+                                        "
+                                        >
+                                            <FiSettings />
+                                            Settings
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <button
+                                            onClick={logOutHandle}
+                                            className="rounded w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent
+                                        flex items-center gap-2
+                                        "
+                                        >
+                                            <FiLogOut />
+                                            LogOut
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                        <Transition
-                            as={Fragment}
-                            enter="transition ease-out duration-100"
-                            enterFrom="transform opacity-0 scale-95"
-                            enterTo="transform opacity-100 scale-100"
-                            leave="transition ease-in duration-75"
-                            leaveFrom="transform opacity-100 scale-100"
-                            leaveTo="transform opacity-0 scale-95"
-                        >
-                            <Menu.Items className="origin-top-right z-10 absolute right-0 mt-2 w-48 rounded-sm shadow-md bg-white flex flex-col gap-2 ring-opacity-5 focus:outline-none p-2">
-                                <Menu.Item>
-                                    <Link
-                                        to="/profile"
-                                        className="rounded hover:bg-gray-100 hover:text-slate-800 text-gray-700 text-lg px-2 py-0.5"
-                                    >
-                                        Your Profile
-                                    </Link>
-                                </Menu.Item>
-                                <Menu.Item>
-                                    <Link
-                                        to="/settings"
-                                        className="rounded hover:bg-slate-100 hover:text-slate-800 text-gray-700 text-lg px-2 py-0.5"
-                                    >
-                                        Settings
-                                    </Link>
-                                </Menu.Item>
-                                <Menu.Item>
-                                    <Link
-                                        to="/sign-out"
-                                        className="rounded hover:bg-slate-100 hover:text-slate-800 text-gray-700 text-lg px-2 py-0.5"
-                                    >
-                                        Sign out
-                                    </Link>
-                                </Menu.Item>
-                            </Menu.Items>
-                        </Transition>
-                    </Menu> */}
                 </div>
             </div>
         </div>

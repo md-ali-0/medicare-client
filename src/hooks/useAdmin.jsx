@@ -10,7 +10,6 @@ const useAdmin = () => {
         queryKey:[user?.email, 'isAdmin'],
         enabled: !loading && !!user?.email,
         queryFn: async()=>{
-            console.log('error from useAdmin');
             const {data} = await axios.get(`/verify-user/${user?.email}`)
             return data
         }

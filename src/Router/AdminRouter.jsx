@@ -14,7 +14,7 @@ const AdminRouter = ({ children }) => {
     if (user && admin) {
         return children;
     }
-    return <Navigate to="/unAuthorize-Access" state={{ from: location }} />;
+    return <Navigate to="/login" state={{ from: location }} replace/>;
 };
 
 export default AdminRouter;

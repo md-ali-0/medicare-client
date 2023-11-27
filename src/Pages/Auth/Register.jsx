@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { BiErrorCircle } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
+import uploader from "../../Utils/uploader";
 import registerAnimation from "../../assets/animation/login.json";
 import useAuth from "../../hooks/useAuth";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
@@ -12,8 +13,7 @@ import SocialLogin from "../Shared/SocialLogin";
 
 const Register = () => {
     const { createRegister, setLoading, logOut, userUpdate } = useAuth();
-    const apiKey = import.meta.env.VITE_IMAGE_BB_API;
-    const url = `https://api.imgbb.com/1/upload?key=${apiKey}`;
+
     const axios = useAxiosPublic();
     const navigate = useNavigate();
     const {
@@ -27,13 +27,9 @@ const Register = () => {
         console.log(data);
         const imageFile = { image: image[0] };
         const loadingToast = toast.loading("User Creating ... ");
+        const res = await uploader({imageFile})
 
-        const res = await axios.post(url, imageFile, {
-            headers: {
-                "content-type": "multipart/form-data",
-            },
-        });
-        if (res.data.success == true) {
+        if (res.success == true) {
             const uploadedImageUrl = res.data.data.display_url;
             try {
                 const userResult = await createRegister(email, password);

@@ -9,6 +9,7 @@ import CampDetails from "../Pages/CampDetails/CampDetails";
 import Contact from "../Pages/Contact/Contact";
 import AdminHome from "../Pages/Dashboard/Admin/AdminHome";
 import HealthcareProfessionalsHome from "../Pages/Dashboard/HealthcareProfessionals/HealthcareProfessionalsHome";
+import OrganizerProfile from "../Pages/Dashboard/Organizers/OrganizerProfile";
 import OrganizersHome from "../Pages/Dashboard/Organizers/OrganizersHome";
 import PerticipantsHome from "../Pages/Dashboard/Perticipants/PerticipantsHome";
 import Error404 from "../Pages/Error/Error404";
@@ -54,12 +55,12 @@ const Router = createBrowserRouter([
     },
     {
         path: "/dashboard",
-        element: <DashboardMain />,
+        element: <PrivateRouter><DashboardMain /></PrivateRouter>,
         errorElement: <Error404 />,
         children: [
             {
                 path: "participant-home",
-                element: <PerticipantsHome />,
+                element: <PrivateRouter><PerticipantsHome /></PrivateRouter>,
             },
             {
                 path: "organizer-home",
@@ -73,6 +74,10 @@ const Router = createBrowserRouter([
                 path: "admin-home",
                 element: <AdminRouter><AdminHome/></AdminRouter>,
             },
+            {
+                path: 'organizer-profile',
+                element: <OrganizerRouter><OrganizerProfile /></OrganizerRouter>,
+            }
         ],
     },
     {

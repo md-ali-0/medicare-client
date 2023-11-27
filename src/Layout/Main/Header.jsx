@@ -24,7 +24,7 @@ const Header = () => {
     };
     const logOutHandle = () => {
         logOut().then(() => {
-            toast.success("Successfully created!");
+            toast.success("Logout Successfully!");
         });
     };
     const [admin] = useAdmin();

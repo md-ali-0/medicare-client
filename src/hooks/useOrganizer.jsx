@@ -10,7 +10,6 @@ const useOrganizer = () => {
         queryKey:[user?.email, 'isOrganizer'],
         enabled: !loading && !!user?.email,
         queryFn: async()=>{
-            console.log('error from useOrganizer');
             const {data} = await axios.get(`/verify-user/${user?.email}`)
             return data
         }

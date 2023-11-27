@@ -14,7 +14,7 @@ const ProfessionalRouter = ({ children }) => {
     if (user && professional) {
         return children;
     }
-    return <Navigate to="/unAuthorize-Access" state={{ from: location }} />;
+    return <Navigate to="/login" state={{ from: location }} replace/>;
 };
 
 export default ProfessionalRouter;

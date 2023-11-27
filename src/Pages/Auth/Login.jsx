@@ -28,7 +28,7 @@ const Login = () => {
             if (userResult?.user?.email) {
                 try {
                     toast.dismiss(loadingToast);
-                    toast.success("Successfully created!");
+                    toast.success("Successfully Logged In!");
                     navigate(from, { replace: true });
                 } catch (error) {
                     setLoading(false);
