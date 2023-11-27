@@ -28,6 +28,7 @@ const AvailableCamps = () => {
     const sortBy = (val) => {
         setSort(val);
     };
+
     return (
         <div>
             <Container>
@@ -86,7 +87,7 @@ const AvailableCamps = () => {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 -m-4 ">
                         {availableCamps.map((camp) => (
-                            <CampCard key={camp._id} camp={camp} />
+                            <CampCard key={camp._id} camp={camp} joinCamp/>
                         ))}
                     </div>
                 </div>

@@ -42,7 +42,7 @@ const PopularCamps = () => {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 -m-4 ">
                         {popularCamps.slice(0,6).map((camp) => (
-                            <CampCard key={camp._id} camp={camp} />
+                            <CampCard key={camp._id} camp={camp}/>
                         ))}
                     </div>
                 </div>
