@@ -21,12 +21,10 @@ const Login = () => {
         formState: { errors },
     } = useForm();
     const onSubmit = async (data) => {
-        console.log(data);
         const { email, password } = data;
         const loadingToast = toast.loading("User Sign in ... ");
         try {
             const userResult = await createLogin(email, password);
-            console.log(userResult.user);
             if (userResult?.user?.email) {
                 try {
                     toast.dismiss(loadingToast);

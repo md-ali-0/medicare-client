@@ -12,6 +12,7 @@ import OrganizersHome from "../Pages/Dashboard/Organizers/OrganizersHome";
 import PerticipantsHome from "../Pages/Dashboard/Perticipants/PerticipantsHome";
 import Error404 from "../Pages/Error/Error404";
 import Home from "../Pages/Home/Home";
+import PrivateRouter from "./PrivateRouter";
 const Router = createBrowserRouter([
     {
         path: "/",
@@ -34,7 +35,7 @@ const Router = createBrowserRouter([
             },
             {
                 path: "/available-camps",
-                element: <AvailableCamps />,
+                element: <PrivateRouter><AvailableCamps /></PrivateRouter>,
             },
             {
                 path: "/login",

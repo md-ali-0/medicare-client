@@ -1,11 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import Container from "../../components/Container";
+import useAuth from "../../hooks/useAuth";
 import useAxios from "../../hooks/useAxios";
 import CampCard from "../Shared/CampCard";
 
 const AvailableCamps = () => {
     const [sort, setSort] = useState("dsc");
+    const {user} = useAuth()
     const axios = useAxios();
     const [searchValue, setSearchValue] = useState("");
     const searchHandle = (e) => {
@@ -20,6 +22,7 @@ const AvailableCamps = () => {
     };
     const { data: availableCamps = [] } = useQuery({
         queryKey: ["availableCamps", searchValue, sort],
+        enabled: !!user?.email,
         queryFn: async () => {
             const res = await axios.get(`/available-camps?search=${searchValue}&sort=${sort}`);
             return res.data;
