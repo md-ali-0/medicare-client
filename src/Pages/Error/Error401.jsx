@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const Error500 = () => {
+const Error401 = () => {
     return (
         <div className="flex h-[calc(100vh-80px)] items-center justify-center p-5 w-full bg-white">
             <div className="text-center">
@@ -54,4 +54,4 @@ const Error500 = () => {
     );
 };
 
-export default Error500;
+export default Error401;

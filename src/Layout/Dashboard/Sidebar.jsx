@@ -1,11 +1,10 @@
 import toast from "react-hot-toast";
-import { HiOutlineCog, HiOutlineLogout } from "react-icons/hi";
+import { HiOutlineCog, HiOutlineCube, HiOutlineLogout, HiOutlineViewGrid } from "react-icons/hi";
 import { NavLink } from "react-router-dom";
 import useAdmin from "../../hooks/useAdmin";
 import useAuth from "../../hooks/useAuth";
 import useOrganizer from "../../hooks/useOrganizer";
 import useProfessional from "../../hooks/useProfessional";
-import { DASHBOARD_SIDEBAR_LINKS } from "./lib/Links";
 
 const Sidebar = ({ sidebarCollapse }) => {
     const { user, logOut } = useAuth();
@@ -25,9 +24,58 @@ const Sidebar = ({ sidebarCollapse }) => {
             } w-60`}
         >
             <div className="py-5 flex flex-1 flex-col gap-0.5">
-                {DASHBOARD_SIDEBAR_LINKS.map((link) => (
-                    <SidebarLink key={link.key} link={link} />
-                ))}
+                {user && !organizer && !professional && !admin && (
+                    <NavLink
+                        to="participant-profile"
+                        className={({ isActive }) =>
+                            isActive
+                                ? "flex items-center gap-2 bg-[#1E293B] rounded-sm text-white py-2 px-1.5"
+                                : "flex items-center gap-2 text-neutral-400 py-2 px-1.5 "
+                        }
+                    >
+                        <HiOutlineCog className="inline" size={20} />
+                        Profile
+                    </NavLink>
+                )}
+                {user && organizer && (
+                    <>
+                        <NavLink
+                            to="organizer-home"
+                            className={({ isActive }) =>
+                                isActive
+                                    ? "flex items-center gap-2 bg-[#1E293B] rounded-sm text-white py-2 px-1.5"
+                                    : "flex items-center gap-2 text-neutral-400 py-2 px-1.5 "
+                            }
+                        >
+                            <HiOutlineViewGrid className="inline" size={20} />
+                            Dashboard
+                        </NavLink>
+                        <NavLink
+                            to="add-a-camp"
+                            className={({ isActive }) =>
+                                isActive
+                                    ? "flex items-center gap-2 bg-[#1E293B] rounded-sm text-white py-2 px-1.5"
+                                    : "flex items-center gap-2 text-neutral-400 py-2 px-1.5 "
+                            }
+                        >
+                            <HiOutlineCube className="inline" size={20} />
+                            Add Camp
+                        </NavLink>
+                    </>
+                )}
+                {user && professional && (
+                    <NavLink
+                        to="professional-profile"
+                        className={({ isActive }) =>
+                            isActive
+                                ? "flex items-center gap-2 bg-[#1E293B] rounded-sm text-white py-2 px-1.5"
+                                : "flex items-center gap-2 text-neutral-400 py-2 px-1.5 "
+                        }
+                    >
+                        <HiOutlineCog className="inline" size={20} />
+                        Profile
+                    </NavLink>
+                )}
             </div>
             <div className="flex flex-col gap-0.5 pt-2 border-t border-slate-700">
                 {user && !organizer && !professional && !admin && (
@@ -81,19 +129,3 @@ const Sidebar = ({ sidebarCollapse }) => {
 };
 
 export default Sidebar;
-
-function SidebarLink({ link }) {
-    return (
-        <NavLink
-            to={link.path}
-            className={({ isActive }) =>
-                isActive
-                    ? "flex items-center gap-2 bg-[#1E293B] rounded-sm text-white py-2 px-1.5"
-                    : "flex items-center gap-2 text-neutral-400 py-2 px-1.5 "
-            }
-        >
-            {link.icon}
-            {link.label}
-        </NavLink>
-    );
-}

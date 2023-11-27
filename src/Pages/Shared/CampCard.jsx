@@ -94,7 +94,7 @@ const CampCard = ({ camp, joinCamp }) => {
                         {campName}
                     </h1>
                     <p className="leading-relaxed mb-3">
-                        {description.split(" ").slice(0, 20).join(" ")}
+                        {description?.split(" ").slice(0, 20).join(" ")}
                     </p>
                     <div className="py-2">
                         <h2 className="flex items-center tracking-widest text-sm title-font font-medium text-gray-700 mb-1">

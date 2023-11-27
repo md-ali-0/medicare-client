@@ -9,11 +9,12 @@ import CampDetails from "../Pages/CampDetails/CampDetails";
 import Contact from "../Pages/Contact/Contact";
 import AdminHome from "../Pages/Dashboard/Admin/AdminHome";
 import HealthcareProfessionalsHome from "../Pages/Dashboard/HealthcareProfessionals/HealthcareProfessionalsHome";
+import AddCamp from "../Pages/Dashboard/Organizers/AddCamp";
 import OrganizerProfile from "../Pages/Dashboard/Organizers/OrganizerProfile";
 import OrganizersHome from "../Pages/Dashboard/Organizers/OrganizersHome";
 import PerticipantsHome from "../Pages/Dashboard/Perticipants/PerticipantsHome";
+import Error401 from "../Pages/Error/Error401";
 import Error404 from "../Pages/Error/Error404";
-import Error500 from "../Pages/Error/Error500";
 import Home from "../Pages/Home/Home";
 import AdminRouter from "./AdminRouter";
 import OrganizerRouter from "./OrganizerRouter";
@@ -77,12 +78,16 @@ const Router = createBrowserRouter([
             {
                 path: 'organizer-profile',
                 element: <OrganizerRouter><OrganizerProfile /></OrganizerRouter>,
+            },
+            {
+                path: 'add-a-camp',
+                element: <OrganizerRouter><AddCamp /></OrganizerRouter>,
             }
         ],
     },
     {
         path: '/unAuthorize-Access',
-        element: <Error500/>
+        element: <Error401/>
     }
 ]);
 
