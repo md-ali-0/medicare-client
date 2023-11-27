@@ -4,6 +4,7 @@ import DashboardMain from "../Layout/Dashboard/DashboardMain";
 import Main from "../Layout/Main/Main";
 import Login from "../Pages/Auth/Login";
 import Register from "../Pages/Auth/Register";
+import AvailableCamps from "../Pages/AvailableCamps/AvailableCamps";
 import CampDetails from "../Pages/CampDetails/CampDetails";
 import Contact from "../Pages/Contact/Contact";
 import HealthcareProfessionalsHome from "../Pages/Dashboard/HealthcareProfessionals/HealthcareProfessionalsHome";
@@ -26,9 +27,14 @@ const Router = createBrowserRouter([
                 element: <Contact />,
             },
             {
-                path: '/camp-details/:campId',
-                loader: ({params})=> axios.get(`http://localhost:8080/camp-details/${params.campId}`),
-                element: <CampDetails/>
+                path: "/camp-details/:campId",
+                loader: ({ params }) =>
+                    axios.get(`http://localhost:8080/camp-details/${params.campId}`),
+                element: <CampDetails />,
+            },
+            {
+                path: "/available-camps",
+                element: <AvailableCamps />,
             },
             {
                 path: "/login",
