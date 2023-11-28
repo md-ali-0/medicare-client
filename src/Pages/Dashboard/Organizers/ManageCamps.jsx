@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { BiErrorCircle } from "react-icons/bi";
 import { TagInput } from "rsuite";
+import Swal from "sweetalert2";
 import uploader from "../../../Utils/uploader";
 import Loader from "../../../components/Loader";
 import useAuth from "../../../hooks/useAuth";
@@ -84,8 +85,8 @@ const ManageCamps = () => {
         {
             header: "Delete",
             accessorKey: "_id",
-            cell: ({ cell: { value } }) => (
-                <button onClick={() => setOpenModal(true)}>Delete</button>
+            cell: ({ cell: { row } }) => (
+                <button onClick={() => handleDelete(row.original._id)}>Delete</button>
             ),
         },
     ];
@@ -104,7 +105,6 @@ const ManageCamps = () => {
         onGlobalFilterChange: setFiltering,
     });
     function handleOpenModal(value) {
-        console.log(value);
         setModalData(value);
         setOpenModal(true);
     }
@@ -113,7 +113,30 @@ const ManageCamps = () => {
         setOpenModal(false);
         reset();
     }
-
+    const handleDelete = async(id) =>{
+        try {
+            const swalConfirm = await Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!",
+            })
+            if (swalConfirm.isConfirmed) {
+                await axios.delete(`/delete-camp/${id}`);
+                refetch()
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Your Camp has been deleted.",
+                    icon: "success",
+                });
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
     if (isLoading) {
         <Loader />;
     }
