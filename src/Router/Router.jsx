@@ -19,6 +19,7 @@ import OrganizerProfile from "../Pages/Dashboard/Organizers/OrganizerProfile";
 import OrganizersHome from "../Pages/Dashboard/Organizers/OrganizersHome";
 import ParticipantProfile from "../Pages/Dashboard/Perticipants/ParticipantProfile";
 import Payment from "../Pages/Dashboard/Perticipants/Payment";
+import PaymentHistory from "../Pages/Dashboard/Perticipants/PaymentHistory";
 import PerticipantsHome from "../Pages/Dashboard/Perticipants/PerticipantsHome";
 import RegisteredCamps from "../Pages/Dashboard/Perticipants/RegisteredCamps";
 import Error401 from "../Pages/Error/Error401";
@@ -182,6 +183,14 @@ const Router = createBrowserRouter([
                 element: (
                     <PrivateRouter>
                         <Payment />
+                    </PrivateRouter>
+                ),
+            },
+            {
+                path: "payment-history",
+                element: (
+                    <PrivateRouter>
+                        <PaymentHistory />
                     </PrivateRouter>
                 ),
             },

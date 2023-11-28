@@ -1,10 +1,13 @@
 import toast from "react-hot-toast";
 import {
     HiCollection,
+    HiOutlineCash,
     HiOutlineCog,
     HiOutlineCube,
     HiOutlineLogout,
+    HiOutlineTemplate,
     HiOutlineViewGrid,
+    HiOutlineViewGridAdd
 } from "react-icons/hi";
 import { NavLink } from "react-router-dom";
 import useAdmin from "../../hooks/useAdmin";
@@ -25,7 +28,7 @@ const Sidebar = ({ sidebarCollapse }) => {
     };
     return (
         <div
-            className={`bg-slate-900 px-3 flex flex-col absolute md:static ${
+            className={`bg-slate-900 px-3 flex flex-col h-full z-50 absolute md:static ${
                 sidebarCollapse ? "" : "hidden md:flex"
             } w-60`}
         >
@@ -40,7 +43,7 @@ const Sidebar = ({ sidebarCollapse }) => {
                                     : "flex items-center gap-2 hover:no-underline text-neutral-400 py-2 px-1.5 "
                             }
                         >
-                            <HiOutlineCog className="inline" size={20} />
+                            <HiOutlineViewGridAdd className="inline" size={20} />
                             Dashboard
                         </NavLink>
                         <NavLink
@@ -51,8 +54,19 @@ const Sidebar = ({ sidebarCollapse }) => {
                                     : "flex items-center gap-2 hover:no-underline text-neutral-400 py-2 px-1.5 "
                             }
                         >
-                            <HiOutlineCog className="inline" size={20} />
+                            <HiOutlineTemplate className="inline" size={20} />
                             Registered Camps
+                        </NavLink>
+                        <NavLink
+                            to="payment-history"
+                            className={({ isActive }) =>
+                                isActive
+                                    ? "flex items-center gap-2 hover:no-underline bg-[#1E293B] rounded-sm text-white py-2 px-1.5"
+                                    : "flex items-center gap-2 hover:no-underline text-neutral-400 py-2 px-1.5 "
+                            }
+                        >
+                            <HiOutlineCash className="inline" size={20} />
+                            Payment History
                         </NavLink>
                     </div>
                 )}
