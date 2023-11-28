@@ -1,5 +1,11 @@
 import toast from "react-hot-toast";
-import { HiCollection, HiOutlineCog, HiOutlineCube, HiOutlineLogout, HiOutlineViewGrid } from "react-icons/hi";
+import {
+    HiCollection,
+    HiOutlineCog,
+    HiOutlineCube,
+    HiOutlineLogout,
+    HiOutlineViewGrid,
+} from "react-icons/hi";
 import { NavLink } from "react-router-dom";
 import useAdmin from "../../hooks/useAdmin";
 import useAuth from "../../hooks/useAuth";
@@ -25,17 +31,30 @@ const Sidebar = ({ sidebarCollapse }) => {
         >
             <div className="py-5 flex flex-1 flex-col gap-0.5">
                 {user && !organizer && !professional && !admin && (
-                    <NavLink
-                        to="participant-profile"
-                        className={({ isActive }) =>
-                            isActive
-                                ? "flex items-center gap-2 hover:no-underline bg-[#1E293B] rounded-sm text-white py-2 px-1.5"
-                                : "flex items-center gap-2 hover:no-underline text-neutral-400 py-2 px-1.5 "
-                        }
-                    >
-                        <HiOutlineCog className="inline" size={20} />
-                        Profile
-                    </NavLink>
+                    <div>
+                        <NavLink
+                            to="participant-home"
+                            className={({ isActive }) =>
+                                isActive
+                                    ? "flex items-center gap-2 hover:no-underline bg-[#1E293B] rounded-sm text-white py-2 px-1.5"
+                                    : "flex items-center gap-2 hover:no-underline text-neutral-400 py-2 px-1.5 "
+                            }
+                        >
+                            <HiOutlineCog className="inline" size={20} />
+                            Dashboard
+                        </NavLink>
+                        <NavLink
+                            to="registered-camps"
+                            className={({ isActive }) =>
+                                isActive
+                                    ? "flex items-center gap-2 hover:no-underline bg-[#1E293B] rounded-sm text-white py-2 px-1.5"
+                                    : "flex items-center gap-2 hover:no-underline text-neutral-400 py-2 px-1.5 "
+                            }
+                        >
+                            <HiOutlineCog className="inline" size={20} />
+                            Registered Camps
+                        </NavLink>
+                    </div>
                 )}
                 {user && organizer && (
                     <>

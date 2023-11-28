@@ -3,7 +3,6 @@ import toast from "react-hot-toast";
 import { FiAlignJustify, FiLogOut, FiUser } from "react-icons/fi";
 import { Link, NavLink } from "react-router-dom";
 import logoImage from "../../assets/logo.png";
-import Loader from "../../components/Loader";
 import useAdmin from "../../hooks/useAdmin";
 import useAuth from "../../hooks/useAuth";
 import useOrganizer from "../../hooks/useOrganizer";
@@ -13,7 +12,7 @@ const Header = () => {
     const [collapse, setCollapse] = useState(false);
     const imgRef = useRef();
     const dropdownRef = useRef();
-    const { user = {}, loading, logOut } = useAuth();
+    const { user = {}, logOut } = useAuth();
     window.addEventListener("click", (e) => {
         if (e.target !== dropdownRef.current && e.target !== imgRef.current) {
             setDropDown(false);
@@ -31,12 +30,9 @@ const Header = () => {
     const [professional] = useProfessional();
     const [organizer] = useOrganizer();
     
-    if (loading) {
-        return <Loader />;
-    }
     return (
         <>
-            <nav className="flex-no-wrap relative flex w-full items-center justify-between bg-[#FBFBFB] py-2.5 shadow-md shadow-black/5  md:flex-wrap lg:py-3.5">
+            <nav className="flex-no-wrap relative flex w-full items-center justify-between bg-[#FBFBFB] py-2.5 shadow-md shadow-black/5  md:flex-wrap lg:py-3.5 px-3">
                 <div className="flex w-full items-center justify-between md:max-w-screen-xl mx-auto">
                     <button
                         onClick={() => setCollapse(!collapse)}
@@ -65,7 +61,7 @@ const Header = () => {
                         } absolute md:static top-14 bg-white w-full md:w-auto border shadow-xl md:border-none md:shadow-none items-center px-3 lg:!flex lg:basis-auto z-50`}
                     >
                         {/* Left navigation links */}
-                        <ul className="flex mx-auto flex-col pl-0 lg:flex-row justify-center gap-5 py-3">
+                        <ul className="flex mx-auto flex-col pl-0 md:flex-row justify-center gap-5 py-3">
                             <NavLink to="/" className="navLink">
                                 Home
                             </NavLink>
@@ -119,7 +115,7 @@ const Header = () => {
                                 {user && !organizer && !professional && !admin && (
                                     <li>
                                         <Link
-                                            to="participant-profile"
+                                            to="/dashboard/participant-profile"
                                             className="rounded w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent 
                                         flex items-center gap-2
                                         "
@@ -132,7 +128,7 @@ const Header = () => {
                                 {user && organizer && (
                                     <li>
                                         <Link
-                                            to="organizer-profile"
+                                            to="/dashboard/organizer-profile"
                                             className="rounded w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent 
                                             flex items-center gap-2
                                             "
@@ -145,7 +141,7 @@ const Header = () => {
                                 {user && professional && (
                                     <li>
                                         <Link
-                                            to="professional-profile"
+                                            to="/dashboard/professional-profile"
                                             className="rounded w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent 
                                             flex items-center gap-2
                                             "

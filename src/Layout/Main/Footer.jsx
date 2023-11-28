@@ -6,7 +6,7 @@ import logoImage from "../../assets/logo.png";
 const Footer = () => {
     const currentYear = new Date().getFullYear();
     return (
-        <footer className="bg-[#E2E8F0] ">
+        <footer className="bg-[#E2E8F0] px-3">
             <div className="mx-auto w-full max-w-screen-xl py-6 lg:py-8">
                 <div className="flex flex-col md:flex-row justify-between px-5 lg:px-0">
                     <div className="mb-6 md:mb-0 md:w-1/3">

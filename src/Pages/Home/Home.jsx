@@ -9,17 +9,19 @@ import UpComingCamps from "./UpComingCamps";
 
 const Home = () => {
     return (
-        <Container>
+        <>
             <Helmet>
                 <title>MediCare | Home</title>
             </Helmet>
-            <Slider />
-            <PopularCamps />
-            <UpComingCamps/>
-            <Testimonials/>
-            <FAQ/>
-            <NewsLetter/>
-        </Container>
+            <Container>
+                <Slider />
+                <PopularCamps />
+                <UpComingCamps />
+                <Testimonials />
+                <FAQ />
+                <NewsLetter />
+            </Container>
+        </>
     );
 };
 

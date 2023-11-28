@@ -7,9 +7,8 @@ import { CiEdit } from "react-icons/ci";
 import uploader from "../../../Utils/uploader";
 import useAuth from "../../../hooks/useAuth";
 
-const OrganizerProfile = () => {
-    const { user, userUpdate, userPasswordUpdate, setLoading } =
-        useAuth();
+const ParticipantProfile = () => {
+    const { user, userUpdate, userPasswordUpdate, setLoading } = useAuth();
     const [openModal, setOpenModal] = useState(false);
     function onCloseModal() {
         setOpenModal(false);
@@ -27,14 +26,14 @@ const OrganizerProfile = () => {
         const res = await uploader({ imageFile });
         if (res.success == true) {
             try {
-                const uploadedImageUrl = res.data.display_url
+                const uploadedImageUrl = res.data.display_url;
                 console.log(uploadedImageUrl);
                 setOpenModal(false);
-                await userUpdate(name,uploadedImageUrl)
-                await userPasswordUpdate(password)
+                await userUpdate(name, uploadedImageUrl);
+                await userPasswordUpdate(password);
                 toast.dismiss(loadingToast);
                 toast.success("Successfully Updated!");
-                setLoading(false)
+                setLoading(false);
                 reset();
             } catch (error) {
                 if (error.code === 'auth/requires-recent-login') {
@@ -58,11 +57,11 @@ const OrganizerProfile = () => {
                     />
                 </div>
                 <div className="flex flex-col items-center -mt-20">
-                    <img src={user?.photoURL} className="w-40 border-4 border-white rounded-full" />
+                    <img src={user?.photoURL} className="w-40 h-40 border-4 border-white rounded-full" />
                     <div className="flex items-center space-x-2 mt-2">
                         <p className="text-2xl">{user?.displayName}</p>
                     </div>
-                    <p className="text-sm text-gray-500">Organizer, MediCare</p>
+                    <p className="text-sm text-gray-500">Participant, MediCare</p>
                 </div>
                 <div className="flex-1 flex flex-col items-center lg:items-end justify-end px-8 mt-2">
                     <div className="flex items-center space-x-4 mt-2">
@@ -275,4 +274,4 @@ const OrganizerProfile = () => {
     );
 };
 
-export default OrganizerProfile;
+export default ParticipantProfile;

@@ -17,7 +17,10 @@ import ManageRegisteredCamps from "../Pages/Dashboard/Organizers/ManageRegistere
 import ManageUpComingCamp from "../Pages/Dashboard/Organizers/ManageUpComingCamp";
 import OrganizerProfile from "../Pages/Dashboard/Organizers/OrganizerProfile";
 import OrganizersHome from "../Pages/Dashboard/Organizers/OrganizersHome";
+import ParticipantProfile from "../Pages/Dashboard/Perticipants/ParticipantProfile";
+import Payment from "../Pages/Dashboard/Perticipants/Payment";
 import PerticipantsHome from "../Pages/Dashboard/Perticipants/PerticipantsHome";
+import RegisteredCamps from "../Pages/Dashboard/Perticipants/RegisteredCamps";
 import Error401 from "../Pages/Error/Error401";
 import Error404 from "../Pages/Error/Error404";
 import Home from "../Pages/Home/Home";
@@ -156,6 +159,30 @@ const Router = createBrowserRouter([
                     <OrganizerRouter>
                         <ManageUpComingCamp />
                     </OrganizerRouter>
+                ),
+            },
+            {
+                path: "participant-profile",
+                element: (
+                    <PrivateRouter>
+                        <ParticipantProfile />
+                    </PrivateRouter>
+                ),
+            },
+            {
+                path: "registered-camps",
+                element: (
+                    <PrivateRouter>
+                        <RegisteredCamps />
+                    </PrivateRouter>
+                ),
+            },
+            {
+                path: "payment",
+                element: (
+                    <PrivateRouter>
+                        <Payment />
+                    </PrivateRouter>
                 ),
             },
         ],

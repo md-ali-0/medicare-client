@@ -22,7 +22,7 @@ const UpComingCamps = () => {
                 heading={"Upcoming Camps"}
                 subHeading={"Discover the upcoming camps for Community Wellness"}
             />
-            <div className="grid grid-cols-1 md:grid-cols-3 -m-4 ">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
                 {upcomingCamps.slice(0, 3).map((camp) => (
                     <CampDetailsCard key={camp._id} camp={camp} />
                 ))}
