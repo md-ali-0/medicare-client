@@ -6,11 +6,11 @@ import { BiErrorCircle } from "react-icons/bi";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { TagInput } from "rsuite";
-import "rsuite/dist/rsuite.min.css";
 import uploader from "../../../Utils/uploader";
 import SectionTitle from "../../../components/SectionTitle";
 import useAuth from "../../../hooks/useAuth";
 import useAxios from "../../../hooks/useAxios";
+import "./AddCamp.css";
 
 const AddCamp = () => {
     const [options, setOptions] = useState({});
@@ -202,7 +202,7 @@ const AddCamp = () => {
                                     type="time"
                                     placeholder="Enter Scheduled Date"
                                     {...register("scheduledTime", {
-                                        required: "Email is Required",
+                                        required: "Time is Required",
                                     })}
                                     className="mt-1 p-2 w-full border border-primary/20 rounded-md focus:border-primary/20 outline-none transition-colors duration-300"
                                 />

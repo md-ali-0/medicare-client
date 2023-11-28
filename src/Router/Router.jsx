@@ -10,6 +10,7 @@ import Contact from "../Pages/Contact/Contact";
 import AdminHome from "../Pages/Dashboard/Admin/AdminHome";
 import HealthcareProfessionalsHome from "../Pages/Dashboard/HealthcareProfessionals/HealthcareProfessionalsHome";
 import AddCamp from "../Pages/Dashboard/Organizers/AddCamp";
+import ManageCamps from "../Pages/Dashboard/Organizers/ManageCamps";
 import OrganizerProfile from "../Pages/Dashboard/Organizers/OrganizerProfile";
 import OrganizersHome from "../Pages/Dashboard/Organizers/OrganizersHome";
 import PerticipantsHome from "../Pages/Dashboard/Perticipants/PerticipantsHome";
@@ -82,6 +83,10 @@ const Router = createBrowserRouter([
             {
                 path: 'add-a-camp',
                 element: <OrganizerRouter><AddCamp /></OrganizerRouter>,
+            },
+            {
+                path: 'manage-camps',
+                element: <OrganizerRouter><ManageCamps /></OrganizerRouter>,
             }
         ],
     },

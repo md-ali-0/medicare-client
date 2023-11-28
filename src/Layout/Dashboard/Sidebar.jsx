@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import { HiOutlineCog, HiOutlineCube, HiOutlineLogout, HiOutlineViewGrid } from "react-icons/hi";
+import { HiCollection, HiOutlineCog, HiOutlineCube, HiOutlineLogout, HiOutlineViewGrid } from "react-icons/hi";
 import { NavLink } from "react-router-dom";
 import useAdmin from "../../hooks/useAdmin";
 import useAuth from "../../hooks/useAuth";
@@ -29,8 +29,8 @@ const Sidebar = ({ sidebarCollapse }) => {
                         to="participant-profile"
                         className={({ isActive }) =>
                             isActive
-                                ? "flex items-center gap-2 bg-[#1E293B] rounded-sm text-white py-2 px-1.5"
-                                : "flex items-center gap-2 text-neutral-400 py-2 px-1.5 "
+                                ? "flex items-center gap-2 hover:no-underline bg-[#1E293B] rounded-sm text-white py-2 px-1.5"
+                                : "flex items-center gap-2 hover:no-underline text-neutral-400 py-2 px-1.5 "
                         }
                     >
                         <HiOutlineCog className="inline" size={20} />
@@ -43,8 +43,8 @@ const Sidebar = ({ sidebarCollapse }) => {
                             to="organizer-home"
                             className={({ isActive }) =>
                                 isActive
-                                    ? "flex items-center gap-2 bg-[#1E293B] rounded-sm text-white py-2 px-1.5"
-                                    : "flex items-center gap-2 text-neutral-400 py-2 px-1.5 "
+                                    ? "flex items-center gap-2 hover:no-underline bg-[#1E293B] rounded-sm text-white py-2 px-1.5"
+                                    : "flex items-center gap-2 hover:no-underline text-neutral-400 py-2 px-1.5 "
                             }
                         >
                             <HiOutlineViewGrid className="inline" size={20} />
@@ -54,12 +54,23 @@ const Sidebar = ({ sidebarCollapse }) => {
                             to="add-a-camp"
                             className={({ isActive }) =>
                                 isActive
-                                    ? "flex items-center gap-2 bg-[#1E293B] rounded-sm text-white py-2 px-1.5"
-                                    : "flex items-center gap-2 text-neutral-400 py-2 px-1.5 "
+                                    ? "flex items-center gap-2 hover:no-underline bg-[#1E293B] rounded-sm text-white py-2 px-1.5"
+                                    : "flex items-center gap-2 hover:no-underline text-neutral-400 py-2 px-1.5 "
                             }
                         >
                             <HiOutlineCube className="inline" size={20} />
                             Add Camp
+                        </NavLink>
+                        <NavLink
+                            to="manage-camps"
+                            className={({ isActive }) =>
+                                isActive
+                                    ? "flex items-center gap-2 bg-[#1E293B] hover:no-underline rounded-sm text-white py-2 px-1.5"
+                                    : "flex items-center gap-2 hover:no-underline text-neutral-400 py-2 px-1.5 "
+                            }
+                        >
+                            <HiCollection className="inline" size={20} />
+                            Manage Camps
                         </NavLink>
                     </>
                 )}
@@ -68,8 +79,8 @@ const Sidebar = ({ sidebarCollapse }) => {
                         to="professional-profile"
                         className={({ isActive }) =>
                             isActive
-                                ? "flex items-center gap-2 bg-[#1E293B] rounded-sm text-white py-2 px-1.5"
-                                : "flex items-center gap-2 text-neutral-400 py-2 px-1.5 "
+                                ? "flex items-center gap-2 hover:no-underline bg-[#1E293B] rounded-sm text-white py-2 px-1.5"
+                                : "flex items-center gap-2 hover:no-underline text-neutral-400 py-2 px-1.5 "
                         }
                     >
                         <HiOutlineCog className="inline" size={20} />
@@ -83,8 +94,8 @@ const Sidebar = ({ sidebarCollapse }) => {
                         to="participant-profile"
                         className={({ isActive }) =>
                             isActive
-                                ? "flex items-center gap-2 bg-[#1E293B] rounded-sm text-white py-2 px-1.5"
-                                : "flex items-center gap-2 text-neutral-400 py-2 px-1.5 "
+                                ? "flex items-center gap-2 hover:no-underline bg-[#1E293B] rounded-sm text-white py-2 px-1.5"
+                                : "flex items-center gap-2 hover:no-underline text-neutral-400 py-2 px-1.5 "
                         }
                     >
                         <HiOutlineCog className="inline" size={20} />
@@ -96,8 +107,8 @@ const Sidebar = ({ sidebarCollapse }) => {
                         to="organizer-profile"
                         className={({ isActive }) =>
                             isActive
-                                ? "flex items-center gap-2 bg-[#1E293B] rounded-sm text-white py-2 px-1.5"
-                                : "flex items-center gap-2 text-neutral-400 py-2 px-1.5 "
+                                ? "flex items-center gap-2 hover:no-underline bg-[#1E293B] rounded-sm text-white py-2 px-1.5"
+                                : "flex items-center gap-2 hover:no-underline text-neutral-400 py-2 px-1.5 "
                         }
                     >
                         <HiOutlineCog className="inline" size={20} />
@@ -109,8 +120,8 @@ const Sidebar = ({ sidebarCollapse }) => {
                         to="professional-profile"
                         className={({ isActive }) =>
                             isActive
-                                ? "flex items-center gap-2 bg-[#1E293B] rounded-sm text-white py-2 px-1.5"
-                                : "flex items-center gap-2 text-neutral-400 py-2 px-1.5 "
+                                ? "flex items-center gap-2 hover:no-underline bg-[#1E293B] rounded-sm text-white py-2 px-1.5"
+                                : "flex items-center gap-2 hover:no-underline text-neutral-400 py-2 px-1.5 "
                         }
                     >
                         <HiOutlineCog className="inline" size={20} />
