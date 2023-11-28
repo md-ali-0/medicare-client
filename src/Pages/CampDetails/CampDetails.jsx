@@ -25,6 +25,7 @@ const CampDetails = () => {
         description,
         specializedServices,
         targetAudience,
+        createdBy,
         venueLocation,
         fees,
     } = camp;
@@ -53,6 +54,8 @@ const CampDetails = () => {
             campId: _id,
             campName,
             image,
+            venueLocation,
+            createdBy,
             scheduledDate,
             scheduledTime,
             paymentStatus: "pending",

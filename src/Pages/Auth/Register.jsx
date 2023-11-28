@@ -30,7 +30,7 @@ const Register = () => {
         const res = await uploader({imageFile})
 
         if (res.success == true) {
-            const uploadedImageUrl = res.data.data.display_url;
+            const uploadedImageUrl = res.data.display_url;
             try {
                 const userResult = await createRegister(email, password);
                 const user = userResult.user;

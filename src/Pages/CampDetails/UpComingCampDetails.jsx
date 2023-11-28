@@ -3,21 +3,19 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { BiErrorCircle } from "react-icons/bi";
-import {
-    CiBadgeDollar,
-    CiCalendarDate,
-    CiCircleCheck,
-    CiLocationOn,
-    CiStethoscope,
-    CiUser,
-} from "react-icons/ci";
-import { Link } from "react-router-dom";
+import { CiBadgeDollar, CiCircleCheck, CiLocationOn, CiStethoscope, CiUser } from "react-icons/ci";
+import { useLoaderData } from "react-router-dom";
+import Container from "../../components/Container";
 import useAuth from "../../hooks/useAuth";
 import useAxios from "../../hooks/useAxios";
+import useProfessional from "../../hooks/useProfessional";
 
-const CampCard = ({ camp, joinCamp }) => {
+const UpComingCampDetails = () => {
+    const { data: camp = {} } = useLoaderData();
+    const { user } = useAuth();
+    const [openModal, setOpenModal] = useState(false);
+    const axios = useAxios()
     const {
-        _id,
         campName,
         image,
         participantCount,
@@ -25,24 +23,25 @@ const CampCard = ({ camp, joinCamp }) => {
         scheduledDate,
         scheduledTime,
         description,
-        createdBy,
         specializedServices,
         targetAudience,
+        createdBy,
         venueLocation,
         fees,
     } = camp;
-    const { user } = useAuth();
-    const [openModal, setOpenModal] = useState(false);
+    function onCloseModal() {
+        setOpenModal(false);
+    }
+
     const {
         register,
         handleSubmit,
         reset,
         formState: { errors },
     } = useForm();
-    const axios = useAxios();
     const onSubmit = async (data) => {
         const { name, email, phoneNumber, fee, gender, contact, age, address } = data;
-        const newCampRegister = {
+        const newCampAttendantRegister = {
             name,
             email,
             phoneNumber,
@@ -51,71 +50,46 @@ const CampCard = ({ camp, joinCamp }) => {
             contact,
             age,
             address,
-            campId: _id,
             campName,
-            createdBy,
             image,
             venueLocation,
+            createdBy,
             scheduledDate,
             scheduledTime,
-            paymentStatus: "pending",
-            confirmationStatus: "pending",
+            attendedStatus: "pending",
+            
         };
-
-        const loadingToast = toast.loading("Registering Camp ... ");
+        console.log(newCampAttendantRegister);
+        const loadingToast = toast.loading("Attendant Camp ... ");
         try {
-            const { data } = await axios.post("/add-registered-camp", newCampRegister);
+            const {data} = await axios.post('/add-attendant-camp', newCampAttendantRegister)
             console.log(data);
             if (data._id) {
-                reset();
+                reset()
                 setOpenModal(false);
                 toast.dismiss(loadingToast);
                 toast.success("Successfully created!");
             }
+
         } catch (error) {
             toast.dismiss(loadingToast);
             toast.error(error.code);
         }
     };
-    function onCloseModal() {
-        setOpenModal(false);
-    }
+    const [professional] = useProfessional();
     return (
-        <div className="p-4">
-            <div className="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
-                <img
-                    className="lg:h-60 md:h-36 w-full object-cover object-center"
-                    src={image}
-                    alt="blog"
-                />
-                <div className="p-6">
-                    <h2 className="flex items-center tracking-widest text-sm title-font font-medium text-gray-400 mb-1">
-                        <CiLocationOn size={18} className="mr-2 inline" />
-                        {venueLocation}
-                    </h2>
-                    <h1 className="title-font text-lg font-medium text-gray-900 mb-3">
-                        {campName}
-                    </h1>
-                    <p className="leading-relaxed mb-3">
-                        {description?.split(" ").slice(0, 20).join(" ")}
-                    </p>
-                    <div className="py-2">
-                        <h2 className="flex items-center tracking-widest text-sm title-font font-medium text-gray-700 mb-1">
-                            <div className="flex flex-wrap gap-2">
-                                {specializedServices.map((service, idx) => {
-                                    return (
-                                        <span
-                                            className="bg-gray-200 text-sm rounded px-1 py-0.5"
-                                            key={idx}
-                                        >
-                                            {service}
-                                        </span>
-                                    );
-                                })}
-                            </div>
-                        </h2>
-                    </div>
-                    <div className="flex justify-between items-center py-2">
+        <Container>
+            <div className="mx-auto max-w-screen-xl pt-28 text-center">
+                <p className="text-gray-500">
+                    Published {scheduledDate} {scheduledTime}
+                </p>
+                <h1 className="mt-2 text-3xl font-bold text-gray-900 sm:text-5xl">{campName}</h1>
+                <h2 className="flex justify-center items-center tracking-widest text-sm title-font font-medium text-gray-400 py-2">
+                    <CiLocationOn size={18} className="mr-2 inline" />
+                    {venueLocation}
+                </h2>
+                <div className="flex justify-center items-center flex-wrap gap-5">
+                    <div className="flex gap-5 items-center py-2">
                         <div>
                             <CiCircleCheck className="mr-2 inline" />
                             <span className="text-gray-400 text-sm">{targetAudience}</span>
@@ -125,17 +99,7 @@ const CampCard = ({ camp, joinCamp }) => {
                             {professionalsAttendanceCount}
                         </span>
                     </div>
-                    <div className="flex items-center flex-wrap ">
-                        <div className="flex items-center flex-wrap gap-2">
-                            <div>
-                                <CiCalendarDate size={20} className="mr-1 inline" />
-                                <span className="text-xs text-gray-500">{scheduledDate}</span>
-                            </div>
-                            <div>
-                                <CiCalendarDate size={20} className="mr-1 inline" />
-                                <span className="text-xs text-gray-500">{scheduledTime}</span>
-                            </div>
-                        </div>
+                    <div>
                         {fees ? (
                             <span className="text-gray-400 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200">
                                 <CiBadgeDollar size={20} className="mr-2" />
@@ -151,47 +115,45 @@ const CampCard = ({ camp, joinCamp }) => {
                             {participantCount}
                         </span>
                     </div>
-                    <div
-                        className={`flex ${
-                            joinCamp ? "justify-between" : "justify-center"
-                        } items-center pt-5`}
-                    >
-                        <Link
-                            to={`/camp-details/${_id}`}
-                            className="text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0"
-                        >
-                            See Details
-                            <svg
-                                className="w-4 h-4 ml-2"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                strokeWidth={2}
-                                fill="none"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                            >
-                                <path d="M5 12h14" />
-                                <path d="M12 5l7 7-7 7" />
-                            </svg>
-                        </Link>
-                        {joinCamp && (
+                </div>
+                <div className="mt-6 flex flex-wrap justify-center gap-2" aria-label="Tags">
+                    {specializedServices.map((service, idx) => {
+                        return (
                             <button
-                                disabled={!user?.email}
-                                onClick={() => setOpenModal(true)}
-                                className="text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0"
+                                key={idx}
+                                className="rounded-lg bg-gray-100 px-2 py-1 font-medium text-gray-600 hover:bg-gray-200"
                             >
-                                Join Camp
+                                {service}
                             </button>
-                        )}
-                    </div>
+                        );
+                    })}
                 </div>
             </div>
+            <article className="max-w-screen-lg mx-auto">
+                <img
+                    className="sm:h-[30rem] rounded-xl mt-10 w-full"
+                    src={image}
+                    alt="Featured Image"
+                />
+                <div className="mt-5 max-w-screen-lg space-y-12 px-4 py-10 font-serif text-lg tracking-wide text-gray-700">
+                    <strong className="text-2xl font-medium">{description}</strong>
+                </div>
+                <div className="flex justify-center items-center py-5">
+                    <button
+                        disabled={!professional}
+                        onClick={() => setOpenModal(true)}
+                        className="text-white disabled:bg-gradient-to-br disabled:from-slate-400 disabled:via-slate-700 disabled:to-slate-900 bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                    >
+                        Attend This Camp
+                    </button>
+                </div>
+            </article>
             <Modal show={openModal} size="4xl" onClose={onCloseModal} popup>
                 <Modal.Header />
                 <Modal.Body>
                     <div className="space-y-6">
                         <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-                            Camp Registration
+                            Camp Attendant Registration
                         </h3>
                         <form
                             className="container flex flex-col mx-auto space-y-12"
@@ -453,8 +415,8 @@ const CampCard = ({ camp, joinCamp }) => {
                     </div>
                 </Modal.Body>
             </Modal>
-        </div>
+        </Container>
     );
 };
 
-export default CampCard;
+export default UpComingCampDetails;

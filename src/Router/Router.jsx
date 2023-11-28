@@ -6,11 +6,15 @@ import Login from "../Pages/Auth/Login";
 import Register from "../Pages/Auth/Register";
 import AvailableCamps from "../Pages/AvailableCamps/AvailableCamps";
 import CampDetails from "../Pages/CampDetails/CampDetails";
+import UpComingCampDetails from "../Pages/CampDetails/UpComingCampDetails";
 import Contact from "../Pages/Contact/Contact";
 import AdminHome from "../Pages/Dashboard/Admin/AdminHome";
 import HealthcareProfessionalsHome from "../Pages/Dashboard/HealthcareProfessionals/HealthcareProfessionalsHome";
 import AddCamp from "../Pages/Dashboard/Organizers/AddCamp";
+import AddUpComingCamp from "../Pages/Dashboard/Organizers/AddUpComingCamp";
 import ManageCamps from "../Pages/Dashboard/Organizers/ManageCamps";
+import ManageRegisteredCamps from "../Pages/Dashboard/Organizers/ManageRegisteredCamps";
+import ManageUpComingCamp from "../Pages/Dashboard/Organizers/ManageUpComingCamp";
 import OrganizerProfile from "../Pages/Dashboard/Organizers/OrganizerProfile";
 import OrganizersHome from "../Pages/Dashboard/Organizers/OrganizersHome";
 import PerticipantsHome from "../Pages/Dashboard/Perticipants/PerticipantsHome";
@@ -42,8 +46,18 @@ const Router = createBrowserRouter([
                 element: <CampDetails />,
             },
             {
+                path: "/upcoming-camp-details/:campId",
+                loader: ({ params }) =>
+                    axios.get(`http://localhost:8080/upcoming-camp-details/${params.campId}`),
+                element: <UpComingCampDetails />,
+            },
+            {
                 path: "/available-camps",
-                element: <PrivateRouter><AvailableCamps /></PrivateRouter>,
+                element: (
+                    <PrivateRouter>
+                        <AvailableCamps />
+                    </PrivateRouter>
+                ),
             },
             {
                 path: "/login",
@@ -57,43 +71,99 @@ const Router = createBrowserRouter([
     },
     {
         path: "/dashboard",
-        element: <PrivateRouter><DashboardMain /></PrivateRouter>,
+        element: (
+            <PrivateRouter>
+                <DashboardMain />
+            </PrivateRouter>
+        ),
         errorElement: <Error404 />,
         children: [
             {
                 path: "participant-home",
-                element: <PrivateRouter><PerticipantsHome /></PrivateRouter>,
+                element: (
+                    <PrivateRouter>
+                        <PerticipantsHome />
+                    </PrivateRouter>
+                ),
             },
             {
                 path: "organizer-home",
-                element: <OrganizerRouter><OrganizersHome /></OrganizerRouter>,
+                element: (
+                    <OrganizerRouter>
+                        <OrganizersHome />
+                    </OrganizerRouter>
+                ),
             },
             {
                 path: "professional-home",
-                element: <ProfessionalRouter><HealthcareProfessionalsHome /></ProfessionalRouter>,
+                element: (
+                    <ProfessionalRouter>
+                        <HealthcareProfessionalsHome />
+                    </ProfessionalRouter>
+                ),
             },
             {
                 path: "admin-home",
-                element: <AdminRouter><AdminHome/></AdminRouter>,
+                element: (
+                    <AdminRouter>
+                        <AdminHome />
+                    </AdminRouter>
+                ),
             },
             {
-                path: 'organizer-profile',
-                element: <OrganizerRouter><OrganizerProfile /></OrganizerRouter>,
+                path: "organizer-profile",
+                element: (
+                    <OrganizerRouter>
+                        <OrganizerProfile />
+                    </OrganizerRouter>
+                ),
             },
             {
-                path: 'add-a-camp',
-                element: <OrganizerRouter><AddCamp /></OrganizerRouter>,
+                path: "add-a-camp",
+                element: (
+                    <OrganizerRouter>
+                        <AddCamp />
+                    </OrganizerRouter>
+                ),
             },
             {
-                path: 'manage-camps',
-                element: <OrganizerRouter><ManageCamps /></OrganizerRouter>,
-            }
+                path: "manage-camps",
+                element: (
+                    <OrganizerRouter>
+                        <ManageCamps />
+                    </OrganizerRouter>
+                ),
+            },
+            {
+                path: "manage-registered-camps",
+                element: (
+                    <OrganizerRouter>
+                        <ManageRegisteredCamps />
+                    </OrganizerRouter>
+                ),
+            },
+            {
+                path: "add-upcoming-camp",
+                element: (
+                    <OrganizerRouter>
+                        <AddUpComingCamp />
+                    </OrganizerRouter>
+                ),
+            },
+            {
+                path: "manage-upcoming-camps",
+                element: (
+                    <OrganizerRouter>
+                        <ManageUpComingCamp />
+                    </OrganizerRouter>
+                ),
+            },
         ],
     },
     {
-        path: '/unAuthorize-Access',
-        element: <Error401/>
-    }
+        path: "/unAuthorize-Access",
+        element: <Error401 />,
+    },
 ]);
 
 export default Router;

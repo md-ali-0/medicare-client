@@ -4,6 +4,7 @@ import useAuth from "./useAuth";
 
 const axiosSecure = axios.create({
     baseURL: 'http://localhost:8080',
+    // baseURL: 'shttp://medicare-server-umber.vercel.app',
 })
 
 const useAxios = () => {

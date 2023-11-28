@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import Loader from "../../components/Loader";
 import SectionTitle from "../../components/SectionTitle";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
-import CampCard from "../Shared/CampCard";
+import CampDetailsCard from "../Shared/CampDetailsCard";
 
 const UpComingCamps = () => {
     const axios = useAxiosPublic();
@@ -24,7 +24,7 @@ const UpComingCamps = () => {
             />
             <div className="grid grid-cols-1 md:grid-cols-3 -m-4 ">
                 {upcomingCamps.slice(0, 3).map((camp) => (
-                    <CampCard key={camp._id} camp={camp} />
+                    <CampDetailsCard key={camp._id} camp={camp} />
                 ))}
             </div>
         </section>

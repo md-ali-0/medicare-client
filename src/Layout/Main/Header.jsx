@@ -55,7 +55,6 @@ const Header = () => {
                                 src={logoImage}
                                 className="w-24 md:w-36"
                                 alt="MediCare Logo"
-                                loading="lazy"
                             />
                         </Link>
                     </div>
@@ -109,7 +108,6 @@ const Header = () => {
                                     onClick={handleDropDown}
                                     src={user?.photoURL}
                                     className="rounded-full w-10 h-10 cursor-pointer"
-                                    loading="lazy"
                                 />
                                 <ul
                                     ref={dropdownRef}

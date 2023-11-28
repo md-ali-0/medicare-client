@@ -14,6 +14,7 @@ const SocialLogin = () => {
         toast.loading("User Login In ... ");
         try {
             const { user } = await googleLogin();
+            console.log(user);
             if (user?.email) {
                 const newUser = {
                     name: user.displayName,

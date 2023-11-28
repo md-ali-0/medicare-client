@@ -60,7 +60,6 @@ const Navbar = ({sidebarCollapse, setSidebarCollapse}) => {
                                     onClick={handleDropDown}
                                     src={user?.photoURL}
                                     className="rounded-full w-10 h-10 cursor-pointer"
-                                    loading="lazy"
                                 />
                                 <ul
                                     ref={dropdownRef}

@@ -1,10 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { BiErrorCircle } from "react-icons/bi";
-import Select from "react-select";
-import makeAnimated from "react-select/animated";
 import { TagInput } from "rsuite";
 import uploader from "../../../Utils/uploader";
 import SectionTitle from "../../../components/SectionTitle";
@@ -12,23 +9,13 @@ import useAuth from "../../../hooks/useAuth";
 import useAxios from "../../../hooks/useAxios";
 import "./AddCamp.css";
 
-const AddCamp = () => {
-    const [options, setOptions] = useState({});
+const AddUpComingCamp = () => {
     const [specializedServices, setSpecializedServices] = useState([]);
     const { user } = useAuth();
     const axios = useAxios();
-    const { data: healthcare_professional = [] } = useQuery({
-        queryKey: ["healthcareProfessional"],
-        enabled: !!user?.email,
-        queryFn: async () => {
-            const res = await axios.get("/get-users?role=healthcare_professional");
-            return res.data;
-        },
-    });
     const {
         register,
         handleSubmit,
-        control,
         reset,
         formState: { errors },
     } = useForm();
@@ -36,7 +23,6 @@ const AddCamp = () => {
         const loadingToast = toast.loading("Camp Creating ... ");
         const {
             campName,
-            specializedProfessionals,
             fees,
             image,
             scheduledDate,
@@ -45,10 +31,9 @@ const AddCamp = () => {
             venueLocation,
             description,
         } = data;
-        const selectedProfessionals = specializedProfessionals.map((option) => option.value);
         const imageFile = { image: image[0] };
         const imageResponse = await uploader({ imageFile });
-        const newCamp = {
+        const newUpComingCamp = {
             campName,
             fees,
             image: imageResponse.data.display_url,
@@ -57,29 +42,21 @@ const AddCamp = () => {
             targetAudience,
             venueLocation,
             description,
-            professionalsAttendanceCount: selectedProfessionals.length,
-            specializedIds: selectedProfessionals,
             specializedServices,
             createdBy: user.email,
         };
         try {
-            const res = await axios.post("/add-a-camp", newCamp);
+            const res = await axios.post("/add-upcoming-camp", newUpComingCamp);
             console.log(res.dada);
             toast.dismiss(loadingToast);
             toast.success("Successfully created!");
-            reset()
+            reset();
+            setSpecializedServices([])
         } catch (error) {
+            toast.dismiss(loadingToast);
             console.log(error);
         }
     };
-    const animatedComponents = makeAnimated();
-    useEffect(() => {
-        const options = healthcare_professional.map((pro) => ({
-            value: pro?._id,
-            label: pro?.name,
-        }));
-        setOptions(options);
-    }, [healthcare_professional]);
     return (
         <div>
             <SectionTitle heading={"Add a Camp"} />
@@ -251,15 +228,6 @@ const AddCamp = () => {
                                         setSpecializedServices(value);
                                     }}
                                 />
-                                {/* <input
-                                id="specializedServices"
-                                type="text"
-                                placeholder="Enter Specialized Services"
-                                {...register("specializedServices", {
-                                    required: "Email is Required",
-                                })}
-                                className="mt-1 p-2 w-full border border-primary/20 rounded-md focus:border-primary/20 outline-none transition-colors duration-300"
-                            /> */}
                                 {errors.specializedServices && (
                                     <div className="text-md text-red-500">
                                         <span>{errors.specializedServices.message}</span>
@@ -267,35 +235,6 @@ const AddCamp = () => {
                                 )}
                             </div>
                             <div className="col-span-full sm:col-span-2">
-                                <label
-                                    htmlFor="scheduledTime"
-                                    className="block text-sm font-medium text-gray-700"
-                                >
-                                    Healthcare Professionals
-                                </label>
-                                <Controller
-                                    name="specializedProfessionals"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <Select
-                                            {...field}
-                                            required
-                                            className="w-full rounded-md outline-none transition-colors duration-300 py-1.5"
-                                            closeMenuOnSelect={false}
-                                            components={animatedComponents}
-                                            isMulti
-                                            options={options}
-                                        />
-                                    )}
-                                ></Controller>
-
-                                {errors.specializedProfessionals && (
-                                    <div className="text-md text-red-500">
-                                        <span>{errors.specializedProfessionals.message}</span>
-                                    </div>
-                                )}
-                            </div>
-                            <div className="col-span-full sm:col-span-3">
                                 <label
                                     htmlFor="targetAudience"
                                     className="block text-sm font-medium text-gray-700"
@@ -356,4 +295,4 @@ const AddCamp = () => {
     );
 };
 
-export default AddCamp;
+export default AddUpComingCamp;

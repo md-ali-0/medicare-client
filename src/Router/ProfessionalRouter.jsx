@@ -1,12 +1,12 @@
 import { Navigate, useLocation } from "react-router-dom";
 import Loader from "../components/Loader";
 import useAuth from "../hooks/useAuth";
-import useOrganizer from "../hooks/useOrganizer";
+import useProfessional from "../hooks/useProfessional";
 
 const ProfessionalRouter = ({ children }) => {
     const location = useLocation();
     const { user, loading } = useAuth();
-    const [professional, isProfessionalPending] = useOrganizer();
+    const [professional, isProfessionalPending] = useProfessional();
 
     if (loading || isProfessionalPending) {
         return <Loader />;

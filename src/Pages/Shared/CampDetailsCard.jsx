@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import useAxios from "../../hooks/useAxios";
 
-const CampCard = ({ camp, joinCamp }) => {
+const CampDetailsCard = ({ camp, attendCamp }) => {
     const {
         _id,
         campName,
@@ -153,11 +153,11 @@ const CampCard = ({ camp, joinCamp }) => {
                     </div>
                     <div
                         className={`flex ${
-                            joinCamp ? "justify-between" : "justify-center"
+                            attendCamp ? "justify-between" : "justify-center"
                         } items-center pt-5`}
                     >
                         <Link
-                            to={`/camp-details/${_id}`}
+                            to={`/upcoming-camp-details/${_id}`}
                             className="text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0"
                         >
                             See Details
@@ -174,7 +174,7 @@ const CampCard = ({ camp, joinCamp }) => {
                                 <path d="M12 5l7 7-7 7" />
                             </svg>
                         </Link>
-                        {joinCamp && (
+                        {attendCamp && (
                             <button
                                 disabled={!user?.email}
                                 onClick={() => setOpenModal(true)}
@@ -457,4 +457,4 @@ const CampCard = ({ camp, joinCamp }) => {
     );
 };
 
-export default CampCard;
+export default CampDetailsCard;

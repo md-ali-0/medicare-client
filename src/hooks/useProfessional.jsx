@@ -8,12 +8,13 @@ const useProfessional = () => {
     
     const {data: isProfessional, isPending: isProfessionalPending} = useQuery({
         queryKey:[user?.email, 'isProfessional'],
-        enabled: !loading && !!user?.email,
+        enabled: !!user?.email && !loading,
         queryFn: async()=>{
             const {data} = await axios.get(`/verify-user/${user?.email}`)
             return data
         }
     })
+    
     if (isProfessional==='healthcare_professional') {
         const professional = true
         return [professional,isProfessionalPending]
