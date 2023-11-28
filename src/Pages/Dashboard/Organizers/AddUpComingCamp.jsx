@@ -4,7 +4,6 @@ import toast from "react-hot-toast";
 import { BiErrorCircle } from "react-icons/bi";
 import { TagInput } from "rsuite";
 import uploader from "../../../Utils/uploader";
-import SectionTitle from "../../../components/SectionTitle";
 import useAuth from "../../../hooks/useAuth";
 import useAxios from "../../../hooks/useAxios";
 import "./AddCamp.css";
@@ -51,7 +50,7 @@ const AddUpComingCamp = () => {
             toast.dismiss(loadingToast);
             toast.success("Successfully created!");
             reset();
-            setSpecializedServices([])
+            setSpecializedServices([]);
         } catch (error) {
             toast.dismiss(loadingToast);
             console.log(error);
@@ -59,7 +58,9 @@ const AddUpComingCamp = () => {
     };
     return (
         <div>
-            <SectionTitle heading={"Add a Camp"} />
+            <div className="flex items-center py-5">
+                <h3 className="font-Quicksand text-primary/80 text-2xl font-bold">Add a Up Coming Camp</h3>
+            </div>
             <div className="bg-white rounded py-2 px-3">
                 <form
                     className="container flex flex-col mx-auto space-y-12"

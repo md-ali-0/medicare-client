@@ -7,7 +7,6 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { TagInput } from "rsuite";
 import uploader from "../../../Utils/uploader";
-import SectionTitle from "../../../components/SectionTitle";
 import useAuth from "../../../hooks/useAuth";
 import useAxios from "../../../hooks/useAxios";
 import "./AddCamp.css";
@@ -82,7 +81,9 @@ const AddCamp = () => {
     }, [healthcare_professional]);
     return (
         <div>
-            <SectionTitle heading={"Add a Camp"} />
+            <div className="flex items-center py-5">
+                <h3 className="font-Quicksand text-primary/80 text-2xl font-bold">Add a Camp</h3>
+            </div>
             <div className="bg-white rounded py-2 px-3">
                 <form
                     className="container flex flex-col mx-auto space-y-12"

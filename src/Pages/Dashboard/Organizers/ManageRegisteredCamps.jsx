@@ -56,7 +56,9 @@ const ManageRegisteredCamps = () => {
             header: "Confirm Status",
             accessorKey: "confirmationStatus",
             cell: ({ cell: { row, } }) => (
-                <button onClick={()=>handleConfirm(row.original._id)} className={`${row.original.confirmationStatus==='approved'?'bg-green-600 rounded disabled:bg-green-500':'bg-red-600 rounded disabled:bg-red-500'} text-white px-1 py-0.5 `}>{row.original.confirmationStatus}</button>
+                <button onClick={()=>handleConfirm(row.original._id)} className={`${row.original.confirmationStatus==='approved'?'bg-green-600 rounded disabled:bg-green-500':'bg-red-600 rounded disabled:bg-red-500'} text-white px-1 py-0.5 `}
+                disabled={row.original.paymentStatus==='pending'}
+                >{row.original.confirmationStatus}</button>
             ),
         },
         {
@@ -67,7 +69,7 @@ const ManageRegisteredCamps = () => {
             header: "Action",
             accessorKey: "_id",
             cell: ({ cell: { row } }) => (
-                <button onClick={()=>handleCancel(row.original._id)} className="bg-red-600 rounded disabled:bg-red-500 text-white px-1 py-0.5 ">Cancel</button>
+                <button disabled={row.original.paymentStatus==='pending'} onClick={()=>handleCancel(row.original._id)} className="bg-red-600 rounded disabled:bg-red-500 text-white px-1 py-0.5 ">Cancel</button>
             ),
         },
     ];
