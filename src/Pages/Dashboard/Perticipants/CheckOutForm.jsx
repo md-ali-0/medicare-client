@@ -14,7 +14,6 @@ const CheckOutForm = ({invoiceData}) => {
     const [errorMassage, setErrorMassage] = useState(null);
     const [transactionId, setTransactionId] = useState("");
     const [clientSecret, setClientSecret] = useState("");
-    console.log(invoiceData);
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!stripe || !elements) {
@@ -70,6 +69,7 @@ const CheckOutForm = ({invoiceData}) => {
             PaymentStatus:'confirmed',
             ConfirmationStatus:'confirmed',
             email:invoiceData.email,
+            transactionId,
             createdBy:invoiceData.createdBy,
         };
         await axios.put(`/update-registered-camp/${invoiceData._id}?paymentStatus=approved`)
