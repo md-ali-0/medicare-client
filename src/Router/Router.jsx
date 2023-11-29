@@ -17,6 +17,7 @@ import ManageRegisteredCamps from "../Pages/Dashboard/Organizers/ManageRegistere
 import ManageUpComingCamp from "../Pages/Dashboard/Organizers/ManageUpComingCamp";
 import OrganizerProfile from "../Pages/Dashboard/Organizers/OrganizerProfile";
 import OrganizersHome from "../Pages/Dashboard/Organizers/OrganizersHome";
+import FeedbackAndRatings from "../Pages/Dashboard/Perticipants/FeedbackAndRatings";
 import ParticipantProfile from "../Pages/Dashboard/Perticipants/ParticipantProfile";
 import Payment from "../Pages/Dashboard/Perticipants/Payment";
 import PaymentHistory from "../Pages/Dashboard/Perticipants/PaymentHistory";
@@ -191,6 +192,14 @@ const Router = createBrowserRouter([
                 element: (
                     <PrivateRouter>
                         <PaymentHistory />
+                    </PrivateRouter>
+                ),
+            },
+            {
+                path: "feedback-and-ratings",
+                element: (
+                    <PrivateRouter>
+                        <FeedbackAndRatings />
                     </PrivateRouter>
                 ),
             },

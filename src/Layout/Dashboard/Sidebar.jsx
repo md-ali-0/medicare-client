@@ -2,6 +2,7 @@ import toast from "react-hot-toast";
 import {
     HiCollection,
     HiOutlineCash,
+    HiOutlineChatAlt,
     HiOutlineCog,
     HiOutlineCube,
     HiOutlineLogout,
@@ -67,6 +68,17 @@ const Sidebar = ({ sidebarCollapse }) => {
                         >
                             <HiOutlineCash className="inline" size={20} />
                             Payment History
+                        </NavLink>
+                        <NavLink
+                            to="feedback-and-ratings"
+                            className={({ isActive }) =>
+                                isActive
+                                    ? "flex items-center gap-2 hover:no-underline bg-[#1E293B] rounded-sm text-white py-2 px-1.5"
+                                    : "flex items-center gap-2 hover:no-underline text-neutral-400 py-2 px-1.5 "
+                            }
+                        >
+                            <HiOutlineChatAlt className="inline" size={20} />
+                            Feedback and Ratings
                         </NavLink>
                     </div>
                 )}

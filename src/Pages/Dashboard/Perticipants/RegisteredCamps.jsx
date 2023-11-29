@@ -17,17 +17,17 @@ const RegisteredCamps = () => {
     const axios = useAxios();
     const { user } = useAuth();
     const {
-        data: manageRegisteredCamps = [],
+        data: registeredCamps = [],
         isLoading,
     } = useQuery({
-        queryKey: ["manageRegisteredCamps"],
+        queryKey: ["registeredCamps"],
         enabled: !!user?.email,
         queryFn: async () => {
             const { data } = await axios.get(`/registered-camps?email=${user?.email}`);
             return data;
         },
     });
-    const data = useMemo(() => manageRegisteredCamps, [manageRegisteredCamps]);
+    const data = useMemo(() => registeredCamps, [registeredCamps]);
     /** @type import('@tanstack/react-table').ColumnDef<any> */
     const columns = [
         {

@@ -4,7 +4,7 @@ import useAuth from "./useAuth";
 
 const axiosSecure = axios.create({
     baseURL: 'http://localhost:8080',
-    // baseURL: 'shttp://medicare-server-umber.vercel.app',
+    // baseURL: 'https://medicare-server-umber.vercel.app',
 })
 
 const useAxios = () => {
@@ -28,7 +28,7 @@ const useAxios = () => {
         const status = error.response.status;
         if (status === 401 || status === 403) {
             await logOut();
-            navigate('/unAuthorize-Access');
+            navigate('/');
         }
         return Promise.reject(error);
     })
