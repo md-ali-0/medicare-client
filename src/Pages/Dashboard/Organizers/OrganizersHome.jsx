@@ -1,6 +1,9 @@
 const OrganizersHome = () => {
     return (
         <div>
+            <div className="flex bg-white shadow rounded-xl justify-center items-center text-3xl py-5">
+                Welcome To Dashboard
+            </div>
             <div className="flex-1 bg-white rounded-lg shadow-xl mt-4 p-8">
                 <h4 className="text-xl text-gray-900 font-bold">Statistics</h4>
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-4">

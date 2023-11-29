@@ -42,7 +42,7 @@ const CampDetailsCard = ({ camp, attendCamp }) => {
     const axios = useAxios();
     const onSubmit = async (data) => {
         const { name, email, phoneNumber, fee, gender, contact, age, address } = data;
-        const newCampRegister = {
+        const newCampAttendantRegister = {
             name,
             email,
             phoneNumber,
@@ -51,27 +51,27 @@ const CampDetailsCard = ({ camp, attendCamp }) => {
             contact,
             age,
             address,
-            campId: _id,
             campName,
-            createdBy,
             image,
             venueLocation,
+            createdBy,
             scheduledDate,
             scheduledTime,
-            paymentStatus: "pending",
-            confirmationStatus: "pending",
+            attendedStatus: "pending",
+            
         };
-
-        const loadingToast = toast.loading("Registering Camp ... ");
+        console.log(newCampAttendantRegister);
+        const loadingToast = toast.loading("Attendant Camp ... ");
         try {
-            const { data } = await axios.post("/add-registered-camp", newCampRegister);
+            const {data} = await axios.post('/add-attendant-camp', newCampAttendantRegister)
             console.log(data);
             if (data._id) {
-                reset();
+                reset()
                 setOpenModal(false);
                 toast.dismiss(loadingToast);
                 toast.success("Successfully created!");
             }
+
         } catch (error) {
             toast.dismiss(loadingToast);
             toast.error(error.code);

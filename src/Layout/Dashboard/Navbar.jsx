@@ -5,6 +5,7 @@ import { HiOutlineSearch } from "react-icons/hi";
 // import { Link } from "react-router-dom";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
+import { CiHome } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import BrandLogo from "../../assets/logo.png";
 import useAdmin from "../../hooks/useAdmin";
@@ -58,6 +59,9 @@ const Navbar = ({ sidebarCollapse, setSidebarCollapse }) => {
                     />
                 </div>
                 <div className="flex items-center gap-2 mr-2">
+                    <div className="flex justify-center items-center px-3 py-2">
+                        <Link to='/' className="bg-gray-100 text-gray-600 rounded px-1.5 py-0.5"><CiHome className="inline mr-2"/>Home</Link>
+                    </div>
                     <div className="relative flex items-center">
                         {/* Second dropdown container */}
                         <div className="relative">

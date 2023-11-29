@@ -8,7 +8,7 @@ import {
     HiOutlineLogout,
     HiOutlineTemplate,
     HiOutlineViewGrid,
-    HiOutlineViewGridAdd
+    HiOutlineViewGridAdd,
 } from "react-icons/hi";
 import { NavLink } from "react-router-dom";
 import useAdmin from "../../hooks/useAdmin";
@@ -153,17 +153,30 @@ const Sidebar = ({ sidebarCollapse }) => {
                     </>
                 )}
                 {user && professional && (
-                    <NavLink
-                        to="professional-profile"
-                        className={({ isActive }) =>
-                            isActive
-                                ? "flex items-center gap-2 hover:no-underline bg-[#1E293B] rounded-sm text-white py-2 px-1.5"
-                                : "flex items-center gap-2 hover:no-underline text-neutral-400 py-2 px-1.5 "
-                        }
-                    >
-                        <HiOutlineCog className="inline" size={20} />
-                        Profile
-                    </NavLink>
+                    <div>
+                        <NavLink
+                            to="professional-home"
+                            className={({ isActive }) =>
+                                isActive
+                                    ? "flex items-center gap-2 hover:no-underline bg-[#1E293B] rounded-sm text-white py-2 px-1.5"
+                                    : "flex items-center gap-2 hover:no-underline text-neutral-400 py-2 px-1.5 "
+                            }
+                        >
+                            <HiOutlineCog className="inline" size={20} />
+                            Dashboard
+                        </NavLink>
+                        <NavLink
+                            to="accepted-camps"
+                            className={({ isActive }) =>
+                                isActive
+                                    ? "flex items-center gap-2 hover:no-underline bg-[#1E293B] rounded-sm text-white py-2 px-1.5"
+                                    : "flex items-center gap-2 hover:no-underline text-neutral-400 py-2 px-1.5 "
+                            }
+                        >
+                            <HiOutlineCog className="inline" size={20} />
+                            Accepted Camps
+                        </NavLink>
+                    </div>
                 )}
             </div>
             <div className="flex flex-col gap-0.5 pt-2 border-t border-slate-700">

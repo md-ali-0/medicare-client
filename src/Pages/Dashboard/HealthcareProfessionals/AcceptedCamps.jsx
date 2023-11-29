@@ -8,29 +8,27 @@ import {
     useReactTable,
 } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
-import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 import Loader from "../../../components/Loader";
 import useAuth from "../../../hooks/useAuth";
 import useAxios from "../../../hooks/useAxios";
 
-const ManageRegisteredCamps = () => {
+const AcceptedCamps = () => {
     const axios = useAxios();
     const { user } = useAuth();
     const {
-        data: manageRegisteredCamps = [],
+        data: AcceptedCamps = [],
         isLoading,
-        refetch,
     } = useQuery({
-        queryKey: ["manageRegisteredCamps"],
+        queryKey: ["AcceptedCamps"],
         enabled: !!user?.email,
         queryFn: async () => {
-            console.log('rendering');
-            const { data } = await axios.get(`/registered-camps?createdBy=${user?.email}`);
+            const { data } = await axios.get(`/accepted-camps?email=${user?.email}`);
             return data;
         },
     });
-    console.log(manageRegisteredCamps);
-    const data = useMemo(() => manageRegisteredCamps, [manageRegisteredCamps]);
+    console.log(AcceptedCamps);
+    const data = useMemo(() => AcceptedCamps, [AcceptedCamps]);
     /** @type import('@tanstack/react-table').ColumnDef<any> */
     const columns = [
         {
@@ -55,26 +53,17 @@ const ManageRegisteredCamps = () => {
         },
         {
             header: "Confirm Status",
-            accessorKey: "confirmationStatus",
+            accessorKey: "attendedStatus",
             cell: ({ cell: { row, } }) => (
-                <button onClick={()=>handleConfirm(row.original._id, row.original.campId)} className={`${row.original.confirmationStatus==='approved'?'bg-green-600 rounded disabled:bg-green-500':'bg-red-600 rounded disabled:bg-red-500'} text-white px-1 py-0.5 `}
-                disabled={row.original.paymentStatus==='pending' || row.original.confirmationStatus==='approved'}
-                >{row.original.confirmationStatus==='approved'?'Approved':'Pending'}</button>
-            ),
-        },
-        {
-            header: "Payment Status",
-            accessorKey: "paymentStatus",
-            cell: ({ cell: { row, } }) => (
-                <span className={`${row.original.paymentStatus==='approved'?'bg-green-600 rounded disabled:bg-green-500':'bg-red-600 rounded disabled:bg-red-500'} text-white px-1 py-0.5 `}
-                >{row.original.paymentStatus==='approved'?'Paid':'Unpaid'}</span>
+                <span className={`${row.original.attendedStatus==='approved'?'bg-green-600 rounded disabled:bg-green-500':'bg-red-600 rounded disabled:bg-red-500'} text-white px-1 py-0.5 `}
+                >{row.original.attendedStatus==='approved'?'Approved':'Pending'}</span>
             ),
         },
         {
             header: "Action",
             accessorKey: "_id",
             cell: ({ cell: { row } }) => (
-                <button disabled={row.original.paymentStatus==='pending' || row.original.confirmationStatus==='approved'} onClick={()=>handleCancel(row.original._id)} className="bg-red-600 rounded disabled:bg-red-500 text-white px-1 py-0.5 ">Cancel</button>
+                <Link to={`/upcoming-camp-details/${row.original.campId}`} className="bg-sky-400 rounded disabled:bg-gray-500 text-white px-1 py-0.5 ">Details</Link>
             ),
         },
     ];
@@ -94,57 +83,7 @@ const ManageRegisteredCamps = () => {
         onSortingChange: setSorting,
         onGlobalFilterChange: setFiltering,
     });
-    const handleConfirm = async(id, campId)=>{
-        try {
-            const swalConfirm = await Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, Approve!",
-            })
-            if (swalConfirm.isConfirmed) {
-                await axios.put(`/update-registered-camp/${id}?confirmationStatus=approved`)
-                await axios.put(`/update-camp-participant-count/${campId}`)
-                refetch()
-                Swal.fire({
-                    title: "Approved!",
-                    text: "Your Perticipants has been approved.",
-                    icon: "success",
-                });
-            }
-        } catch (error) {
-            console.log(error);
-        }
-        refetch()
-    }
-    const handleCancel = async(id)=>{
-        try {
-            const swalConfirm = await Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, Cancel!",
-            })
-            if (swalConfirm.isConfirmed) {
-                await axios.put(`/update-registered-camp/${id}?confirmationStatus=canceled`)
-                refetch()
-                Swal.fire({
-                    title: "Canceled!",
-                    text: "Your Perticipants has been approved.",
-                    icon: "success",
-                });
-            }
-        } catch (error) {
-            console.log(error);
-        }
-        refetch()
-    }
+    
     if (isLoading) {
         return <Loader/>
     }
@@ -152,7 +91,7 @@ const ManageRegisteredCamps = () => {
         <div>
             <div className="flex justify-between items-center py-5">
                 <h3 className="font-Quicksand text-primary/80 text-2xl font-bold">
-                    Manage Registered Camps
+                    Registered Camps
                 </h3>
                 <div className="block relative">
                     <input
@@ -164,7 +103,7 @@ const ManageRegisteredCamps = () => {
                 </div>
             </div>
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                <table className="w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         {table.getHeaderGroups().map((headerGroup) => (
                             <tr key={headerGroup.id}>
@@ -244,4 +183,4 @@ const ManageRegisteredCamps = () => {
     );
 };
 
-export default ManageRegisteredCamps;
+export default AcceptedCamps;

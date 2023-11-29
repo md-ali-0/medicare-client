@@ -16,6 +16,7 @@ const UpComingCampDetails = () => {
     const [openModal, setOpenModal] = useState(false);
     const axios = useAxios()
     const {
+        _id,
         campName,
         image,
         participantCount,
@@ -51,6 +52,7 @@ const UpComingCampDetails = () => {
             age,
             address,
             campName,
+            campId:_id,
             image,
             venueLocation,
             createdBy,

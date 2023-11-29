@@ -9,7 +9,9 @@ import CampDetails from "../Pages/CampDetails/CampDetails";
 import UpComingCampDetails from "../Pages/CampDetails/UpComingCampDetails";
 import Contact from "../Pages/Contact/Contact";
 import AdminHome from "../Pages/Dashboard/Admin/AdminHome";
+import AcceptedCamps from "../Pages/Dashboard/HealthcareProfessionals/AcceptedCamps";
 import HealthcareProfessionalsHome from "../Pages/Dashboard/HealthcareProfessionals/HealthcareProfessionalsHome";
+import ProfessionalProfile from "../Pages/Dashboard/HealthcareProfessionals/ProfessionalProfile";
 import AddCamp from "../Pages/Dashboard/Organizers/AddCamp";
 import AddUpComingCamp from "../Pages/Dashboard/Organizers/AddUpComingCamp";
 import ManageCamps from "../Pages/Dashboard/Organizers/ManageCamps";
@@ -97,14 +99,6 @@ const Router = createBrowserRouter([
                     <OrganizerRouter>
                         <OrganizersHome />
                     </OrganizerRouter>
-                ),
-            },
-            {
-                path: "professional-home",
-                element: (
-                    <ProfessionalRouter>
-                        <HealthcareProfessionalsHome />
-                    </ProfessionalRouter>
                 ),
             },
             {
@@ -201,6 +195,30 @@ const Router = createBrowserRouter([
                     <PrivateRouter>
                         <FeedbackAndRatings />
                     </PrivateRouter>
+                ),
+            },
+            {
+                path: "professional-home",
+                element: (
+                    <ProfessionalRouter>
+                        <HealthcareProfessionalsHome />
+                    </ProfessionalRouter>
+                ),
+            },
+            {
+                path: "professional-profile",
+                element: (
+                    <ProfessionalRouter>
+                        <ProfessionalProfile />
+                    </ProfessionalRouter>
+                ),
+            },
+            {
+                path: "accepted-camps",
+                element: (
+                    <ProfessionalRouter>
+                        <AcceptedCamps />
+                    </ProfessionalRouter>
                 ),
             },
         ],

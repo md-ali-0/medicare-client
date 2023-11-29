@@ -69,7 +69,6 @@ const CheckOutForm = ({invoiceData}) => {
             PaymentStatus:'confirmed',
             ConfirmationStatus:'confirmed',
             email:invoiceData.email,
-            transactionId,
             createdBy:invoiceData.createdBy,
         };
         await axios.put(`/update-registered-camp/${invoiceData._id}?paymentStatus=approved`)
