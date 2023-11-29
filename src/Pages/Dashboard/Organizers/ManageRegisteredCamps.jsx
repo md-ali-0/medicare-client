@@ -56,7 +56,7 @@ const ManageRegisteredCamps = () => {
             header: "Confirm Status",
             accessorKey: "confirmationStatus",
             cell: ({ cell: { row, } }) => (
-                <button onClick={()=>handleConfirm(row.original._id)} className={`${row.original.confirmationStatus==='approved'?'bg-green-600 rounded disabled:bg-green-500':'bg-red-600 rounded disabled:bg-red-500'} text-white px-1 py-0.5 `}
+                <button onClick={()=>handleConfirm(row.original._id, row.original.campId)} className={`${row.original.confirmationStatus==='approved'?'bg-green-600 rounded disabled:bg-green-500':'bg-red-600 rounded disabled:bg-red-500'} text-white px-1 py-0.5 `}
                 disabled={row.original.paymentStatus==='pending'}
                 >{row.original.confirmationStatus}</button>
             ),
@@ -93,7 +93,7 @@ const ManageRegisteredCamps = () => {
         onSortingChange: setSorting,
         onGlobalFilterChange: setFiltering,
     });
-    const handleConfirm = async(id)=>{
+    const handleConfirm = async(id, campId)=>{
         try {
             const swalConfirm = await Swal.fire({
                 title: "Are you sure?",
@@ -106,7 +106,7 @@ const ManageRegisteredCamps = () => {
             })
             if (swalConfirm.isConfirmed) {
                 await axios.put(`/update-registered-camp/${id}?confirmationStatus=approved`)
-                
+                await axios.put(`/update-camp-participant-count/${campId}`)
                 refetch()
                 Swal.fire({
                     title: "Approved!",

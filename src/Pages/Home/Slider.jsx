@@ -1,4 +1,10 @@
-import { Carousel } from "flowbite-react";
+import { Swiper, SwiperSlide } from "swiper/react";
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+
+// import required modules
+import { Autoplay, Navigation } from 'swiper/modules';
 
 const Slider = () => {
     const slides = [
@@ -34,12 +40,26 @@ const Slider = () => {
         },
     ];
     return (
-        <div className="h-96 sm:h-[420px] xl:h-[580px] 2xl:h-96 py-8 px-3">
-            <Carousel>
+        <div className="px-3 py-8">
+            <Swiper
+                style={{
+                    "--swiper-navigation-color": "#fff",
+                    "--swiper-pagination-color": "#fff",
+                }}
+                autoplay={{
+                    delay: 2500,
+                    disableOnInteraction: false,
+                  }}
+                navigation={true}
+                modules={[Autoplay, Navigation]}
+                className="mySwiper rounded-xl"
+            >
                 {slides.map((img) => (
-                    <img key={img.url} src={img.url} />
+                    <SwiperSlide key={img.url}>
+                        <img className="object-cover object-center w-full" src={img.url} />
+                    </SwiperSlide>
                 ))}
-            </Carousel>
+            </Swiper>
         </div>
     );
 };

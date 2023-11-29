@@ -33,7 +33,8 @@
     "react-select": "^5.8.0",
     "rsuite": "^5.46.0",
     "sort-by": "^0.0.2",
-    "sweetalert2": "^11.10.1"
+    "sweetalert2": "^11.10.1",
+    "swiper": "^11.0.5"
   },
   "devDependencies": {
     "@types/react": "^18.2.37",
