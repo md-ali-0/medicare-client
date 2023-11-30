@@ -58,7 +58,7 @@ const Navbar = ({ sidebarCollapse, setSidebarCollapse }) => {
                         className="text-sm focus:outline-none active:outline-none border border-gray-300 h-10 pl-11 pr-4 rounded-sm"
                     />
                 </div>
-                <div className="flex items-center gap-2 mr-2">
+                <div className="flex items-center gap-2">
                     <div className="flex justify-center items-center px-3 py-2">
                         <Link to='/' className="bg-gray-100 text-gray-600 rounded px-1.5 py-0.5"><CiHome className="inline mr-2"/>Home</Link>
                     </div>
@@ -107,6 +107,19 @@ const Navbar = ({ sidebarCollapse, setSidebarCollapse }) => {
                                     <li>
                                         <Link
                                             to="professional-profile"
+                                            className="rounded w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent 
+                                            flex items-center gap-2
+                                            "
+                                        >
+                                            <FiUser className="inline-block" size={15} />
+                                            Profile
+                                        </Link>
+                                    </li>
+                                )}
+                                {user && admin && (
+                                    <li>
+                                        <Link
+                                            to="admin-profile"
                                             className="rounded w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent 
                                             flex items-center gap-2
                                             "

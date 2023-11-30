@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import { Modal } from "flowbite-react";
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
@@ -6,10 +7,21 @@ import toast from "react-hot-toast";
 import { BiErrorCircle } from "react-icons/bi";
 import { CiEdit } from "react-icons/ci";
 import uploader from "../../../Utils/uploader";
+import Loader from "../../../components/Loader";
 import useAuth from "../../../hooks/useAuth";
+import useAxios from "../../../hooks/useAxios";
 
 const ProfessionalProfile = () => {
+    const axios = useAxios();
     const { user, userUpdate, userPasswordUpdate, setLoading } = useAuth();
+    const { data: profileAcceptedCamps = [], isLoading } = useQuery({
+        queryKey: ["profileAcceptedCamps"],
+        enabled: !!user?.email,
+        queryFn: async () => {
+            const { data } = await axios.get(`/accepted-camps?email=${user?.email}`);
+            return data;
+        },
+    });
     const [openModal, setOpenModal] = useState(false);
     function onCloseModal() {
         setOpenModal(false);
@@ -48,6 +60,9 @@ const ProfessionalProfile = () => {
             }
         }
     };
+    if (isLoading) {
+        return <Loader/>
+    }
     return (
         <div>
             <Helmet>
@@ -92,10 +107,6 @@ const ProfessionalProfile = () => {
                                 <span className="text-gray-700">{user?.displayName}</span>
                             </li>
                             <li className="flex border-b py-2">
-                                <span className="font-bold w-24">Mobile:</span>
-                                <span className="text-gray-700">{user?.phoneNumber}</span>
-                            </li>
-                            <li className="flex border-b py-2">
                                 <span className="font-bold w-24">Email:</span>
                                 <span className="text-gray-700">{user?.email}</span>
                             </li>
@@ -111,6 +122,22 @@ const ProfessionalProfile = () => {
                                     {user?.metadata?.creationTime}
                                 </span>
                             </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div className="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
+                <div className="w-full flex flex-col 2xl:w-1/3">
+                    <div className="flex-1 bg-white rounded-lg shadow-xl p-8">
+                        <h4 className="text-xl text-gray-900 font-bold">Attended Camps</h4>
+                        <ul className="mt-2 text-gray-700">
+                            {profileAcceptedCamps.slice(0,5).map((camp) => (
+                                <li key={camp._id} className="flex gap-5 border-y py-2">
+                                    <span className="font-bold">CampName: <span className="text-gray-700 font-normal">{camp?.name}</span></span>
+                                    <span className="font-bold">Venue: <span className="text-gray-700 font-normal">{camp?.venueLocation}</span></span>
+                                    <span className="font-bold">Scheduled Date: <span className="text-gray-700 font-normal">{new Date(camp?.scheduledDate).toDateString()}</span></span>
+                                </li>
+                            ))}
                         </ul>
                     </div>
                 </div>

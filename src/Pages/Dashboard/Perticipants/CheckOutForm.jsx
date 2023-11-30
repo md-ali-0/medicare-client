@@ -165,6 +165,11 @@ const CheckOutForm = ({invoiceData}) => {
                             <span className="text-red-600">{errorMassage}</span>
                         </div>
                     )}
+                    {transactionId && (
+                        <div className="">
+                            <span className="text-green-600 center">Your Transaction ID: {transactionId}</span>
+                        </div>
+                    )}
                     <div>
                         <button className="block w-full max-w-xs mx-auto bg-primary hover:bg-primary/90 focus:bg-primary/80 text-white rounded-lg px-3 py-3 font-semibold">
                             Pay Now

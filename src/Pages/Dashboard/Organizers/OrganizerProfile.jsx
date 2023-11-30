@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import { Modal } from "flowbite-react";
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
@@ -6,10 +7,24 @@ import toast from "react-hot-toast";
 import { BiErrorCircle } from "react-icons/bi";
 import { CiEdit } from "react-icons/ci";
 import uploader from "../../../Utils/uploader";
+import Loader from "../../../components/Loader";
 import useAuth from "../../../hooks/useAuth";
+import useAxios from "../../../hooks/useAxios";
 
 const OrganizerProfile = () => {
     const { user, userUpdate, userPasswordUpdate, setLoading } = useAuth();
+    const axios = useAxios();
+    const {
+        data: profileArrangeCamps = [],
+        isLoading,
+    } = useQuery({
+        queryKey: ["profileArrangeCamps"],
+        enabled: !!user?.email,
+        queryFn: async () => {
+            const { data } = await axios.get(`/camps?createdBy=${user?.email}`);
+            return data;
+        },
+    });
     const [openModal, setOpenModal] = useState(false);
     function onCloseModal() {
         setOpenModal(false);
@@ -48,6 +63,9 @@ const OrganizerProfile = () => {
             }
         }
     };
+    if (isLoading) {
+        return <Loader/>
+    }
     return (
         <div>
             <Helmet>
@@ -89,10 +107,6 @@ const OrganizerProfile = () => {
                                 <span className="text-gray-700">{user?.displayName}</span>
                             </li>
                             <li className="flex border-b py-2">
-                                <span className="font-bold w-24">Mobile:</span>
-                                <span className="text-gray-700">{user?.phoneNumber}</span>
-                            </li>
-                            <li className="flex border-b py-2">
                                 <span className="font-bold w-24">Email:</span>
                                 <span className="text-gray-700">{user?.email}</span>
                             </li>
@@ -108,6 +122,23 @@ const OrganizerProfile = () => {
                                     {user?.metadata?.creationTime}
                                 </span>
                             </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div className="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
+                <div className="w-full flex flex-col 2xl:w-1/3">
+                    <div className="flex-1 bg-white rounded-lg shadow-xl p-8">
+                        <h4 className="text-xl text-gray-900 font-bold">Last Attended 5 Camps</h4>
+                        <ul className="mt-2 text-gray-700">
+                            {profileArrangeCamps.slice(0,5).map((camp) => (
+                                <li key={camp._id} className="flex gap-5 border-y py-2">
+                                    <span className="font-bold">CampName: <span className="text-gray-700 font-normal">{camp?.campName}</span></span>
+                                    <span className="font-bold">Venue: <span className="text-gray-700 font-normal">{camp?.venueLocation}</span></span>
+                                    <span className="font-bold">Scheduled Date: <span className="text-gray-700 font-normal">{new Date(camp?.scheduledDate).toDateString()}</span></span>
+                                </li>
+                            ))}
                         </ul>
                     </div>
                 </div>
@@ -268,7 +299,7 @@ const OrganizerProfile = () => {
                                 type="submit"
                                 className="mx-auto rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary/95 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary/90 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary/90"
                             >
-                                Submit
+                                Update
                             </button>
                         </form>
                     </div>

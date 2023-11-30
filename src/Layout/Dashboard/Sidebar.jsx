@@ -7,8 +7,8 @@ import {
     HiOutlineCube,
     HiOutlineLogout,
     HiOutlineTemplate,
-    HiOutlineViewGrid,
-    HiOutlineViewGridAdd,
+    HiOutlineUsers,
+    HiOutlineViewGridAdd
 } from "react-icons/hi";
 import { NavLink } from "react-router-dom";
 import useAdmin from "../../hooks/useAdmin";
@@ -92,7 +92,7 @@ const Sidebar = ({ sidebarCollapse }) => {
                                     : "flex items-center gap-2 hover:no-underline text-neutral-400 py-2 px-1.5 "
                             }
                         >
-                            <HiOutlineViewGrid className="inline" size={20} />
+                            <HiOutlineViewGridAdd className="inline" size={20} />
                             Dashboard
                         </NavLink>
                         <NavLink
@@ -163,6 +163,43 @@ const Sidebar = ({ sidebarCollapse }) => {
                         </NavLink>
                     </>
                 )}
+                {user && admin && (
+                    <div>
+                        <NavLink
+                            to="admin-home"
+                            className={({ isActive }) =>
+                                isActive
+                                    ? "flex items-center gap-2 hover:no-underline bg-[#1E293B] rounded-sm text-white py-2 px-1.5"
+                                    : "flex items-center gap-2 hover:no-underline text-neutral-400 py-2 px-1.5 "
+                            }
+                        >
+                            <HiOutlineViewGridAdd className="inline" size={20} />
+                            Dashboard
+                        </NavLink>
+                        <NavLink
+                            to="users"
+                            className={({ isActive }) =>
+                                isActive
+                                    ? "flex items-center gap-2 hover:no-underline bg-[#1E293B] rounded-sm text-white py-2 px-1.5"
+                                    : "flex items-center gap-2 hover:no-underline text-neutral-400 py-2 px-1.5 "
+                            }
+                        >
+                            <HiOutlineUsers className="inline" size={20} />
+                            Users
+                        </NavLink>
+                        <NavLink
+                            to="settings"
+                            className={({ isActive }) =>
+                                isActive
+                                    ? "flex items-center gap-2 hover:no-underline bg-[#1E293B] rounded-sm text-white py-2 px-1.5"
+                                    : "flex items-center gap-2 hover:no-underline text-neutral-400 py-2 px-1.5 "
+                            }
+                        >
+                            <HiOutlineCog className="inline" size={20} />
+                            Settings
+                        </NavLink>
+                    </div>
+                )}
                 {user && professional && (
                     <div>
                         <NavLink
@@ -173,7 +210,7 @@ const Sidebar = ({ sidebarCollapse }) => {
                                     : "flex items-center gap-2 hover:no-underline text-neutral-400 py-2 px-1.5 "
                             }
                         >
-                            <HiOutlineCog className="inline" size={20} />
+                            <HiOutlineViewGridAdd className="inline" size={20} />
                             Dashboard
                         </NavLink>
                         <NavLink
@@ -220,6 +257,19 @@ const Sidebar = ({ sidebarCollapse }) => {
                 {user && professional && (
                     <NavLink
                         to="professional-profile"
+                        className={({ isActive }) =>
+                            isActive
+                                ? "flex items-center gap-2 hover:no-underline bg-[#1E293B] rounded-sm text-white py-2 px-1.5"
+                                : "flex items-center gap-2 hover:no-underline text-neutral-400 py-2 px-1.5 "
+                        }
+                    >
+                        <HiOutlineCog className="inline" size={20} />
+                        Profile
+                    </NavLink>
+                )}
+                {user && admin && (
+                    <NavLink
+                        to="admin-profile"
                         className={({ isActive }) =>
                             isActive
                                 ? "flex items-center gap-2 hover:no-underline bg-[#1E293B] rounded-sm text-white py-2 px-1.5"

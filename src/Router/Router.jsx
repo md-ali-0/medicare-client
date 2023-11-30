@@ -9,6 +9,9 @@ import CampDetails from "../Pages/CampDetails/CampDetails";
 import UpComingCampDetails from "../Pages/CampDetails/UpComingCampDetails";
 import Contact from "../Pages/Contact/Contact";
 import AdminHome from "../Pages/Dashboard/Admin/AdminHome";
+import AdminProfile from "../Pages/Dashboard/Admin/AdminProfile";
+import Settings from "../Pages/Dashboard/Admin/Settings";
+import Users from "../Pages/Dashboard/Admin/Users";
 import AcceptedCamps from "../Pages/Dashboard/HealthcareProfessionals/AcceptedCamps";
 import HealthcareProfessionalsHome from "../Pages/Dashboard/HealthcareProfessionals/HealthcareProfessionalsHome";
 import ProfessionalProfile from "../Pages/Dashboard/HealthcareProfessionals/ProfessionalProfile";
@@ -228,6 +231,30 @@ const Router = createBrowserRouter([
                     <ProfessionalRouter>
                         <AcceptedCamps />
                     </ProfessionalRouter>
+                ),
+            },
+            {
+                path: "admin-profile",
+                element: (
+                    <AdminRouter>
+                        <AdminProfile />
+                    </AdminRouter>
+                ),
+            },
+            {
+                path: "users",
+                element: (
+                    <AdminRouter>
+                        <Users />
+                    </AdminRouter>
+                ),
+            },
+            {
+                path: "settings",
+                element: (
+                    <AdminRouter>
+                        <Settings />
+                    </AdminRouter>
                 ),
             },
         ],

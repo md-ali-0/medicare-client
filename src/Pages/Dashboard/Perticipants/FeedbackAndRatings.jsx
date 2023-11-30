@@ -58,6 +58,11 @@ const FeedbackAndRatings = () => {
         {
             header: "Scheduled Date",
             accessorKey: "scheduledDate",
+            cell: ({ cell: { row } }) => (
+                <span>
+                    {new Date(row.original.scheduledDate).toLocaleDateString()}
+                </span>
+            ),
         },
         {
             header: "Scheduled Time",
