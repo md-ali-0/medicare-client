@@ -8,72 +8,93 @@ import {
     useReactTable,
 } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
+import { PiCheckBold, PiProhibit } from "react-icons/pi";
 import Swal from "sweetalert2";
 import Loader from "../../../components/Loader";
 import useAuth from "../../../hooks/useAuth";
 import useAxios from "../../../hooks/useAxios";
 
-const ManageRegisteredCamps = () => {
+const ManageRequested = () => {
     const axios = useAxios();
     const { user } = useAuth();
     const {
-        data: manageRegisteredCamps = [],
+        data: manageRequestedCamps = [],
         isLoading,
         refetch,
     } = useQuery({
-        queryKey: ["manageRegisteredCamps"],
+        queryKey: ["manageRequestedCamps"],
         enabled: !!user?.email,
         queryFn: async () => {
-            const { data } = await axios.get(`/registered-camps?createdBy=${user?.email}`);
+            const { data } = await axios.get(`/accepted-camps?createdBy=${user?.email}`);
             return data;
         },
     });
-    console.log(manageRegisteredCamps);
-    const data = useMemo(() => manageRegisteredCamps, [manageRegisteredCamps]);
+    console.log(manageRequestedCamps);
+    const data = useMemo(() => manageRequestedCamps, [manageRequestedCamps]);
     /** @type import('@tanstack/react-table').ColumnDef<any> */
     const columns = [
         {
-            header: "Name",
+            header: "Camp Name",
             accessorKey: "campName",
         },
         {
-            header: "Fees",
-            accessorKey: "fee",
+            header: "Name",
+            accessorKey: "name",
         },
         {
-            header: "Scheduled Date",
-            accessorKey: "scheduledDate",
+            header: "Age",
+            accessorKey: "age",
         },
         {
-            header: "Scheduled Time",
-            accessorKey: "scheduledTime",
+            header: "Phone",
+            accessorKey: "phoneNumber",
         },
         {
-            header: "Venue",
-            accessorKey: "venueLocation",
+            header: "As a",
+            accessorKey: "role",
         },
         {
-            header: "Confirm Status",
-            accessorKey: "confirmationStatus",
-            cell: ({ cell: { row, } }) => (
-                <button onClick={()=>handleConfirm(row.original._id, row.original.campId)} className={`${row.original.confirmationStatus==='approved'?'bg-green-600 rounded disabled:bg-green-500':'bg-red-600 rounded disabled:bg-red-500'} text-white px-1 py-0.5 `}
-                disabled={row.original.paymentStatus==='pending' || row.original.confirmationStatus==='approved'}
-                >{row.original.confirmationStatus==='approved'?'Approved':'Pending'}</button>
-            ),
+            header: "Gender",
+            accessorKey: "gender",
         },
         {
-            header: "Payment Status",
-            accessorKey: "paymentStatus",
-            cell: ({ cell: { row, } }) => (
-                <span className={`${row.original.paymentStatus==='approved'?'bg-green-600 rounded disabled:bg-green-500':'bg-red-600 rounded disabled:bg-red-500'} text-white px-1 py-0.5 `}
-                >{row.original.paymentStatus==='approved'?'Paid':'Unpaid'}</span>
+            header: "Address",
+            accessorKey: "address",
+        },
+        {
+            header: "Status",
+            accessorKey: "attendedStatus",
+            cell: ({ cell: { row } }) => (
+                <span
+                    className={`${
+                        row.original.attendedStatus === "approved"
+                            ? " text-green-500 rounded"
+                            : " text-red-700 rounded"
+                    } bg-gray-200 font-medium px-2 py-1 `}
+                >
+                    {row.original.attendedStatus === "approved" ? "Approved" : "Pending"}
+                </span>
             ),
         },
         {
             header: "Action",
             accessorKey: "_id",
             cell: ({ cell: { row } }) => (
-                <button disabled={row.original.paymentStatus==='pending' || row.original.confirmationStatus==='approved'} onClick={()=>handleCancel(row.original._id)} className="bg-red-600 rounded disabled:bg-red-500 text-white px-1 py-0.5 ">Cancel</button>
+                <div>
+                    <button
+                        onClick={() => handleConfirm(row.original._id,row.original.campId, row.original.role)}
+                        disabled={row.original.attendedStatus === "approved"}
+                    >
+                        <PiCheckBold size={20} className="text-green-500" />
+                    </button>
+                    <button
+                        disabled={row.original.attendedStatus === "approved"}
+                        onClick={() => handleCancel(row.original._id,row.original.campId, row.original.role)}
+                        className="px-1 py-0.5 "
+                    >
+                        <PiProhibit size={20} className="text-red-500" />
+                    </button>
+                </div>
             ),
         },
     ];
@@ -93,7 +114,15 @@ const ManageRegisteredCamps = () => {
         onSortingChange: setSorting,
         onGlobalFilterChange: setFiltering,
     });
-    const handleConfirm = async(id, campId)=>{
+    const handleConfirm = async (id, campId, role) => {
+        let increase ={}
+        if (role==='professional') {
+            increase.professionalsAttendanceCount = 1
+        }
+        if (role==='participant') {
+            increase.participantCount =1
+        }
+        console.log(increase);
         try {
             const swalConfirm = await Swal.fire({
                 title: "Are you sure?",
@@ -103,11 +132,11 @@ const ManageRegisteredCamps = () => {
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Yes, Approve!",
-            })
+            });
             if (swalConfirm.isConfirmed) {
-                await axios.put(`/update-registered-camp/${id}?confirmationStatus=approved`)
-                await axios.put(`/update-camp-participant-count/${campId}`)
-                refetch()
+                await axios.put(`/update-attendant-camps-status/${id}?attendedStatus=approved`);
+                await axios.put(`/update-upcoming-camp-count/${campId}?`,increase);
+                refetch();
                 Swal.fire({
                     title: "Approved!",
                     text: "Your Perticipants has been approved.",
@@ -117,9 +146,9 @@ const ManageRegisteredCamps = () => {
         } catch (error) {
             console.log(error);
         }
-        refetch()
-    }
-    const handleCancel = async(id)=>{
+        refetch();
+    };
+    const handleCancel = async (id) => {
         try {
             const swalConfirm = await Swal.fire({
                 title: "Are you sure?",
@@ -129,29 +158,29 @@ const ManageRegisteredCamps = () => {
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Yes, Cancel!",
-            })
+            });
             if (swalConfirm.isConfirmed) {
-                await axios.put(`/update-registered-camp/${id}?confirmationStatus=canceled`)
-                refetch()
+                await axios.put(`/update-attendant-camps-status/${id}?attendedStatus=canceled`);
+                refetch();
                 Swal.fire({
                     title: "Canceled!",
-                    text: "Your Perticipants has been Canceled.",
+                    text: "Your Perticipants has been approved.",
                     icon: "success",
                 });
             }
         } catch (error) {
             console.log(error);
         }
-        refetch()
-    }
+        refetch();
+    };
     if (isLoading) {
-        return <Loader/>
+        return <Loader />;
     }
     return (
         <div>
             <div className="flex justify-between items-center py-5">
                 <h3 className="font-Quicksand text-primary/80 text-2xl font-bold">
-                    Manage Registered Camps
+                    Review Upcoming Camps Requested
                 </h3>
                 <div className="block relative">
                     <input
@@ -243,4 +272,4 @@ const ManageRegisteredCamps = () => {
     );
 };
 
-export default ManageRegisteredCamps;
+export default ManageRequested;

@@ -12,6 +12,7 @@ import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { BiErrorCircle } from "react-icons/bi";
+import { Link } from "react-router-dom";
 import { TagInput } from "rsuite";
 import Swal from "sweetalert2";
 import uploader from "../../../Utils/uploader";
@@ -99,6 +100,13 @@ const ManageUpComingCamp = () => {
             accessorKey: "_id",
             cell: ({ cell: { row } }) => (
                 <button onClick={() => handleDelete(row.original._id)} className="bg-red-600 rounded text-white px-1 py-0.5 ">Delete</button>
+            ),
+        },
+        {
+            header: "Action",
+            accessorKey: "_id",
+            cell: () => (
+                <Link to='/dashboard/manage-requested-camps' className="bg-sky-600 text-white rounded px-2 py-1.5">Review</Link>
             ),
         },
     ];

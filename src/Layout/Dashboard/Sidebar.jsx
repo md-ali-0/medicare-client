@@ -150,6 +150,17 @@ const Sidebar = ({ sidebarCollapse }) => {
                             <HiCollection className="inline" size={20} />
                             Manage Up Coming
                         </NavLink>
+                        <NavLink
+                            to="manage-requested-camps"
+                            className={({ isActive }) =>
+                                isActive
+                                    ? "flex items-center gap-2 bg-[#1E293B] hover:no-underline rounded-sm text-white py-2 px-1.5"
+                                    : "flex items-center gap-2 hover:no-underline text-neutral-400 py-2 px-1.5 "
+                            }
+                        >
+                            <HiCollection className="inline" size={20} />
+                            Upcoming Camp Review
+                        </NavLink>
                     </>
                 )}
                 {user && professional && (

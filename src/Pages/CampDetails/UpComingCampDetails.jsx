@@ -6,13 +6,19 @@ import { BiErrorCircle } from "react-icons/bi";
 import { CiBadgeDollar, CiCircleCheck, CiLocationOn, CiStethoscope, CiUser } from "react-icons/ci";
 import { useLoaderData } from "react-router-dom";
 import Container from "../../components/Container";
+import useAdmin from "../../hooks/useAdmin";
 import useAuth from "../../hooks/useAuth";
 import useAxios from "../../hooks/useAxios";
+import useOrganizer from "../../hooks/useOrganizer";
 import useProfessional from "../../hooks/useProfessional";
 
 const UpComingCampDetails = () => {
     const { data: camp = {} } = useLoaderData();
+    const [userRole, setUserRole] = useState(undefined) 
     const { user } = useAuth();
+    const [admin] = useAdmin();
+    const [professional] = useProfessional();
+    const [organizer] = useOrganizer();
     const [openModal, setOpenModal] = useState(false);
     const axios = useAxios()
     const {
@@ -32,6 +38,7 @@ const UpComingCampDetails = () => {
     } = camp;
     function onCloseModal() {
         setOpenModal(false);
+        setUserRole(undefined)
     }
 
     const {
@@ -53,6 +60,7 @@ const UpComingCampDetails = () => {
             address,
             campName,
             campId:_id,
+            role:userRole,
             image,
             venueLocation,
             createdBy,
@@ -61,7 +69,7 @@ const UpComingCampDetails = () => {
             attendedStatus: "pending",
             
         };
-        console.log(newCampAttendantRegister);
+        console.log(userRole);
         const loadingToast = toast.loading("Attendant Camp ... ");
         try {
             const {data} = await axios.post('/add-attendant-camp', newCampAttendantRegister)
@@ -78,7 +86,6 @@ const UpComingCampDetails = () => {
             toast.error(error.code);
         }
     };
-    const [professional] = useProfessional();
     return (
         <Container>
             <div className="mx-auto max-w-screen-xl pt-28 text-center">
@@ -143,10 +150,23 @@ const UpComingCampDetails = () => {
                 <div className="flex justify-center items-center py-5">
                     <button
                         disabled={!professional}
-                        onClick={() => setOpenModal(true)}
+                        onClick={() => {
+                            setOpenModal(true)
+                            setUserRole('professional')
+                        }}
                         className="text-white disabled:bg-gradient-to-br disabled:from-slate-400 disabled:via-slate-700 disabled:to-slate-900 bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                     >
                         Attend This Camp
+                    </button>
+                    <button
+                        disabled={!user || admin ||organizer||professional}
+                        onClick={() => {
+                            setOpenModal(true)
+                            setUserRole('participant')
+                        }}
+                        className="text-white disabled:bg-gradient-to-br disabled:from-slate-400 disabled:via-slate-700 disabled:to-slate-900 bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                    >
+                        Join This Camp
                     </button>
                 </div>
             </article>
@@ -155,7 +175,7 @@ const UpComingCampDetails = () => {
                 <Modal.Body>
                     <div className="space-y-6">
                         <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-                            Camp Attendant Registration
+                            Registration
                         </h3>
                         <form
                             className="container flex flex-col mx-auto space-y-12"

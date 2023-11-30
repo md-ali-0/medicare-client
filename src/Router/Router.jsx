@@ -16,6 +16,7 @@ import AddCamp from "../Pages/Dashboard/Organizers/AddCamp";
 import AddUpComingCamp from "../Pages/Dashboard/Organizers/AddUpComingCamp";
 import ManageCamps from "../Pages/Dashboard/Organizers/ManageCamps";
 import ManageRegisteredCamps from "../Pages/Dashboard/Organizers/ManageRegisteredCamps";
+import ManageRequested from "../Pages/Dashboard/Organizers/ManageRequested";
 import ManageUpComingCamp from "../Pages/Dashboard/Organizers/ManageUpComingCamp";
 import OrganizerProfile from "../Pages/Dashboard/Organizers/OrganizerProfile";
 import OrganizersHome from "../Pages/Dashboard/Organizers/OrganizersHome";
@@ -138,6 +139,14 @@ const Router = createBrowserRouter([
                 element: (
                     <OrganizerRouter>
                         <ManageRegisteredCamps />
+                    </OrganizerRouter>
+                ),
+            },
+            {
+                path: "manage-requested-camps",
+                element: (
+                    <OrganizerRouter>
+                        <ManageRequested />
                     </OrganizerRouter>
                 ),
             },
