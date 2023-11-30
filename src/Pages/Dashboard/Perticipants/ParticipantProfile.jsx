@@ -1,5 +1,6 @@
 import { Modal } from "flowbite-react";
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { BiErrorCircle } from "react-icons/bi";
@@ -36,7 +37,7 @@ const ParticipantProfile = () => {
                 setLoading(false);
                 reset();
             } catch (error) {
-                if (error.code === 'auth/requires-recent-login') {
+                if (error.code === "auth/requires-recent-login") {
                     toast.dismiss(loadingToast);
                     setLoading(false);
                     return toast.success("Successfully Updated!");
@@ -49,6 +50,9 @@ const ParticipantProfile = () => {
     };
     return (
         <div>
+            <Helmet>
+                <title>Dashboard | Participant Profile</title>
+            </Helmet>
             <div className="bg-white rounded-lg shadow-xl pb-8">
                 <div className="w-full h-[250px]">
                     <img
@@ -57,7 +61,10 @@ const ParticipantProfile = () => {
                     />
                 </div>
                 <div className="flex flex-col items-center -mt-20">
-                    <img src={user?.photoURL} className="w-40 h-40 border-4 border-white rounded-full" />
+                    <img
+                        src={user?.photoURL}
+                        className="w-40 h-40 border-4 border-white rounded-full"
+                    />
                     <div className="flex items-center space-x-2 mt-2">
                         <p className="text-2xl">{user?.displayName}</p>
                     </div>

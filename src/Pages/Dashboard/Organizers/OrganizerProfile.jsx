@@ -1,5 +1,6 @@
 import { Modal } from "flowbite-react";
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { BiErrorCircle } from "react-icons/bi";
@@ -8,8 +9,7 @@ import uploader from "../../../Utils/uploader";
 import useAuth from "../../../hooks/useAuth";
 
 const OrganizerProfile = () => {
-    const { user, userUpdate, userPasswordUpdate, setLoading } =
-        useAuth();
+    const { user, userUpdate, userPasswordUpdate, setLoading } = useAuth();
     const [openModal, setOpenModal] = useState(false);
     function onCloseModal() {
         setOpenModal(false);
@@ -27,17 +27,17 @@ const OrganizerProfile = () => {
         const res = await uploader({ imageFile });
         if (res.success == true) {
             try {
-                const uploadedImageUrl = res.data.display_url
+                const uploadedImageUrl = res.data.display_url;
                 console.log(uploadedImageUrl);
                 setOpenModal(false);
-                await userUpdate(name,uploadedImageUrl)
-                await userPasswordUpdate(password)
+                await userUpdate(name, uploadedImageUrl);
+                await userPasswordUpdate(password);
                 toast.dismiss(loadingToast);
                 toast.success("Successfully Updated!");
-                setLoading(false)
+                setLoading(false);
                 reset();
             } catch (error) {
-                if (error.code === 'auth/requires-recent-login') {
+                if (error.code === "auth/requires-recent-login") {
                     toast.dismiss(loadingToast);
                     setLoading(false);
                     return toast.success("Successfully Updated!");
@@ -50,6 +50,9 @@ const OrganizerProfile = () => {
     };
     return (
         <div>
+            <Helmet>
+                <title>Dashboard | Profile</title>
+            </Helmet>
             <div className="bg-white rounded-lg shadow-xl pb-8">
                 <div className="w-full h-[250px]">
                     <img

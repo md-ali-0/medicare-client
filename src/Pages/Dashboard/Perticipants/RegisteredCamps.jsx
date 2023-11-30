@@ -8,6 +8,7 @@ import {
     useReactTable,
 } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import Loader from "../../../components/Loader";
 import useAuth from "../../../hooks/useAuth";
@@ -16,10 +17,7 @@ import useAxios from "../../../hooks/useAxios";
 const RegisteredCamps = () => {
     const axios = useAxios();
     const { user } = useAuth();
-    const {
-        data: registeredCamps = [],
-        isLoading,
-    } = useQuery({
+    const { data: registeredCamps = [], isLoading } = useQuery({
         queryKey: ["registeredCamps"],
         enabled: !!user?.email,
         queryFn: async () => {
@@ -53,24 +51,45 @@ const RegisteredCamps = () => {
         {
             header: "Confirm Status",
             accessorKey: "confirmationStatus",
-            cell: ({ cell: { row, } }) => (
-                <span className={`${row.original.confirmationStatus==='approved'?'bg-green-600 rounded disabled:bg-green-500':'bg-red-600 rounded disabled:bg-red-500'} text-white px-1 py-0.5 `}
-                >{row.original.confirmationStatus==='approved'?'Approved':'Pending'}</span>
+            cell: ({ cell: { row } }) => (
+                <span
+                    className={`${
+                        row.original.confirmationStatus === "approved"
+                            ? "bg-green-600 rounded disabled:bg-green-500"
+                            : "bg-red-600 rounded disabled:bg-red-500"
+                    } text-white px-1 py-0.5 `}
+                >
+                    {row.original.confirmationStatus === "approved" ? "Approved" : "Pending"}
+                </span>
             ),
         },
         {
             header: "Payment Status",
             accessorKey: "paymentStatus",
-            cell: ({ cell: { row, } }) => (
-                <span className={`${row.original.paymentStatus==='approved'?'bg-green-600 rounded disabled:bg-green-500':'bg-red-600 rounded disabled:bg-red-500'} text-white px-1 py-0.5 `}
-                >{row.original.paymentStatus==='approved'?'Paid':'Unpaid'}</span>
+            cell: ({ cell: { row } }) => (
+                <span
+                    className={`${
+                        row.original.paymentStatus === "approved"
+                            ? "bg-green-600 rounded disabled:bg-green-500"
+                            : "bg-red-600 rounded disabled:bg-red-500"
+                    } text-white px-1 py-0.5 `}
+                >
+                    {row.original.paymentStatus === "approved" ? "Paid" : "Unpaid"}
+                </span>
             ),
         },
         {
             header: "Action",
             accessorKey: "_id",
             cell: ({ cell: { row } }) => (
-                <Link to='/dashboard/payment' state={row.original} onClick={e=>row.original.paymentStatus==='approved' && e.preventDefault()} className="bg-blue-600 rounded disabled:bg-gray-500 text-white px-1 py-0.5 ">Pay</Link>
+                <Link
+                    to="/dashboard/payment"
+                    state={row.original}
+                    onClick={(e) => row.original.paymentStatus === "approved" && e.preventDefault()}
+                    className="bg-blue-600 rounded disabled:bg-gray-500 text-white px-1 py-0.5 "
+                >
+                    Pay
+                </Link>
             ),
         },
     ];
@@ -90,12 +109,15 @@ const RegisteredCamps = () => {
         onSortingChange: setSorting,
         onGlobalFilterChange: setFiltering,
     });
-    
+
     if (isLoading) {
-        return <Loader/>
+        return <Loader />;
     }
     return (
         <div>
+            <Helmet>
+                <title>Dashboard | Registered Camps</title>
+            </Helmet>
             <div className="flex justify-between items-center py-5">
                 <h3 className="font-Quicksand text-primary/80 text-2xl font-bold">
                     Registered Camps

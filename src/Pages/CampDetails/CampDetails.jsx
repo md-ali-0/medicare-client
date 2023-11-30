@@ -1,5 +1,6 @@
 import { Modal } from "flowbite-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { BiErrorCircle } from "react-icons/bi";
@@ -13,7 +14,7 @@ const CampDetails = () => {
     const { data: camp = {} } = useLoaderData();
     const { user } = useAuth();
     const [openModal, setOpenModal] = useState(false);
-    const axios = useAxios()
+    const axios = useAxios();
     const {
         _id,
         campName,
@@ -63,22 +64,27 @@ const CampDetails = () => {
         };
         const loadingToast = toast.loading("Registering Camp ... ");
         try {
-            const {data} = await axios.post('/add-registered-camp', newCampRegister)
+            const { data } = await axios.post("/add-registered-camp", newCampRegister);
             console.log(data);
             if (data._id) {
-                reset()
+                reset();
                 setOpenModal(false);
                 toast.dismiss(loadingToast);
                 toast.success("Successfully created!");
             }
-
         } catch (error) {
             toast.dismiss(loadingToast);
             toast.error(error.code);
         }
     };
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
     return (
         <Container>
+            <Helmet>
+                <title>MediCare | {camp.campName}</title>
+            </Helmet>
             <div className="mx-auto max-w-screen-xl pt-28 text-center">
                 <p className="text-gray-500">
                     Published {scheduledDate} {scheduledTime}

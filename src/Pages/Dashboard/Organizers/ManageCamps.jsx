@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-table";
 import { Modal } from "flowbite-react";
 import { useMemo, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { BiErrorCircle } from "react-icons/bi";
@@ -32,7 +33,11 @@ const ManageCamps = () => {
     } = useForm();
     const axios = useAxios();
     const { user } = useAuth();
-    const { data: manageCamps = [], isLoading, refetch } = useQuery({
+    const {
+        data: manageCamps = [],
+        isLoading,
+        refetch,
+    } = useQuery({
         queryKey: ["manageCamps"],
         enabled: !!user?.email,
         queryFn: async () => {
@@ -86,7 +91,12 @@ const ManageCamps = () => {
             header: "Delete",
             accessorKey: "_id",
             cell: ({ cell: { row } }) => (
-                <button onClick={() => handleDelete(row.original._id)} className="bg-red-600 rounded text-white px-1 py-0.5 ">Delete</button>
+                <button
+                    onClick={() => handleDelete(row.original._id)}
+                    className="bg-red-600 rounded text-white px-1 py-0.5 "
+                >
+                    Delete
+                </button>
             ),
         },
     ];
@@ -113,7 +123,7 @@ const ManageCamps = () => {
         setOpenModal(false);
         reset();
     }
-    const handleDelete = async(id) =>{
+    const handleDelete = async (id) => {
         try {
             const swalConfirm = await Swal.fire({
                 title: "Are you sure?",
@@ -123,10 +133,10 @@ const ManageCamps = () => {
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Yes, delete it!",
-            })
+            });
             if (swalConfirm.isConfirmed) {
                 await axios.delete(`/delete-camp/${id}`);
-                refetch()
+                refetch();
                 Swal.fire({
                     title: "Deleted!",
                     text: "Your Camp has been deleted.",
@@ -136,7 +146,7 @@ const ManageCamps = () => {
         } catch (error) {
             console.log(error);
         }
-    }
+    };
     if (isLoading) {
         <Loader />;
     }
@@ -151,7 +161,7 @@ const ManageCamps = () => {
             targetAudience,
             venueLocation,
             description,
-            status
+            status,
         } = data;
         const imageFile = { image: image[0] };
         const imageResponse = await uploader({ imageFile });
@@ -165,22 +175,24 @@ const ManageCamps = () => {
             venueLocation,
             description,
             specializedServices,
-            status
+            status,
         };
         try {
             await axios.put(`/update-camp/${modalData._id}`, updatedCamp);
             toast.dismiss(loadingToast);
             toast.success("Successfully created!");
             setOpenModal(false);
-            refetch()
-            reset()
+            refetch();
+            reset();
         } catch (error) {
             console.log(error);
         }
-        
     };
     return (
         <div>
+            <Helmet>
+                <title>Dashboard | Manage Camps</title>
+            </Helmet>
             <div className="flex justify-between items-center py-5">
                 <h3 className="font-Quicksand text-primary/80 text-2xl font-bold">Manage Camps</h3>
                 <div className="block relative">
@@ -316,7 +328,9 @@ const ManageCamps = () => {
                                         >
                                             Status
                                         </label>
-                                        <select name="status" id="status"
+                                        <select
+                                            name="status"
+                                            id="status"
                                             {...register("status", {
                                                 required: "Status is required.",
                                             })}

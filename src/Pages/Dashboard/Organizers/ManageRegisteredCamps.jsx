@@ -8,6 +8,7 @@ import {
     useReactTable,
 } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import Swal from "sweetalert2";
 import Loader from "../../../components/Loader";
 import useAuth from "../../../hooks/useAuth";
@@ -55,25 +56,52 @@ const ManageRegisteredCamps = () => {
         {
             header: "Confirm Status",
             accessorKey: "confirmationStatus",
-            cell: ({ cell: { row, } }) => (
-                <button onClick={()=>handleConfirm(row.original._id, row.original.campId)} className={`${row.original.confirmationStatus==='approved'?'bg-green-600 rounded disabled:bg-green-500':'bg-red-600 rounded disabled:bg-red-500'} text-white px-1 py-0.5 `}
-                disabled={row.original.paymentStatus==='pending' || row.original.confirmationStatus==='approved'}
-                >{row.original.confirmationStatus==='approved'?'Approved':'Pending'}</button>
+            cell: ({ cell: { row } }) => (
+                <button
+                    onClick={() => handleConfirm(row.original._id, row.original.campId)}
+                    className={`${
+                        row.original.confirmationStatus === "approved"
+                            ? "bg-green-600 rounded disabled:bg-green-500"
+                            : "bg-red-600 rounded disabled:bg-red-500"
+                    } text-white px-1 py-0.5 `}
+                    disabled={
+                        row.original.paymentStatus === "pending" ||
+                        row.original.confirmationStatus === "approved"
+                    }
+                >
+                    {row.original.confirmationStatus === "approved" ? "Approved" : "Pending"}
+                </button>
             ),
         },
         {
             header: "Payment Status",
             accessorKey: "paymentStatus",
-            cell: ({ cell: { row, } }) => (
-                <span className={`${row.original.paymentStatus==='approved'?'bg-green-600 rounded disabled:bg-green-500':'bg-red-600 rounded disabled:bg-red-500'} text-white px-1 py-0.5 `}
-                >{row.original.paymentStatus==='approved'?'Paid':'Unpaid'}</span>
+            cell: ({ cell: { row } }) => (
+                <span
+                    className={`${
+                        row.original.paymentStatus === "approved"
+                            ? "bg-green-600 rounded disabled:bg-green-500"
+                            : "bg-red-600 rounded disabled:bg-red-500"
+                    } text-white px-1 py-0.5 `}
+                >
+                    {row.original.paymentStatus === "approved" ? "Paid" : "Unpaid"}
+                </span>
             ),
         },
         {
             header: "Action",
             accessorKey: "_id",
             cell: ({ cell: { row } }) => (
-                <button disabled={row.original.paymentStatus==='pending' || row.original.confirmationStatus==='approved'} onClick={()=>handleCancel(row.original._id)} className="bg-red-600 rounded disabled:bg-red-500 text-white px-1 py-0.5 ">Cancel</button>
+                <button
+                    disabled={
+                        row.original.paymentStatus === "pending" ||
+                        row.original.confirmationStatus === "approved"
+                    }
+                    onClick={() => handleCancel(row.original._id)}
+                    className="bg-red-600 rounded disabled:bg-red-500 text-white px-1 py-0.5 "
+                >
+                    Cancel
+                </button>
             ),
         },
     ];
@@ -93,7 +121,7 @@ const ManageRegisteredCamps = () => {
         onSortingChange: setSorting,
         onGlobalFilterChange: setFiltering,
     });
-    const handleConfirm = async(id, campId)=>{
+    const handleConfirm = async (id, campId) => {
         try {
             const swalConfirm = await Swal.fire({
                 title: "Are you sure?",
@@ -103,11 +131,11 @@ const ManageRegisteredCamps = () => {
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Yes, Approve!",
-            })
+            });
             if (swalConfirm.isConfirmed) {
-                await axios.put(`/update-registered-camp/${id}?confirmationStatus=approved`)
-                await axios.put(`/update-camp-participant-count/${campId}`)
-                refetch()
+                await axios.put(`/update-registered-camp/${id}?confirmationStatus=approved`);
+                await axios.put(`/update-camp-participant-count/${campId}`);
+                refetch();
                 Swal.fire({
                     title: "Approved!",
                     text: "Your Perticipants has been approved.",
@@ -117,9 +145,9 @@ const ManageRegisteredCamps = () => {
         } catch (error) {
             console.log(error);
         }
-        refetch()
-    }
-    const handleCancel = async(id)=>{
+        refetch();
+    };
+    const handleCancel = async (id) => {
         try {
             const swalConfirm = await Swal.fire({
                 title: "Are you sure?",
@@ -129,10 +157,10 @@ const ManageRegisteredCamps = () => {
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Yes, Cancel!",
-            })
+            });
             if (swalConfirm.isConfirmed) {
-                await axios.put(`/update-registered-camp/${id}?confirmationStatus=canceled`)
-                refetch()
+                await axios.put(`/update-registered-camp/${id}?confirmationStatus=canceled`);
+                refetch();
                 Swal.fire({
                     title: "Canceled!",
                     text: "Your Perticipants has been Canceled.",
@@ -142,13 +170,16 @@ const ManageRegisteredCamps = () => {
         } catch (error) {
             console.log(error);
         }
-        refetch()
-    }
+        refetch();
+    };
     if (isLoading) {
-        return <Loader/>
+        return <Loader />;
     }
     return (
         <div>
+            <Helmet>
+                <title>Dashboard | Manage Registered Camps</title>
+            </Helmet>
             <div className="flex justify-between items-center py-5">
                 <h3 className="font-Quicksand text-primary/80 text-2xl font-bold">
                     Manage Registered Camps

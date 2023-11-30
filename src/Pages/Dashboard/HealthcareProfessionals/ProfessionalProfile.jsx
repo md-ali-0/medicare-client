@@ -1,5 +1,6 @@
 import { Modal } from "flowbite-react";
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { BiErrorCircle } from "react-icons/bi";
@@ -49,6 +50,9 @@ const ProfessionalProfile = () => {
     };
     return (
         <div>
+            <Helmet>
+                <title>Dashboard | Professional Profile</title>
+            </Helmet>
             <div className="bg-white rounded-lg shadow-xl pb-8">
                 <div className="w-full h-[250px]">
                     <img

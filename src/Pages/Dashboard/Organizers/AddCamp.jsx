@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { BiErrorCircle } from "react-icons/bi";
@@ -66,7 +67,7 @@ const AddCamp = () => {
             console.log(res.dada);
             toast.dismiss(loadingToast);
             toast.success("Successfully created!");
-            reset()
+            reset();
         } catch (error) {
             console.log(error);
         }
@@ -81,6 +82,9 @@ const AddCamp = () => {
     }, [healthcare_professional]);
     return (
         <div>
+            <Helmet>
+                <title>Dashboard | Add Camp</title>
+            </Helmet>
             <div className="flex items-center py-5">
                 <h3 className="font-Quicksand text-primary/80 text-2xl font-bold">Add a Camp</h3>
             </div>

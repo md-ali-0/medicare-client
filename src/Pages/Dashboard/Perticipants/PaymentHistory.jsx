@@ -8,18 +8,15 @@ import {
     useReactTable,
 } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import Loader from "../../../components/Loader";
 import useAuth from "../../../hooks/useAuth";
 import useAxios from "../../../hooks/useAxios";
 
-
 const PaymentHistory = () => {
     const axios = useAxios();
     const { user } = useAuth();
-    const {
-        data: manageRegisteredCamps = [],
-        isLoading,
-    } = useQuery({
+    const { data: manageRegisteredCamps = [], isLoading } = useQuery({
         queryKey: ["paymentsHistory"],
         enabled: !!user?.email,
         queryFn: async () => {
@@ -53,17 +50,31 @@ const PaymentHistory = () => {
         {
             header: "Payment Status",
             accessorKey: "PaymentStatus",
-            cell: ({ cell: { row, } }) => (
-                <span className={`${row.original.PaymentStatus==='confirmed'?'bg-green-600 rounded disabled:bg-green-500':'bg-red-600 rounded disabled:bg-red-500'} text-white px-1 py-0.5 `}
-                >{row.original.PaymentStatus==='confirmed'?'Paid':'Unpaid'}</span>
+            cell: ({ cell: { row } }) => (
+                <span
+                    className={`${
+                        row.original.PaymentStatus === "confirmed"
+                            ? "bg-green-600 rounded disabled:bg-green-500"
+                            : "bg-red-600 rounded disabled:bg-red-500"
+                    } text-white px-1 py-0.5 `}
+                >
+                    {row.original.PaymentStatus === "confirmed" ? "Paid" : "Unpaid"}
+                </span>
             ),
         },
         {
             header: "Confirm Status",
             accessorKey: "ConfirmationStatus",
-            cell: ({ cell: { row, } }) => (
-                <span className={`${row.original.ConfirmationStatus==='confirmed'?'bg-green-600 rounded disabled:bg-green-500':'bg-red-600 rounded disabled:bg-red-500'} text-white px-1 py-0.5 `}
-                >{row.original.ConfirmationStatus==='confirmed'?'Confirmed':'Pending'}</span>
+            cell: ({ cell: { row } }) => (
+                <span
+                    className={`${
+                        row.original.ConfirmationStatus === "confirmed"
+                            ? "bg-green-600 rounded disabled:bg-green-500"
+                            : "bg-red-600 rounded disabled:bg-red-500"
+                    } text-white px-1 py-0.5 `}
+                >
+                    {row.original.ConfirmationStatus === "confirmed" ? "Confirmed" : "Pending"}
+                </span>
             ),
         },
     ];
@@ -83,12 +94,15 @@ const PaymentHistory = () => {
         onSortingChange: setSorting,
         onGlobalFilterChange: setFiltering,
     });
-    
+
     if (isLoading) {
-        return <Loader/>
+        return <Loader />;
     }
     return (
         <div>
+            <Helmet>
+                <title>Dashboard | Payment History</title>
+            </Helmet>
             <div className="flex justify-between items-center py-5">
                 <h3 className="font-Quicksand text-primary/80 text-2xl font-bold">
                     Payment History

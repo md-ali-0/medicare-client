@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-table";
 import { Modal } from "flowbite-react";
 import { useMemo, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { BiErrorCircle } from "react-icons/bi";
@@ -167,18 +168,18 @@ const ManageUpComingCamp = () => {
     const handlePublish = async (camp) => {
         const newCamp = {
             campName: camp.campName,
-            image:camp.image,
-            fees:camp.fees,
-            scheduledDate:camp.scheduledDate,
-            scheduledTime:camp.scheduledTime,
-            venueLocation:camp.venueLocation,
-            specializedServices:camp.specializedServices,
-            professionalsAttendanceCount:camp.professionalsAttendanceCount,
-            targetAudience:camp.targetAudience,
-            description:camp.description,
-            status: 'active',
-            participantCount:camp.participantCount,
-            createdBy:camp.createdBy,
+            image: camp.image,
+            fees: camp.fees,
+            scheduledDate: camp.scheduledDate,
+            scheduledTime: camp.scheduledTime,
+            venueLocation: camp.venueLocation,
+            specializedServices: camp.specializedServices,
+            professionalsAttendanceCount: camp.professionalsAttendanceCount,
+            targetAudience: camp.targetAudience,
+            description: camp.description,
+            status: "active",
+            participantCount: camp.participantCount,
+            createdBy: camp.createdBy,
         };
         try {
             const swalConfirm = await Swal.fire({
@@ -191,7 +192,7 @@ const ManageUpComingCamp = () => {
                 confirmButtonText: "Yes, Publish!",
             });
             if (swalConfirm.isConfirmed) {
-                await axios.post(`/add-a-camp`,newCamp);
+                await axios.post(`/add-a-camp`, newCamp);
                 await axios.delete(`/delete-upcoming-camp/${camp._id}`);
                 refetch();
                 Swal.fire({
@@ -272,6 +273,9 @@ const ManageUpComingCamp = () => {
     };
     return (
         <div>
+            <Helmet>
+                <title>Dashboard | Manage UpComing Camps</title>
+            </Helmet>
             <div className="flex justify-between items-center py-5">
                 <h3 className="font-Quicksand text-primary/80 text-2xl font-bold">
                     Manage UpComing Camps

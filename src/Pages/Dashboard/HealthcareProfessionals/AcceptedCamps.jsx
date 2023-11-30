@@ -8,6 +8,7 @@ import {
     useReactTable,
 } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import Loader from "../../../components/Loader";
 import useAuth from "../../../hooks/useAuth";
@@ -16,10 +17,7 @@ import useAxios from "../../../hooks/useAxios";
 const AcceptedCamps = () => {
     const axios = useAxios();
     const { user } = useAuth();
-    const {
-        data: AcceptedCamps = [],
-        isLoading,
-    } = useQuery({
+    const { data: AcceptedCamps = [], isLoading } = useQuery({
         queryKey: ["AcceptedCamps"],
         enabled: !!user?.email,
         queryFn: async () => {
@@ -54,16 +52,28 @@ const AcceptedCamps = () => {
         {
             header: "Confirm Status",
             accessorKey: "attendedStatus",
-            cell: ({ cell: { row, } }) => (
-                <span className={`${row.original.attendedStatus==='approved'?'bg-green-600 rounded disabled:bg-green-500':'bg-red-600 rounded disabled:bg-red-500'} text-white px-1 py-0.5 `}
-                >{row.original.attendedStatus==='approved'?'Approved':'Pending'}</span>
+            cell: ({ cell: { row } }) => (
+                <span
+                    className={`${
+                        row.original.attendedStatus === "approved"
+                            ? "bg-green-600 rounded disabled:bg-green-500"
+                            : "bg-red-600 rounded disabled:bg-red-500"
+                    } text-white px-1 py-0.5 `}
+                >
+                    {row.original.attendedStatus === "approved" ? "Approved" : "Pending"}
+                </span>
             ),
         },
         {
             header: "Action",
             accessorKey: "_id",
             cell: ({ cell: { row } }) => (
-                <Link to={`/upcoming-camp-details/${row.original.campId}`} className="bg-sky-400 rounded disabled:bg-gray-500 text-white px-1 py-0.5 ">Details</Link>
+                <Link
+                    to={`/upcoming-camp-details/${row.original.campId}`}
+                    className="bg-sky-400 rounded disabled:bg-gray-500 text-white px-1 py-0.5 "
+                >
+                    Details
+                </Link>
             ),
         },
     ];
@@ -83,12 +93,15 @@ const AcceptedCamps = () => {
         onSortingChange: setSorting,
         onGlobalFilterChange: setFiltering,
     });
-    
+
     if (isLoading) {
-        return <Loader/>
+        return <Loader />;
     }
     return (
         <div>
+            <Helmet>
+                <title>Dashboard | Accepted Camps</title>
+            </Helmet>
             <div className="flex justify-between items-center py-5">
                 <h3 className="font-Quicksand text-primary/80 text-2xl font-bold">
                     Registered Camps

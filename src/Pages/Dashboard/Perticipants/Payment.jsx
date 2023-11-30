@@ -1,12 +1,13 @@
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import { Helmet } from "react-helmet-async";
 import { useLocation } from "react-router-dom";
 import CheckOutForm from "./CheckOutForm";
 
 const Payment = () => {
     const stripePromise = loadStripe(import.meta.env.VITE_PAYMENT_KEY);
-    const location  = useLocation()
-    const orderData = location.state
+    const location = useLocation();
+    const orderData = location.state;
     const appearance = {
         theme: "stripe",
         variables: {
@@ -23,9 +24,14 @@ const Payment = () => {
         appearance,
     };
     return (
-        <Elements stripe={stripePromise} options={options}>
-            <CheckOutForm invoiceData={orderData}/>
-        </Elements>
+        <>
+            <Helmet>
+                <title>Dashboard | Payment</title>
+            </Helmet>
+            <Elements stripe={stripePromise} options={options}>
+                <CheckOutForm invoiceData={orderData} />
+            </Elements>
+        </>
     );
 };
 

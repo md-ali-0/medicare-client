@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { BiErrorCircle } from "react-icons/bi";
@@ -58,8 +59,13 @@ const AddUpComingCamp = () => {
     };
     return (
         <div>
+            <Helmet>
+                <title>Dashboard | Add Up Comming Camp</title>
+            </Helmet>
             <div className="flex items-center py-5">
-                <h3 className="font-Quicksand text-primary/80 text-2xl font-bold">Add a Up Coming Camp</h3>
+                <h3 className="font-Quicksand text-primary/80 text-2xl font-bold">
+                    Add a Up Coming Camp
+                </h3>
             </div>
             <div className="bg-white rounded py-2 px-3">
                 <form

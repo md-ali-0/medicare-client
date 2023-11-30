@@ -8,6 +8,7 @@ import {
     useReactTable,
 } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { PiCheckBold, PiProhibit } from "react-icons/pi";
 import Swal from "sweetalert2";
 import Loader from "../../../components/Loader";
@@ -82,14 +83,18 @@ const ManageRequested = () => {
             cell: ({ cell: { row } }) => (
                 <div>
                     <button
-                        onClick={() => handleConfirm(row.original._id,row.original.campId, row.original.role)}
+                        onClick={() =>
+                            handleConfirm(row.original._id, row.original.campId, row.original.role)
+                        }
                         disabled={row.original.attendedStatus === "approved"}
                     >
                         <PiCheckBold size={20} className="text-green-500" />
                     </button>
                     <button
                         disabled={row.original.attendedStatus === "approved"}
-                        onClick={() => handleCancel(row.original._id,row.original.campId, row.original.role)}
+                        onClick={() =>
+                            handleCancel(row.original._id, row.original.campId, row.original.role)
+                        }
                         className="px-1 py-0.5 "
                     >
                         <PiProhibit size={20} className="text-red-500" />
@@ -115,12 +120,12 @@ const ManageRequested = () => {
         onGlobalFilterChange: setFiltering,
     });
     const handleConfirm = async (id, campId, role) => {
-        let increase ={}
-        if (role==='professional') {
-            increase.professionalsAttendanceCount = 1
+        let increase = {};
+        if (role === "professional") {
+            increase.professionalsAttendanceCount = 1;
         }
-        if (role==='participant') {
-            increase.participantCount =1
+        if (role === "participant") {
+            increase.participantCount = 1;
         }
         console.log(increase);
         try {
@@ -135,7 +140,7 @@ const ManageRequested = () => {
             });
             if (swalConfirm.isConfirmed) {
                 await axios.put(`/update-attendant-camps-status/${id}?attendedStatus=approved`);
-                await axios.put(`/update-upcoming-camp-count/${campId}?`,increase);
+                await axios.put(`/update-upcoming-camp-count/${campId}?`, increase);
                 refetch();
                 Swal.fire({
                     title: "Approved!",
@@ -178,6 +183,9 @@ const ManageRequested = () => {
     }
     return (
         <div>
+            <Helmet>
+                <title>Dashboard | Review Upcoming Camps Requested</title>
+            </Helmet>
             <div className="flex justify-between items-center py-5">
                 <h3 className="font-Quicksand text-primary/80 text-2xl font-bold">
                     Review Upcoming Camps Requested

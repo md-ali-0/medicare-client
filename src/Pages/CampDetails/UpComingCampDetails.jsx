@@ -1,5 +1,6 @@
 import { Modal } from "flowbite-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { BiErrorCircle } from "react-icons/bi";
@@ -14,13 +15,13 @@ import useProfessional from "../../hooks/useProfessional";
 
 const UpComingCampDetails = () => {
     const { data: camp = {} } = useLoaderData();
-    const [userRole, setUserRole] = useState(undefined) 
+    const [userRole, setUserRole] = useState(undefined);
     const { user } = useAuth();
     const [admin] = useAdmin();
     const [professional] = useProfessional();
     const [organizer] = useOrganizer();
     const [openModal, setOpenModal] = useState(false);
-    const axios = useAxios()
+    const axios = useAxios();
     const {
         _id,
         campName,
@@ -38,7 +39,7 @@ const UpComingCampDetails = () => {
     } = camp;
     function onCloseModal() {
         setOpenModal(false);
-        setUserRole(undefined)
+        setUserRole(undefined);
     }
 
     const {
@@ -59,35 +60,39 @@ const UpComingCampDetails = () => {
             age,
             address,
             campName,
-            campId:_id,
-            role:userRole,
+            campId: _id,
+            role: userRole,
             image,
             venueLocation,
             createdBy,
             scheduledDate,
             scheduledTime,
             attendedStatus: "pending",
-            
         };
         console.log(userRole);
         const loadingToast = toast.loading("Attendant Camp ... ");
         try {
-            const {data} = await axios.post('/add-attendant-camp', newCampAttendantRegister)
+            const { data } = await axios.post("/add-attendant-camp", newCampAttendantRegister);
             console.log(data);
             if (data._id) {
-                reset()
+                reset();
                 setOpenModal(false);
                 toast.dismiss(loadingToast);
                 toast.success("Successfully created!");
             }
-
         } catch (error) {
             toast.dismiss(loadingToast);
             toast.error(error.code);
         }
     };
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
     return (
         <Container>
+            <Helmet>
+                <title>MediCare | {camp.campName}</title>
+            </Helmet>
             <div className="mx-auto max-w-screen-xl pt-28 text-center">
                 <p className="text-gray-500">
                     Published {scheduledDate} {scheduledTime}
@@ -151,18 +156,18 @@ const UpComingCampDetails = () => {
                     <button
                         disabled={!professional}
                         onClick={() => {
-                            setOpenModal(true)
-                            setUserRole('professional')
+                            setOpenModal(true);
+                            setUserRole("professional");
                         }}
                         className="text-white disabled:bg-gradient-to-br disabled:from-slate-400 disabled:via-slate-700 disabled:to-slate-900 bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                     >
                         Attend This Camp
                     </button>
                     <button
-                        disabled={!user || admin ||organizer||professional}
+                        disabled={!user || admin || organizer || professional}
                         onClick={() => {
-                            setOpenModal(true)
-                            setUserRole('participant')
+                            setOpenModal(true);
+                            setUserRole("participant");
                         }}
                         className="text-white disabled:bg-gradient-to-br disabled:from-slate-400 disabled:via-slate-700 disabled:to-slate-900 bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                     >

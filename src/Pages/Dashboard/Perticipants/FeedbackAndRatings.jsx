@@ -10,6 +10,7 @@ import {
 } from "@tanstack/react-table";
 import { Modal } from "flowbite-react";
 import { useMemo, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { BiErrorCircle } from "react-icons/bi";
@@ -138,16 +139,16 @@ const FeedbackAndRatings = () => {
     const onSubmit = async (data) => {
         const loadingToast = toast.loading("Creating Review ... ");
         const newReview = {
-            camp_name:modalData.campName,
-            date:modalData.scheduledDate,
-            participant_name:modalData.name,
-            participant_image:user?.photoURL,
+            camp_name: modalData.campName,
+            date: modalData.scheduledDate,
+            participant_name: modalData.name,
+            participant_image: user?.photoURL,
             ...data,
-            status: 'pending',
+            status: "pending",
             rating,
-        }
+        };
         try {
-            await axios.post('/add-review',newReview)
+            await axios.post("/add-review", newReview);
             toast.dismiss(loadingToast);
             toast.success("Successfully created!");
             setOpenModal(false);
@@ -162,6 +163,9 @@ const FeedbackAndRatings = () => {
     }
     return (
         <div>
+            <Helmet>
+                <title>Dashboard | Feedback And Ratings</title>
+            </Helmet>
             <div className="flex justify-between items-center py-5">
                 <h3 className="font-Quicksand text-primary/80 text-2xl font-bold">
                     Registered Camps
@@ -260,12 +264,12 @@ const FeedbackAndRatings = () => {
                             Give your feedback here.
                         </h3>
                         <div className="flex justify-center items-center py-3">
-                        <Rating
-                            style={{ maxWidth: 180 }}
-                            value={rating}
-                            onChange={setRating}
-                            isRequired
-                        />
+                            <Rating
+                                style={{ maxWidth: 180 }}
+                                value={rating}
+                                onChange={setRating}
+                                isRequired
+                            />
                         </div>
                         <form
                             className="container flex flex-col mx-auto space-y-12"

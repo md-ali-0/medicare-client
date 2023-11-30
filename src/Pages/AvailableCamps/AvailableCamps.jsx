@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import Container from "../../components/Container";
 import useAuth from "../../hooks/useAuth";
 import useAxios from "../../hooks/useAxios";
@@ -7,7 +8,7 @@ import CampCard from "../Shared/CampCard";
 
 const AvailableCamps = () => {
     const [sort, setSort] = useState("dsc");
-    const {user} = useAuth()
+    const { user } = useAuth();
     const axios = useAxios();
     const [searchValue, setSearchValue] = useState("");
     const searchHandle = (e) => {
@@ -16,8 +17,8 @@ const AvailableCamps = () => {
         const value = e.target.search.value;
         if (value) {
             setSearchValue(value);
-        } else{
-            setSearchValue('')
+        } else {
+            setSearchValue("");
         }
     };
     const { data: availableCamps = [] } = useQuery({
@@ -31,9 +32,14 @@ const AvailableCamps = () => {
     const sortBy = (val) => {
         setSort(val);
     };
-
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
     return (
         <div>
+            <Helmet>
+                <title>Medicare | Available Camps</title>
+            </Helmet>
             <Container>
                 <div className="bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 rounded-xl py-5 my-5 mx-3">
                     <div className="mx-auto md:w-1/2 px-3 py-10">
@@ -90,7 +96,7 @@ const AvailableCamps = () => {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 -m-4 ">
                         {availableCamps.map((camp) => (
-                            <CampCard key={camp._id} camp={camp} joinCamp/>
+                            <CampCard key={camp._id} camp={camp} joinCamp />
                         ))}
                     </div>
                 </div>
