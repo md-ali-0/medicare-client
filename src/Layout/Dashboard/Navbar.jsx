@@ -36,7 +36,7 @@ const Navbar = ({ sidebarCollapse, setSidebarCollapse }) => {
     });
     const { data: dashboardSearch = [] } = useQuery({
         queryKey: ["dashboardSearch", searchValue],
-        enabled: !!user?.email,
+        enabled: !!user?.email && showSearch,
         queryFn: async () => {
             const res = await axiosSecure.get(`/available-camps?search=${searchValue}`);
             return res.data;
