@@ -12,6 +12,7 @@ import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { BiErrorCircle } from "react-icons/bi";
+import { PiCheck, PiPencilLineLight, PiTrash } from "react-icons/pi";
 import { Link } from "react-router-dom";
 import { TagInput } from "rsuite";
 import Swal from "sweetalert2";
@@ -32,7 +33,11 @@ const ManageUpComingCamp = () => {
     } = useForm();
     const axios = useAxios();
     const { user } = useAuth();
-    const { data: manageCamps = [], isLoading, refetch } = useQuery({
+    const {
+        data: manageCamps = [],
+        isLoading,
+        refetch,
+    } = useQuery({
         queryKey: ["manageCamps"],
         enabled: !!user?.email,
         queryFn: async () => {
@@ -81,32 +86,58 @@ const ManageUpComingCamp = () => {
             header: "Status",
             accessorKey: "status",
             cell: ({ cell: { row } }) => (
-                <button key={row.original._id} disabled={row.original.participantCount<10 && row.original.professionalsAttendanceCount<3} className={`${row.original.status==='published'?'bg-green-600 rounded disabled:bg-green-500':'bg-red-600 rounded disabled:bg-red-500'} text-white px-1 py-0.5 `} onClick={() => handlePublish(row.original._id)}>
+                <span
+                    className={`${
+                        row.original.status === "published"
+                            ? " text-green-500 rounded"
+                            : " text-red-700 rounded"
+                    } bg-gray-200 font-medium px-2 py-1 `}
+                >
                     {row.original.status}
-                </button>
+                </span>
             ),
         },
         {
-            header: "Edit",
-            accessor: "_id",
-            cell: ({ cell: { row } }) => (
-                <button key={row.original._id} onClick={() => handleOpenModal(row.original)}>
-                    Edit
-                </button>
-            ),
-        },
-        {
-            header: "Delete",
+            header: "Action",
             accessorKey: "_id",
             cell: ({ cell: { row } }) => (
-                <button onClick={() => handleDelete(row.original._id)} className="bg-red-600 rounded text-white px-1 py-0.5 ">Delete</button>
+                <div className="flex">
+                    <button
+                        onClick={() => handlePublish(row.original)}
+                        disabled={
+                            row.original.participantCount < 10 &&
+                            row.original.professionalsAttendanceCount < 3
+                        }
+                    >
+                        <PiCheck size={20} className="inline text-green-500" />
+                    </button>
+                    <button
+                        disabled={row.original.attendedStatus === "approved"}
+                        onClick={() => handleOpenModal(row.original)}
+                        className="px-1 py-0.5 "
+                    >
+                        <PiPencilLineLight size={20} className="inline text-blue-500" />
+                    </button>
+                    <button
+                        disabled={row.original.attendedStatus === "approved"}
+                        onClick={() => handleDelete(row.original._id)}
+                        className="px-1 py-0.5 "
+                    >
+                        <PiTrash size={20} className="inline text-red-500" />
+                    </button>
+                </div>
             ),
         },
         {
             header: "Action",
             accessorKey: "_id",
             cell: () => (
-                <Link to='/dashboard/manage-requested-camps' className="bg-sky-600 text-white rounded px-2 py-1.5">Review</Link>
+                <Link
+                    to="/dashboard/manage-requested-camps"
+                    className="bg-sky-600 text-white rounded px-2 py-1.5"
+                >
+                    Review
+                </Link>
             ),
         },
     ];
@@ -133,7 +164,22 @@ const ManageUpComingCamp = () => {
         setOpenModal(false);
         reset();
     }
-    const handlePublish = async(id)=>{
+    const handlePublish = async (camp) => {
+        const newCamp = {
+            campName: camp.campName,
+            image:camp.image,
+            fees:camp.fees,
+            scheduledDate:camp.scheduledDate,
+            scheduledTime:camp.scheduledTime,
+            venueLocation:camp.venueLocation,
+            specializedServices:camp.specializedServices,
+            professionalsAttendanceCount:camp.professionalsAttendanceCount,
+            targetAudience:camp.targetAudience,
+            description:camp.description,
+            status: 'active',
+            participantCount:camp.participantCount,
+            createdBy:camp.createdBy,
+        };
         try {
             const swalConfirm = await Swal.fire({
                 title: "Are you sure?",
@@ -143,10 +189,11 @@ const ManageUpComingCamp = () => {
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Yes, Publish!",
-            })
+            });
             if (swalConfirm.isConfirmed) {
-                await axios.put(`/update-upcoming-camp-status/${id}?status=published`)
-                refetch()
+                await axios.post(`/add-a-camp`,newCamp);
+                await axios.delete(`/delete-upcoming-camp/${camp._id}`);
+                refetch();
                 Swal.fire({
                     title: "Published!",
                     text: "Your Camp has been Published.",
@@ -156,9 +203,9 @@ const ManageUpComingCamp = () => {
         } catch (error) {
             console.log(error);
         }
-        refetch()
-    }
-    const handleDelete = async(id) =>{
+        refetch();
+    };
+    const handleDelete = async (id) => {
         try {
             const swalConfirm = await Swal.fire({
                 title: "Are you sure?",
@@ -168,10 +215,10 @@ const ManageUpComingCamp = () => {
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Yes, delete it!",
-            })
+            });
             if (swalConfirm.isConfirmed) {
                 await axios.delete(`/delete-upcoming-camp/${id}`);
-                refetch()
+                refetch();
                 Swal.fire({
                     title: "Deleted!",
                     text: "Your Camp has been deleted.",
@@ -181,7 +228,7 @@ const ManageUpComingCamp = () => {
         } catch (error) {
             console.log(error);
         }
-    }
+    };
     if (isLoading) {
         <Loader />;
     }
@@ -196,7 +243,7 @@ const ManageUpComingCamp = () => {
             targetAudience,
             venueLocation,
             description,
-            status
+            status,
         } = data;
         const imageFile = { image: image[0] };
         const imageResponse = await uploader({ imageFile });
@@ -210,24 +257,25 @@ const ManageUpComingCamp = () => {
             venueLocation,
             description,
             specializedServices,
-            status
+            status,
         };
         try {
             await axios.put(`/update-upcoming-camp/${modalData._id}`, updatedCamp);
             toast.dismiss(loadingToast);
             toast.success("Successfully created!");
             setOpenModal(false);
-            refetch()
-            reset()
+            refetch();
+            reset();
         } catch (error) {
             console.log(error);
         }
-        
     };
     return (
         <div>
             <div className="flex justify-between items-center py-5">
-                <h3 className="font-Quicksand text-primary/80 text-2xl font-bold">Manage UpComing Camps</h3>
+                <h3 className="font-Quicksand text-primary/80 text-2xl font-bold">
+                    Manage UpComing Camps
+                </h3>
                 <div className="block relative">
                     <input
                         placeholder="Search"
