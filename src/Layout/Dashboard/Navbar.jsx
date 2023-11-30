@@ -3,17 +3,21 @@ import { useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import toast from "react-hot-toast";
 import { CiHome } from "react-icons/ci";
-import { FiAlignLeft, FiLogOut, FiUser } from "react-icons/fi";
+import { FiAlignLeft, FiLogOut, FiUser, FiX } from "react-icons/fi";
 import { HiOutlineSearch } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import useAdmin from "../../hooks/useAdmin";
 import useAuth from "../../hooks/useAuth";
+import useAxios from "../../hooks/useAxios";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import useOrganizer from "../../hooks/useOrganizer";
 import useProfessional from "../../hooks/useProfessional";
 
 const Navbar = ({ sidebarCollapse, setSidebarCollapse }) => {
     const axios = useAxiosPublic();
+    const axiosSecure = useAxios();
+    const [showSearch, setShowSearch] = useState(false)
+    const [searchValue, setSearchValue] = useState("");
     const { data: dashboardSettings = {} } = useQuery({
         queryKey: ["dashboardSettings"],
         queryFn: async () => {
@@ -30,6 +34,14 @@ const Navbar = ({ sidebarCollapse, setSidebarCollapse }) => {
             setDropDown(false);
         }
     });
+    const { data: dashboardSearch = [] } = useQuery({
+        queryKey: ["dashboardSearch", searchValue],
+        enabled: !!user?.email,
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/available-camps?search=${searchValue}`);
+            return res.data;
+        },
+    });
     const handleDropDown = () => {
         setDropDown(!dropdownOpen);
     };
@@ -38,7 +50,9 @@ const Navbar = ({ sidebarCollapse, setSidebarCollapse }) => {
             toast.success("Logout Successfully!");
         });
     };
-
+    const handleSearchBox = ()=>{
+        setShowSearch(true)
+    }
     const handleSidebarCollapse = () => {
         setSidebarCollapse(!sidebarCollapse);
     };
@@ -66,7 +80,19 @@ const Navbar = ({ sidebarCollapse, setSidebarCollapse }) => {
                         type="text"
                         placeholder="Search..."
                         className="text-sm focus:outline-none active:outline-none border border-gray-300 h-10 pl-11 pr-4 rounded-sm"
+                        onClick={handleSearchBox}
+                        onChange={(e) => setSearchValue(e.target.value)}
                     />
+                    {showSearch&&<button onClick={()=>setShowSearch(false)} className="absolute right-2 top-3"><FiX fill="gray" size={15}/></button>}
+                    {showSearch && (
+                        <div className="absolute bg-white w-full px-3 py-2 mt-1 border">
+                            <ul className="flex flex-col justify-center gap-2">
+                                {dashboardSearch.slice(0, 5).map((camp) => (
+                                    <li key={camp._id}>{camp.campName}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
                 </div>
                 <div className="flex items-center gap-2">
                     <div className="flex justify-center items-center px-3 py-2">

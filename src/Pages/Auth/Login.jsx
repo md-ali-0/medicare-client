@@ -29,7 +29,8 @@ const Login = () => {
                 try {
                     toast.dismiss(loadingToast);
                     toast.success("Successfully Logged In!");
-                    navigate(from, { replace: true });
+                    // return navigate(from, { replace: true });
+                    return navigate('/');
                 } catch (error) {
                     setLoading(false);
                     console.log("Error image", error);

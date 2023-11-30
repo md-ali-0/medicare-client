@@ -1,5 +1,6 @@
 import { CardCvcElement, CardExpiryElement, CardNumberElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
 import useAxios from "../../../hooks/useAxios";
@@ -9,6 +10,7 @@ const CheckOutForm = ({invoiceData}) => {
     const stripe = useStripe();
     const elements = useElements();
     const {user} = useAuth()
+    const navigate = useNavigate()
     const [name, setName] = useState(user.displayName);
     const [postalCode, setPostalCode] = useState(null);
     const [errorMassage, setErrorMassage] = useState(null);
@@ -78,6 +80,7 @@ const CheckOutForm = ({invoiceData}) => {
             text: "Your payment successful.",
             icon: "success",
         });
+        return navigate('/dashboard/payment-history')
     };
     useEffect(() => {
         if (invoiceData.fee>0) {
