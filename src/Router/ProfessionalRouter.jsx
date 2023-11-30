@@ -1,10 +1,9 @@
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import Loader from "../components/Loader";
 import useAuth from "../hooks/useAuth";
 import useProfessional from "../hooks/useProfessional";
 
 const ProfessionalRouter = ({ children }) => {
-    const location = useLocation();
     const { user, loading } = useAuth();
     const [professional, isProfessionalPending] = useProfessional();
 
@@ -14,7 +13,7 @@ const ProfessionalRouter = ({ children }) => {
     if (user && professional) {
         return children;
     }
-    return <Navigate to="/login" state={{ from: location }} replace/>;
+    return <Navigate to="/unAuthorize-Access" replace />;
 };
 
 export default ProfessionalRouter;
