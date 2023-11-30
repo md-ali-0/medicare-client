@@ -1,19 +1,26 @@
-import { FiAlignLeft, FiLogOut, FiUser } from "react-icons/fi";
-import { HiOutlineSearch } from "react-icons/hi";
-// import { Fragment } from "react";
-// import { HiOutlineBell, HiOutlineSearch } from "react-icons/hi";
-// import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { useRef, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import toast from "react-hot-toast";
 import { CiHome } from "react-icons/ci";
+import { FiAlignLeft, FiLogOut, FiUser } from "react-icons/fi";
+import { HiOutlineSearch } from "react-icons/hi";
 import { Link } from "react-router-dom";
-import BrandLogo from "../../assets/logo.png";
 import useAdmin from "../../hooks/useAdmin";
 import useAuth from "../../hooks/useAuth";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 import useOrganizer from "../../hooks/useOrganizer";
 import useProfessional from "../../hooks/useProfessional";
 
 const Navbar = ({ sidebarCollapse, setSidebarCollapse }) => {
+    const axios = useAxiosPublic();
+    const { data: dashboardSettings = {} } = useQuery({
+        queryKey: ["dashboardSettings"],
+        queryFn: async () => {
+            const { data } = await axios.get("get-settings");
+            return data;
+        },
+    });
     const [dropdownOpen, setDropDown] = useState(false);
     const imgRef = useRef();
     const dropdownRef = useRef();
@@ -40,11 +47,14 @@ const Navbar = ({ sidebarCollapse, setSidebarCollapse }) => {
     const [organizer] = useOrganizer();
     return (
         <div className="flex">
+            <Helmet>
+                <title>{dashboardSettings.siteName}</title>
+            </Helmet>
             <div className="flex md:justify-center items-center gap-2 bg-white md:bg-slate-900 h-16 w-60 px-3 md:px-0">
                 <button onClick={handleSidebarCollapse} className="md:hidden">
                     <FiAlignLeft fill="#0F172A" size={25} />
                 </button>
-                <img className="w-32" src={BrandLogo} alt="" />
+                <img className="w-32" src={dashboardSettings.siteLogo} alt="" />
             </div>
             <div className="bg-white h-16 px-4 flex items-center border-b flex-1 border-gray-200 justify-end md:justify-between">
                 <div className="relative hidden md:block">
@@ -60,7 +70,10 @@ const Navbar = ({ sidebarCollapse, setSidebarCollapse }) => {
                 </div>
                 <div className="flex items-center gap-2">
                     <div className="flex justify-center items-center px-3 py-2">
-                        <Link to='/' className="bg-gray-100 text-gray-600 rounded px-1.5 py-0.5"><CiHome className="inline mr-2"/>Home</Link>
+                        <Link to="/" className="bg-gray-100 text-gray-600 rounded px-1.5 py-0.5">
+                            <CiHome className="inline mr-2" />
+                            Home
+                        </Link>
                     </div>
                     <div className="relative flex items-center">
                         {/* Second dropdown container */}

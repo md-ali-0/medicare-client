@@ -1,13 +1,23 @@
+import { useQuery } from "@tanstack/react-query";
 import { useRef, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import toast from "react-hot-toast";
 import { FiAlignJustify, FiLogOut, FiUser } from "react-icons/fi";
 import { Link, NavLink } from "react-router-dom";
-import logoImage from "../../assets/logo.png";
 import useAdmin from "../../hooks/useAdmin";
 import useAuth from "../../hooks/useAuth";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 import useOrganizer from "../../hooks/useOrganizer";
 import useProfessional from "../../hooks/useProfessional";
 const Header = () => {
+    const axios = useAxiosPublic();
+    const { data: homeSettings = {} } = useQuery({
+        queryKey: ["homeSettings"],
+        queryFn: async () => {
+            const { data } = await axios.get("get-settings");
+            return data;
+        },
+    });
     const [dropdownOpen, setDropDown] = useState(false);
     const [collapse, setCollapse] = useState(false);
     const imgRef = useRef();
@@ -29,9 +39,11 @@ const Header = () => {
     const [admin] = useAdmin();
     const [professional] = useProfessional();
     const [organizer] = useOrganizer();
-    
     return (
         <>
+            <Helmet>
+                <title>{homeSettings.siteName}</title>
+            </Helmet>
             <nav className="flex-no-wrap relative flex w-full items-center justify-between bg-[#FBFBFB] py-2.5 shadow-md shadow-black/5  md:flex-wrap lg:py-3.5 px-3">
                 <div className="flex w-full items-center justify-between md:max-w-screen-xl mx-auto">
                     <button
@@ -49,7 +61,7 @@ const Header = () => {
                             to='/'
                         >
                             <img
-                                src={logoImage}
+                                src={homeSettings.siteLogo}
                                 className="w-24 md:w-36"
                                 alt="MediCare Logo"
                             />

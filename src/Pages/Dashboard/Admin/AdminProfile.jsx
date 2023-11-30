@@ -92,10 +92,6 @@ const AdminProfile = () => {
                                 <span className="text-gray-700">{user?.displayName}</span>
                             </li>
                             <li className="flex border-b py-2">
-                                <span className="font-bold w-24">Mobile:</span>
-                                <span className="text-gray-700">{user?.phoneNumber}</span>
-                            </li>
-                            <li className="flex border-b py-2">
                                 <span className="font-bold w-24">Email:</span>
                                 <span className="text-gray-700">{user?.email}</span>
                             </li>

@@ -53,13 +53,13 @@ const Router = createBrowserRouter([
             {
                 path: "/camp-details/:campId",
                 loader: ({ params }) =>
-                    axios.get(`http://localhost:8080/camp-details/${params.campId}`),
+                    axios.get(`https://medicare-server-umber.vercel.app/camp-details/${params.campId}`),
                 element: <CampDetails />,
             },
             {
                 path: "/upcoming-camp-details/:campId",
                 loader: ({ params }) =>
-                    axios.get(`http://localhost:8080/upcoming-camp-details/${params.campId}`),
+                    axios.get(`https://medicare-server-umber.vercel.app/upcoming-camp-details/${params.campId}`),
                 element: <UpComingCampDetails />,
             },
             {

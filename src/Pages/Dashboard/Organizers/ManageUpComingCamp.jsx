@@ -35,11 +35,11 @@ const ManageUpComingCamp = () => {
     const axios = useAxios();
     const { user } = useAuth();
     const {
-        data: manageCamps = [],
+        data: manageUpComingCamps = [],
         isLoading,
         refetch,
     } = useQuery({
-        queryKey: ["manageCamps"],
+        queryKey: ["manageUpComingCamps"],
         enabled: !!user?.email,
         queryFn: async () => {
             const { data } = await axios.get(`/upcoming-camps?createdBy=${user?.email}`);
@@ -48,7 +48,7 @@ const ManageUpComingCamp = () => {
     });
     const [sorting, setSorting] = useState([]);
     const [filtering, setFiltering] = useState("");
-    const data = useMemo(() => manageCamps, [manageCamps]);
+    const data = useMemo(() => manageUpComingCamps, [manageUpComingCamps]);
     /** @type import('@tanstack/react-table').ColumnDef<any> */
     const columns = [
         {

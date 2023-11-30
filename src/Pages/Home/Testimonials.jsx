@@ -15,7 +15,7 @@ import { Navigation } from "swiper/modules";
 const Testimonials = () => {
     const axios = useAxiosPublic();
     const { data: reviews = [], isLoading } = useQuery({
-        queryKey: ["popularCamps"],
+        queryKey: ["testimonials"],
         queryFn: async () => {
             const { data } = await axios.get(`/reviews`);
             return data;
