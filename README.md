@@ -22,17 +22,28 @@
 - User Auth System With Firebase
 
 ## Credential Details
-### ** Admin Credential **:
->admin@gmail.com
->4qeaKeRGwi8@iYB
+### Admin Credential:
+```bash
+admin@gmail.com
+```
+```bash
+4qeaKeRGwi8@iYB
+```
+### Organizer Credential:
+```bash
+organizer@gmail.com
+```
+```bash
+4qeaKeRGwi8@iYB1
+```
 
-### ** Organizer Credential **:
->organizer@gmail.com
->4qeaKeRGwi8@iYB1
-
-### ** HealthCare Professionals Credential **:
->professional@gmail.com
->4qeaKeRGwi8@iYB
+### HealthCare Professionals Credential:
+```bash
+professional@gmail.com
+```
+```bash
+4qeaKeRGwi8@iYB
+```
 
 ## Live Link
 - * Live LInk: [MediCare - Medical Camp Management System (MCMS)](https://medicare-svc.netlify.app/)
